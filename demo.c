@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "constants.h"
 #include "Player.h"
@@ -33,6 +34,7 @@ int main()
 bool loop()
 {
 	static const unsigned char* keys = SDL_GetKeyboardState( NULL );
+	bool isMouseDown;
 	SDL_GetGlobalMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_Event e;
 
@@ -45,10 +47,16 @@ bool loop()
 		{
 			case SDL_QUIT:
 				return false;
+			case SDL_MOUSEBUTTONDOWN:
+				isMouseDown = true;
+				break;
+			case SDL_MOUSEBUTTONUP:
+				isMouseDown = false;
+				break;
 		}
 	}
 
-	player->applyInputs(keys, mousePosition);
+	player->applyInputs(keys, mousePosition, isMouseDown);
 	player->render(renderer);
 
 	SDL_RenderPresent(renderer);
