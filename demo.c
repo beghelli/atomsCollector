@@ -1,7 +1,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "constants.h"
+#include "Bullet.h"
 #include "Player.h"
+
+#define MAX_ENTITIES 100
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -11,8 +14,10 @@ bool load();
 void kill();
 bool loop();
 
-Player* player;
 SDL_Point mousePosition;
+SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
+GameEntity *gameEntities[MAX_ENTITIES] = { nullptr };
+int gameEntitiesCount = 0;
 
 int main()
 {
@@ -56,8 +61,14 @@ bool loop()
 		}
 	}
 
-	player->applyInputs(keys, mousePosition, isMouseDown);
-	player->render(renderer);
+	for (int i=0; i<MAX_ENTITIES; i++)
+	{
+		if (gameEntities[i])
+		{
+			gameEntities[i]->update(keys, mousePosition, isMouseDown);
+			gameEntities[i]->render(renderer, textures);
+		}
+	}
 
 	SDL_RenderPresent(renderer);
 
@@ -72,19 +83,31 @@ void init()
 
 bool load()
 {
-	player = new Player(0, 0);
-	bool result = player->load(renderer);
+	Player *player = new Player(0, 0);
+	bool resultPlayer = player->load(renderer, textures);
 
-	return result;
+	if (resultPlayer)
+	{
+		gameEntities[gameEntitiesCount++] = player;
+	}
+
+	return resultPlayer;
 }
 
 void kill()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-	player->destroy();
+
+	for (int i=0; i<MAX_ENTITIES; i++)
+	{
+		if (gameEntities[i])
+		{
+			gameEntities[i] = nullptr;
+		}
+	}
+
 	renderer = NULL;
 	window = NULL;
-	player = NULL;
 	SDL_Quit();
 }

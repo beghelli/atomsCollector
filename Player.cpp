@@ -7,11 +7,6 @@
 
 using namespace std;
 
-const int PLAYER_HEIGHT = 25;
-const int PLAYER_WIDTH = 25;
-const string PLAYER_TEXTURE_FILE = "player.bmp";
-SDL_Rect* bullet;
-
 Player::Player(int x, int y)
 {
 	this->x = x;
@@ -21,34 +16,13 @@ Player::Player(int x, int y)
 	this->zAngle = 0;
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
+	this->entityHeight = 25;
+	this->entityWidth = 25;
+	this->entityTextureFile = "player.bmp";
+	this->entityTextureIndex = 0;
 }
 
-bool Player::load(SDL_Renderer* renderer)
-{
-	string BMPPath = "./" + ASSETS_FOLDER + "/" + PLAYER_TEXTURE_FILE;
-	SDL_Surface* imageSurface = SDL_LoadBMP(BMPPath.c_str());
-	if (! imageSurface)
-	{
-		cout << "Failed loading player texture image" << endl;
-		cout << "Player texture image path: " << BMPPath << endl;
-		return false;
-	}
-	texture = SDL_CreateTextureFromSurface(renderer, imageSurface);
-	if (! texture)
-	{
-		cout << "Failed loading player texture." << endl;
-		return false;
-	}
-
-	SDL_FreeSurface(imageSurface);
-	imageSurface = NULL;
-
-	bullet = new SDL_Rect();
-
-	return true;
-}
-
-void Player::applyInputs(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
+void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
 	calculatePosition(keys);
 	limitPositionToScreenSize();
@@ -58,7 +32,6 @@ void Player::applyInputs(const unsigned char* keys, SDL_Point mousePosition, boo
 	if (DEBUG)
 	{
 		cout << "Player Y position: " << y << endl;
-		cout << "Bullet Y position: " << bullet->y << endl;
 		cout << "Player Y velocity: " << yv << endl;
 		cout << "Accelerating Y: " << isAcceleratingY << endl;
 		cout << "Player X velocity: " << xv << endl;
@@ -70,23 +43,19 @@ void Player::applyInputs(const unsigned char* keys, SDL_Point mousePosition, boo
 	}
 }
 
-void Player::render(SDL_Renderer* renderer)
+void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
-	SDL_Point bodyCenter;
 	SDL_Rect body;
 	body.x = x;
 	body.y = y;
-	body.h = PLAYER_HEIGHT;
-	body.w = PLAYER_WIDTH;
+	body.h = entityHeight;
+	body.w = entityWidth;
 
-	bodyCenter.x = x + (PLAYER_WIDTH / 2);
-	bodyCenter.y = y + (PLAYER_HEIGHT / 2);
+	int result = SDL_RenderCopyEx(renderer, textures[entityTextureIndex], NULL, &body, zAngle, NULL, SDL_FLIP_NONE);
 
-	int result = SDL_RenderCopyEx(renderer, texture, NULL, &body, zAngle, NULL, SDL_FLIP_NONE);
-
-	SDL_SetRenderDrawColor(renderer, 255, 50, 20, 255);
-	int rectangleResult = SDL_RenderDrawRect(renderer, bullet);
-	result = result && rectangleResult;
+	//SDL_SetRenderDrawColor(renderer, 255, 50, 20, 255);
+	//int rectangleResult = SDL_RenderDrawRect(renderer, bullet);
+	//result = result && rectangleResult;
 
 	if (result != 0)
 	{
@@ -95,43 +64,10 @@ void Player::render(SDL_Renderer* renderer)
 	}
 }
 
-void Player::destroy()
-{
-	SDL_DestroyTexture(texture);
-	texture = NULL;
-}
-
-void Player::limitPositionToScreenSize()
-{
-	if (y + PLAYER_HEIGHT >= SCREEN_HEIGHT)
-	{
-		yv = 0;
-		y = SCREEN_HEIGHT - PLAYER_HEIGHT;
-	}
-
-	if (y < 0)
-	{
-		yv = 0;
-		y = 0;
-	}
-
-	if (x + PLAYER_WIDTH >= SCREEN_WIDTH)
-	{
-		xv = 0;
-		x = SCREEN_WIDTH - PLAYER_WIDTH;
-	}
-
-	if (x < 0)
-	{
-		xv = 0;
-		x = 0;
-	}
-}
-
 void Player::calculateZAngle(SDL_Point mousePosition)
 {
-	int mX = (x + PLAYER_WIDTH / 2) - (mousePosition.x - SCREEN_WIDTH / 2);
-	int mY = (y - PLAYER_HEIGHT * 2) - (mousePosition.y - SCREEN_HEIGHT / 2);
+	int mX = (x + entityWidth / 2) - (mousePosition.x - SCREEN_WIDTH / 2);
+	int mY = (y - entityHeight * 2) - (mousePosition.y - SCREEN_HEIGHT / 2);
 	zAngle = atan2((float) mY, (float) mX) * (180.0f / M_PI);
 }
 
@@ -189,9 +125,11 @@ void Player::fire(bool isMouseDown)
 {
 	if (isMouseDown)
 	{
+		/**
 		bullet->x = x;
 		bullet->y = y;
 		bullet->w = 5;
 		bullet->h = 5;
+		*/
 	}
 }
