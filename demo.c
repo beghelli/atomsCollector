@@ -29,7 +29,7 @@ int main()
 	}
 	while (loop())
 	{
-		SDL_Delay(10);
+		SDL_Delay(8);
 	}
 
 	kill();
@@ -39,7 +39,7 @@ int main()
 bool loop()
 {
 	static const unsigned char* keys = SDL_GetKeyboardState( NULL );
-	bool isMouseDown;
+	bool isMouseDown = false;
 	SDL_GetGlobalMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_Event e;
 
@@ -67,6 +67,7 @@ bool loop()
 		{
 			gameEntities[i]->update(keys, mousePosition, isMouseDown);
 			gameEntities[i]->render(renderer, textures);
+			gameEntities[i]->addNewGameEntities(gameEntities, gameEntitiesCount);
 		}
 	}
 
@@ -77,7 +78,21 @@ bool loop()
 
 void init()
 {
-	window = SDL_CreateWindow( "Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+	int windowPosX, windowPosY;
+	SDL_Init(SDL_INIT_VIDEO);
+	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_SHOWN;
+	if (SDL_GetNumVideoDisplays() > 1)
+	{
+		windowPosX = SDL_WINDOWPOS_CENTERED_DISPLAY(2);
+		windowPosY = SDL_WINDOWPOS_CENTERED_DISPLAY(2);
+	}
+	else
+	{
+		windowPosX = SDL_WINDOWPOS_CENTERED;
+		windowPosY = SDL_WINDOWPOS_CENTERED;
+	}
+
+	window = SDL_CreateWindow("Example", windowPosX, windowPosY, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 }
 
@@ -86,12 +101,17 @@ bool load()
 	Player *player = new Player(0, 0);
 	bool resultPlayer = player->load(renderer, textures);
 
+	Bullet *bullet = new Bullet(0, 0);
+	bool resultBullet = bullet->load(renderer, textures);
+
+	bullet = NULL;
+
 	if (resultPlayer)
 	{
 		gameEntities[gameEntitiesCount++] = player;
 	}
 
-	return resultPlayer;
+	return resultPlayer && resultBullet;
 }
 
 void kill()

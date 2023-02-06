@@ -24,9 +24,11 @@ protected:
 	void limitPositionToScreenSize();
 
 public:
+	void setZAngle(double angle);
 	bool load(SDL_Renderer* renderer, SDL_Texture* textures[]);
 	void destroy(SDL_Texture* textures[]);
 
 	virtual void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)=0;
 	virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[])=0;
+	virtual void addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCount)=0;
 };

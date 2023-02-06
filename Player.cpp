@@ -3,9 +3,12 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "constants.h"
+#include "Bullet.h"
 #include "Player.h"
 
 using namespace std;
+
+bool isFiring = false;
 
 Player::Player(int x, int y)
 {
@@ -27,7 +30,7 @@ void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 	calculatePosition(keys);
 	limitPositionToScreenSize();
 	calculateZAngle(mousePosition);
-	fire(isMouseDown);
+	isFiring = isMouseDown;
 
 	if (DEBUG)
 	{
@@ -53,14 +56,20 @@ void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 
 	int result = SDL_RenderCopyEx(renderer, textures[entityTextureIndex], NULL, &body, zAngle, NULL, SDL_FLIP_NONE);
 
-	//SDL_SetRenderDrawColor(renderer, 255, 50, 20, 255);
-	//int rectangleResult = SDL_RenderDrawRect(renderer, bullet);
-	//result = result && rectangleResult;
-
 	if (result != 0)
 	{
 		cout << "Failed rendering player" << endl;
 		cout << SDL_GetError() << endl;
+	}
+}
+
+void Player::addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCount)
+{
+	if (isFiring)
+	{
+		Bullet *bullet = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
+		bullet->setZAngle(zAngle);
+		gameEntities[gameEntitiesCount++] = bullet;
 	}
 }
 
@@ -119,17 +128,4 @@ void Player::calculatePosition(const unsigned char* keys)
 
 	y += yv;
 	x += xv;
-}
-
-void Player::fire(bool isMouseDown)
-{
-	if (isMouseDown)
-	{
-		/**
-		bullet->x = x;
-		bullet->y = y;
-		bullet->w = 5;
-		bullet->h = 5;
-		*/
-	}
 }

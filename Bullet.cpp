@@ -1,17 +1,20 @@
+#include <math.h>
 #include "Bullet.h"
 
 Bullet::Bullet(int x, int y)
 {
 	this->x = x;
 	this->y = y;
-	this->xv = 0;
-	this->yv = 0;
+	this->originalX = x;
+	this->originalY = y;
+	this->xv = 1;
+	this->yv = 1;
 	this->zAngle = 0;
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
 	this->entityHeight = 5;
 	this->entityWidth = 5;
-	this->entityTextureFile = "bullet.png";
+	this->entityTextureFile = "bullet.bmp";
 	this->entityTextureIndex = 1;
 }
 
@@ -34,4 +37,12 @@ void Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 
 void Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
+	cout << zAngle << endl;
+	x = originalX + (cos((zAngle + 180) / (180.0f / M_PI))*(xv++));
+	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv++));
 }
+
+void Bullet::addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCount)
+{
+}
+

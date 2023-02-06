@@ -3,6 +3,11 @@
 #include "GameEntity.h"
 #include "constants.h"
 
+void GameEntity::setZAngle(double angle)
+{
+	this->zAngle = angle;
+}
+
 void GameEntity::limitPositionToScreenSize()
 {
 	if (y + entityHeight >= SCREEN_HEIGHT)
