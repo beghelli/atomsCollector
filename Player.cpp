@@ -34,7 +34,7 @@ void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 
 	if (DEBUG)
 	{
-		if (keys[SDL_SCANCODE_B])
+		if (keys[DEBUG_KEY])
 		{
 			cout << "Player X,Y position: " << x << ',' << y << endl;
 			cout << "Player Y velocity: " << yv << endl;
@@ -66,13 +66,13 @@ void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 	}
 }
 
-void Player::addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCount)
+void Player::addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount)
 {
 	if (isFiring)
 	{
-		Bullet *bullet = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
-		bullet->setZAngle(zAngle);
-		gameEntities[gameEntitiesCount++] = bullet;
+		gameEntities[gameEntitiesCount] = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
+		gameEntities[gameEntitiesCount]->setZAngle(zAngle);
+		gameEntitiesCount++;
 	}
 }
 

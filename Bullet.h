@@ -10,7 +10,7 @@ public:
 
 	void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 	void render(SDL_Renderer* renderer, SDL_Texture* textures[]);
-	void addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCount);
+	void addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount);
 
 private:
 	int originalX;

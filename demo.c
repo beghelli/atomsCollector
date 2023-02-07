@@ -65,6 +65,10 @@ bool loop()
 			gameEntities[i]->update(keys, mousePosition, isMouseDown);
 			gameEntities[i]->render(renderer, textures);
 			gameEntities[i]->addNewGameEntities(gameEntities, gameEntitiesCount);
+			if (DEBUG && keys[DEBUG_KEY])
+			{
+				cout << "Entities count: " << gameEntitiesCount << endl;
+			}
 		}
 	}
 

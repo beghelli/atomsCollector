@@ -30,5 +30,5 @@ public:
 
 	virtual void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)=0;
 	virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[])=0;
-	virtual void addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCount)=0;
+	virtual void addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount)=0;
 };
