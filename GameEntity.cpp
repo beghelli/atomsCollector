@@ -8,32 +8,50 @@ void GameEntity::setZAngle(double angle)
 	this->zAngle = angle;
 }
 
+void GameEntity::updateScreenLimitPositionState()
+{
+	this->limitPositionState.isOnLimitBottomY = (y + entityHeight) > SCREEN_HEIGHT;
+	this->limitPositionState.isOnLimitTopY = y < 0;
+
+	this->limitPositionState.isOnLimitRightX = (x + entityWidth) > SCREEN_WIDTH;
+	this->limitPositionState.isOnLimitLeftX = x < 0;
+}
+
 void GameEntity::limitPositionToScreenSize()
 {
-	if (y + entityHeight >= SCREEN_HEIGHT)
+	updateScreenLimitPositionState();
+	if (limitPositionState.isOnLimitBottomY)
 	{
 		yv = 0;
 		y = SCREEN_HEIGHT - entityHeight;
 	}
 
-	if (y < 0)
+	if (limitPositionState.isOnLimitTopY)
 	{
 		yv = 0;
 		y = 0;
 	}
 
-	if (x + entityWidth >= SCREEN_WIDTH)
+	if (limitPositionState.isOnLimitRightX)
 	{
 		xv = 0;
 		x = SCREEN_WIDTH - entityWidth;
 	}
 
-	if (x < 0)
+	if (limitPositionState.isOnLimitLeftX)
 	{
 		xv = 0;
 		x = 0;
 	}
-};
+}
+
+bool GameEntity::reachedAnyScreenLimit()
+{
+	updateScreenLimitPositionState();
+
+	return limitPositionState.isOnLimitLeftX || limitPositionState.isOnLimitRightX 
+		|| limitPositionState.isOnLimitBottomY || limitPositionState.isOnLimitTopY;
+}
 
 bool GameEntity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 {

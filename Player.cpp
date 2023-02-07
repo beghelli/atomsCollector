@@ -49,6 +49,11 @@ void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 	}
 }
 
+bool Player::shouldDestroy()
+{
+	return false;
+}
+
 void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	SDL_Rect body;

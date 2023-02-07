@@ -20,8 +20,17 @@ protected:
 	int entityWidth;
 	string entityTextureFile;
 	int entityTextureIndex;
+	struct
+	{
+		bool isOnLimitLeftX;
+		bool isOnLimitRightX;
+		bool isOnLimitTopY;
+		bool isOnLimitBottomY;
+	} limitPositionState;
 
+	void updateScreenLimitPositionState();
 	void limitPositionToScreenSize();
+	bool reachedAnyScreenLimit();
 
 public:
 	void setZAngle(double angle);
@@ -29,6 +38,7 @@ public:
 	void destroy(SDL_Texture* textures[]);
 
 	virtual void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)=0;
+	virtual bool shouldDestroy()=0;
 	virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[])=0;
 	virtual void addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount)=0;
 };

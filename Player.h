@@ -14,6 +14,7 @@ public:
 	Player(int x, int y);
 
 	void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
+	bool shouldDestroy();
 	void render(SDL_Renderer* renderer, SDL_Texture* textures[]);
 	void addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount);
 };

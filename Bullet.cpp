@@ -41,7 +41,11 @@ void Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv++));
 }
 
+bool Bullet::shouldDestroy()
+{
+	return reachedAnyScreenLimit();
+}
+
 void Bullet::addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount)
 {
 }
-
