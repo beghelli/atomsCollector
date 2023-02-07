@@ -39,7 +39,7 @@ bool GameEntity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	if (! textures[entityTextureIndex])
 	{
-		string BMPPath = "./" + ASSETS_FOLDER + "/" + entityTextureFile;
+		string BMPPath = ".\\" + ASSETS_FOLDER + "\\" + entityTextureFile;
 		SDL_Surface* imageSurface = SDL_LoadBMP(BMPPath.c_str());
 		if (! imageSurface)
 		{
@@ -51,6 +51,7 @@ bool GameEntity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 		if (! textures[entityTextureIndex])
 		{
 			cout << "Failed loading texture." << endl;
+			cout << SDL_GetError() << endl;
 			return false;
 		}
 

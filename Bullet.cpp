@@ -37,7 +37,6 @@ void Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 
 void Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
-	cout << zAngle << endl;
 	x = originalX + (cos((zAngle + 180) / (180.0f / M_PI))*(xv++));
 	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv++));
 }

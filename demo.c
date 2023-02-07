@@ -9,7 +9,7 @@
 SDL_Window* window;
 SDL_Renderer* renderer;
 
-void init();
+bool init();
 bool load();
 void kill();
 bool loop();
@@ -19,17 +19,14 @@ SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
 GameEntity *gameEntities[MAX_ENTITIES] = { nullptr };
 int gameEntitiesCount = 0;
 
-int main()
+int main(int argc, char *argv[])
 {
-	init();
-	if (! load())
+	if (init() && load())
 	{
-		kill();
-		return 0;
-	}
-	while (loop())
-	{
-		SDL_Delay(8);
+		while (loop())
+		{
+			SDL_Delay(8);
+		}
 	}
 
 	kill();
@@ -40,7 +37,7 @@ bool loop()
 {
 	static const unsigned char* keys = SDL_GetKeyboardState( NULL );
 	bool isMouseDown = false;
-	SDL_GetGlobalMouseState(&mousePosition.x, &mousePosition.y);
+	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_Event e;
 
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -76,10 +73,15 @@ bool loop()
 	return true;
 }
 
-void init()
+bool init()
 {
 	int windowPosX, windowPosY;
-	SDL_Init(SDL_INIT_VIDEO);
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		cout << "Error initializing video" << endl;
+		cout << SDL_GetError() << endl;
+		return false;
+	}
 	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_SHOWN;
 	if (SDL_GetNumVideoDisplays() > 1)
 	{
@@ -94,6 +96,14 @@ void init()
 
 	window = SDL_CreateWindow("Example", windowPosX, windowPosY, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+	if (! renderer)
+	{
+		cout << "Could not initialize the renderer" << endl;
+		cout << SDL_GetError() << endl;
+		return false;
+	}
+	
+	return true;
 }
 
 bool load()

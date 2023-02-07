@@ -34,15 +34,18 @@ void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 
 	if (DEBUG)
 	{
-		cout << "Player Y position: " << y << endl;
-		cout << "Player Y velocity: " << yv << endl;
-		cout << "Accelerating Y: " << isAcceleratingY << endl;
-		cout << "Player X velocity: " << xv << endl;
-		cout << "Accelerating X: " << isAcceleratingX << endl;
-		cout << "Mouse X: " << mousePosition.x << endl;
-		cout << "Mouse Y: " << mousePosition.y << endl;
-		cout << "Angle: " << zAngle << endl;
-		cout << "Is mouse down: " << isMouseDown << endl;
+		if (keys[SDL_SCANCODE_B])
+		{
+			cout << "Player X,Y position: " << x << ',' << y << endl;
+			cout << "Player Y velocity: " << yv << endl;
+			cout << "Accelerating Y: " << isAcceleratingY << endl;
+			cout << "Player X velocity: " << xv << endl;
+			cout << "Accelerating X: " << isAcceleratingX << endl;
+			cout << "Mouse X,Y: " << mousePosition.x << ',' << mousePosition.y << endl;
+			cout << "Angle: " << zAngle << endl;
+			cout << "Is mouse down: " << isMouseDown << endl;
+			cout << "====================" << endl;
+		}
 	}
 }
 
@@ -75,8 +78,8 @@ void Player::addNewGameEntities(GameEntity* gameEntities[], int gameEntitiesCoun
 
 void Player::calculateZAngle(SDL_Point mousePosition)
 {
-	int mX = (x + entityWidth / 2) - (mousePosition.x - SCREEN_WIDTH / 2);
-	int mY = (y - entityHeight * 2) - (mousePosition.y - SCREEN_HEIGHT / 2);
+	int mX = (x + entityWidth / 2) - mousePosition.x;
+	int mY = (y + entityHeight / 2) - mousePosition.y;
 	zAngle = atan2((float) mY, (float) mX) * (180.0f / M_PI);
 }
 
