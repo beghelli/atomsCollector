@@ -66,7 +66,6 @@ bool loop()
 			if (gameEntities[i]->shouldDestroy())
 			{
 				gameEntities[i] = nullptr;
-				gameEntitiesCount--;
 			}
 			else
 			{
