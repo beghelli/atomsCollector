@@ -9,6 +9,7 @@ class Player : public GameEntity
 {
 
 private:
+	bool isRunning;
 	void calculatePosition(const unsigned char* keys);
 	void calculateZAngle(SDL_Point mousePosition);
 	void fire(bool isMouseDown);

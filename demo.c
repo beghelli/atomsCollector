@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	{
 		while (loop())
 		{
-			SDL_Delay(8);
+			SDL_Delay(20);
 		}
 	}
 

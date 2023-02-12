@@ -20,6 +20,8 @@ Bullet::Bullet(int x, int y)
 	this->entityWidth = 5;
 	this->entityTextureFile = "bullet.bmp";
 	this->entityTextureIndex = 1;
+	this->currentMaxVelocity = 16;
+	this->baseMaxVelocity = this->currentMaxVelocity;
 }
 
 void Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])

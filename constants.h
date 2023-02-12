@@ -3,7 +3,6 @@
 
 using namespace std;
 
-const float ACCELERATION = 0.25;
 const int DEBUG = true;
 const int DEBUG_KEY = SDL_SCANCODE_B;
 const int SCREEN_WIDTH = 800;

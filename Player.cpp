@@ -10,6 +10,8 @@
 
 using namespace std;
 
+const float ACCELERATION = 1;
+
 bool isFiring = false;
 
 Player::Player(int x, int y)
@@ -25,10 +27,15 @@ Player::Player(int x, int y)
 	this->entityWidth = 25;
 	this->entityTextureFile = "player.bmp";
 	this->entityTextureIndex = 0;
+	this->currentMaxVelocity = 4;
+	this->baseMaxVelocity = this->currentMaxVelocity;
+	this->isRunning = false;
 }
 
 void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
+	isRunning = keys[SDL_SCANCODE_LSHIFT];
+
 	calculatePosition(keys);
 	limitPositionToScreenSize();
 	calculateZAngle(mousePosition);
@@ -94,15 +101,40 @@ void Player::calculateZAngle(SDL_Point mousePosition)
 
 void Player::calculatePosition(const unsigned char* keys)
 {
+	if (isRunning)
+	{
+		currentMaxVelocity = baseMaxVelocity * 3;
+	}
+	else
+	{
+		currentMaxVelocity = baseMaxVelocity;
+	}
+
 	// Y Axis;
 	if (keys[SDL_SCANCODE_S])
 	{
-		yv += ACCELERATION;
+		if (yv < currentMaxVelocity)
+		{
+			yv += ACCELERATION;
+		}
+		else
+		{
+			yv = currentMaxVelocity;
+		}
+
 		isAcceleratingY = true;
 	}
 	else if (keys[SDL_SCANCODE_W])
 	{
-		yv -= ACCELERATION;
+		if (yv > -currentMaxVelocity)
+		{
+			yv -= ACCELERATION;
+		}
+		else
+		{
+			yv = -currentMaxVelocity;
+		}
+
 		isAcceleratingY = true;
 	}
 	else
@@ -113,12 +145,28 @@ void Player::calculatePosition(const unsigned char* keys)
 	// X Axis;
 	if (keys[SDL_SCANCODE_A])
 	{
-		xv -= ACCELERATION;
+		if (xv > -currentMaxVelocity)
+		{
+			xv -= ACCELERATION;
+		}
+		else
+		{
+			xv = -currentMaxVelocity;
+		}
+
 		isAcceleratingX = true;
 	}
 	else if (keys[SDL_SCANCODE_D])
 	{
-		xv += ACCELERATION;
+		if (xv < currentMaxVelocity)
+		{
+			xv += ACCELERATION;
+		}
+		else
+		{
+			xv = currentMaxVelocity;
+		}
+
 		isAcceleratingX = true;
 	}
 	else
@@ -127,17 +175,54 @@ void Player::calculatePosition(const unsigned char* keys)
 	}
 
 	if (yv != 0 && ! isAcceleratingY)
+	{
 		if (yv > 0)
+		{
 			yv -= ACCELERATION;
+			if (yv < 0)
+			{
+				yv = 0;
+			}
+		}
 		else
+		{
 			yv += ACCELERATION;
+			if (yv > 0)
+			{
+				yv = 0;
+			}
+		}
+	}
 
 	if (xv != 0 && ! isAcceleratingX)
+	{
 		if (xv > 0)
+		{
 			xv -= ACCELERATION;
+			if (xv < 0)
+			{
+				xv = 0;
+			}
+		}
 		else
+		{
 			xv += ACCELERATION;
+			if (xv > 0)
+			{
+				xv = 0;
+			}
+		}
+	}
 
-	y += yv;
-	x += xv;
+	float finalXV = xv;
+	float finalYV = yv;
+
+	if (isAcceleratingX && isAcceleratingY)
+	{
+		finalXV = xv / 100 * 75;
+		finalYV = yv / 100 * 75;
+	}
+
+	y = floor(y + finalYV);
+	x = floor(x + finalXV);
 }

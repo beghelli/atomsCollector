@@ -18,6 +18,8 @@ protected:
 	double zAngle;
 	bool isAcceleratingX;
 	bool isAcceleratingY;
+	int currentMaxVelocity;
+	int baseMaxVelocity;
 
 	int entityHeight;
 	int entityWidth;
