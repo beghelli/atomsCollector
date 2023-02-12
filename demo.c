@@ -3,6 +3,7 @@
 #include "constants.h"
 #include "Bullet.h"
 #include "Player.h"
+#include "GameEntityRepository.h"
 
 #define MAX_ENTITIES 100
 
@@ -16,8 +17,7 @@ bool loop();
 
 SDL_Point mousePosition;
 SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
-GameEntity *gameEntities[MAX_ENTITIES] = { nullptr };
-int gameEntitiesCount = 0;
+Support::GameEntityRepository* entityRepository;
 
 int main(int argc, char *argv[])
 {
@@ -58,26 +58,27 @@ bool loop()
 		}
 	}
 
-	for (int i=0; i<MAX_ENTITIES; i++)
+	auto processEntities = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
-		if (gameEntities[i])
+		gameEntity->update(keys, mousePosition, isMouseDown); 
+		if (gameEntity->shouldDestroy())
 		{
-			gameEntities[i]->update(keys, mousePosition, isMouseDown);
-			if (gameEntities[i]->shouldDestroy())
-			{
-				gameEntities[i] = nullptr;
-			}
-			else
-			{
-				gameEntities[i]->render(renderer, textures);
-				gameEntities[i]->addNewGameEntities(gameEntities, gameEntitiesCount);
-			}
-			if (DEBUG && keys[DEBUG_KEY])
-			{
-				cout << "Entities count: " << gameEntitiesCount << endl;
-			}
+			return false;
 		}
-	}
+		else
+		{
+			gameEntity->render(renderer, textures);
+			vector<GameEntity*> newGameEntities = gameEntity->getNewGameEntities();
+
+			for (GameEntity* gameEntity : newGameEntities)
+			{
+				entityRepository->addEntity(gameEntity);
+			}
+			return true;
+		}
+	};
+
+	entityRepository->iterate(processEntities);
 
 	SDL_RenderPresent(renderer);
 
@@ -113,6 +114,8 @@ bool init()
 		cout << SDL_GetError() << endl;
 		return false;
 	}
+
+	entityRepository = new Support::GameEntityRepository();
 	
 	return true;
 }
@@ -125,11 +128,11 @@ bool load()
 	Bullet *bullet = new Bullet(0, 0);
 	bool resultBullet = bullet->load(renderer, textures);
 
-	bullet = NULL;
+	delete bullet;
 
 	if (resultPlayer)
 	{
-		gameEntities[gameEntitiesCount++] = player;
+		entityRepository->addEntity(player);	
 	}
 
 	return resultPlayer && resultBullet;
@@ -139,16 +142,8 @@ void kill()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-
-	for (int i=0; i<MAX_ENTITIES; i++)
-	{
-		if (gameEntities[i])
-		{
-			gameEntities[i] = nullptr;
-		}
-	}
-
 	renderer = NULL;
 	window = NULL;
+	delete entityRepository;
 	SDL_Quit();
 }

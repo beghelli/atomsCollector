@@ -1,5 +1,9 @@
 #include <math.h>
+#include <vector>
 #include "Bullet.h"
+#include "GameEntity.h"
+
+using namespace std;
 
 Bullet::Bullet(int x, int y)
 {
@@ -46,6 +50,8 @@ bool Bullet::shouldDestroy()
 	return reachedAnyScreenLimit();
 }
 
-void Bullet::addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount)
+vector<GameEntity*> Bullet::getNewGameEntities()
 {
+	vector<GameEntity*> entities;
+	return entities;
 }

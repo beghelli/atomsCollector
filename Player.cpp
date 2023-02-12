@@ -1,9 +1,11 @@
 #include <iostream>
 #include <math.h>
 #include <string>
+#include <vector>
 #include <SDL2/SDL.h>
 #include "constants.h"
 #include "Bullet.h"
+#include "GameEntity.h"
 #include "Player.h"
 
 using namespace std;
@@ -71,14 +73,16 @@ void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 	}
 }
 
-void Player::addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount)
+vector<GameEntity*> Player::getNewGameEntities()
 {
+	vector<GameEntity*> entities;
 	if (isFiring)
 	{
-		gameEntities[gameEntitiesCount] = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
-		gameEntities[gameEntitiesCount]->setZAngle(zAngle);
-		gameEntitiesCount++;
+		Bullet* bullet = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
+		bullet->setZAngle(zAngle);
+		entities.push_back(bullet);
 	}
+	return entities;
 }
 
 void Player::calculateZAngle(SDL_Point mousePosition)

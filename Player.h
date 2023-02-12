@@ -1,6 +1,9 @@
 #pragma once
+#include <vector>
 #include <SDL2/SDL.h>
 #include "GameEntity.h"
+
+using namespace std;
 
 class Player : public GameEntity
 {
@@ -16,5 +19,5 @@ public:
 	void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 	bool shouldDestroy();
 	void render(SDL_Renderer* renderer, SDL_Texture* textures[]);
-	void addNewGameEntities(GameEntity* gameEntities[], int &gameEntitiesCount);
+	vector<GameEntity*> getNewGameEntities();
 };

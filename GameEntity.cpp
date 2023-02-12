@@ -3,6 +3,16 @@
 #include "GameEntity.h"
 #include "constants.h"
 
+void GameEntity::setId(unsigned int id)
+{
+	this->id = id;
+}
+
+unsigned int GameEntity::getId()
+{
+	return id;
+}
+
 void GameEntity::setZAngle(double angle)
 {
 	this->zAngle = angle;
