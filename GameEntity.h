@@ -16,6 +16,7 @@ protected:
 	float xv;
 	float yv;
 	double zAngle;
+	double acceleration;
 	bool isAcceleratingX;
 	bool isAcceleratingY;
 	int currentMaxVelocity;
@@ -40,6 +41,7 @@ protected:
 public:
 	void setId(unsigned int id);
 	unsigned int getId();
+	void increaseAccelerationIn(double increaseValue);
 	void setZAngle(double angle);
 	bool load(SDL_Renderer* renderer, SDL_Texture* textures[]);
 	void destroy(SDL_Texture* textures[]);

@@ -14,6 +14,7 @@ Bullet::Bullet(int x, int y)
 	this->xv = 1;
 	this->yv = 1;
 	this->zAngle = 0;
+	this->acceleration = 10;
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
 	this->entityHeight = 5;
@@ -43,8 +44,10 @@ void Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 
 void Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
-	x = originalX + (cos((zAngle + 180) / (180.0f / M_PI))*(xv++));
-	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv++));
+	x = originalX + (cos((zAngle + 180) / (180.0f / M_PI))*(xv));
+	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv));
+	xv += acceleration;
+	yv += acceleration;
 }
 
 bool Bullet::shouldDestroy()

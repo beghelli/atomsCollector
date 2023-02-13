@@ -10,8 +10,6 @@
 
 using namespace std;
 
-const float ACCELERATION = 1;
-
 bool isFiring = false;
 
 Player::Player(int x, int y)
@@ -21,6 +19,7 @@ Player::Player(int x, int y)
 	this->xv = 0;
 	this->yv = 0;
 	this->zAngle = 0;
+	this->acceleration = 0.5;
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
 	this->entityHeight = 25;
@@ -87,6 +86,8 @@ vector<GameEntity*> Player::getNewGameEntities()
 	{
 		Bullet* bullet = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
 		bullet->setZAngle(zAngle);
+		float currentMovingSpeed = getCurrentMovingSpeed();	
+		bullet->increaseAccelerationIn(currentMovingSpeed);
 		entities.push_back(bullet);
 	}
 	return entities;
@@ -101,13 +102,10 @@ void Player::calculateZAngle(SDL_Point mousePosition)
 
 void Player::calculatePosition(const unsigned char* keys)
 {
+	currentMaxVelocity = baseMaxVelocity;
 	if (isRunning)
 	{
-		currentMaxVelocity = baseMaxVelocity * 3;
-	}
-	else
-	{
-		currentMaxVelocity = baseMaxVelocity;
+		currentMaxVelocity *= 3;
 	}
 
 	// Y Axis;
@@ -115,27 +113,33 @@ void Player::calculatePosition(const unsigned char* keys)
 	{
 		if (yv < currentMaxVelocity)
 		{
-			yv += ACCELERATION;
+			yv += acceleration;
+			isAcceleratingY = true;
+		}
+		else if (yv > currentMaxVelocity)
+		{
+			isAcceleratingY = false;
 		}
 		else
 		{
-			yv = currentMaxVelocity;
+			isAcceleratingY = true;
 		}
-
-		isAcceleratingY = true;
 	}
 	else if (keys[SDL_SCANCODE_W])
 	{
 		if (yv > -currentMaxVelocity)
 		{
-			yv -= ACCELERATION;
+			yv -= acceleration;
+			isAcceleratingY = true;
+		}
+		else if (yv < -currentMaxVelocity)
+		{
+			isAcceleratingY = false;
 		}
 		else
 		{
-			yv = -currentMaxVelocity;
+			isAcceleratingY = true;
 		}
-
-		isAcceleratingY = true;
 	}
 	else
 	{
@@ -147,27 +151,33 @@ void Player::calculatePosition(const unsigned char* keys)
 	{
 		if (xv > -currentMaxVelocity)
 		{
-			xv -= ACCELERATION;
+			xv -= acceleration;
+			isAcceleratingX = true;
+		}
+		else if (xv < -currentMaxVelocity)
+		{
+			isAcceleratingX = false;
 		}
 		else
 		{
-			xv = -currentMaxVelocity;
+			isAcceleratingX = true;
 		}
-
-		isAcceleratingX = true;
 	}
 	else if (keys[SDL_SCANCODE_D])
 	{
 		if (xv < currentMaxVelocity)
 		{
-			xv += ACCELERATION;
+			xv += acceleration;
+			isAcceleratingX = true;
+		}
+		else if (xv > currentMaxVelocity)
+		{
+			isAcceleratingX = false;
 		}
 		else
 		{
-			xv = currentMaxVelocity;
+			isAcceleratingX = true;
 		}
-
-		isAcceleratingX = true;
 	}
 	else
 	{
@@ -178,7 +188,7 @@ void Player::calculatePosition(const unsigned char* keys)
 	{
 		if (yv > 0)
 		{
-			yv -= ACCELERATION;
+			yv -= acceleration;
 			if (yv < 0)
 			{
 				yv = 0;
@@ -186,7 +196,7 @@ void Player::calculatePosition(const unsigned char* keys)
 		}
 		else
 		{
-			yv += ACCELERATION;
+			yv += acceleration;
 			if (yv > 0)
 			{
 				yv = 0;
@@ -198,7 +208,7 @@ void Player::calculatePosition(const unsigned char* keys)
 	{
 		if (xv > 0)
 		{
-			xv -= ACCELERATION;
+			xv -= acceleration;
 			if (xv < 0)
 			{
 				xv = 0;
@@ -206,7 +216,7 @@ void Player::calculatePosition(const unsigned char* keys)
 		}
 		else
 		{
-			xv += ACCELERATION;
+			xv += acceleration;
 			if (xv > 0)
 			{
 				xv = 0;
@@ -217,12 +227,71 @@ void Player::calculatePosition(const unsigned char* keys)
 	float finalXV = xv;
 	float finalYV = yv;
 
-	if (isAcceleratingX && isAcceleratingY)
+	if (yv && xv)
 	{
-		finalXV = xv / 100 * 75;
-		finalYV = yv / 100 * 75;
+		finalXV = (xv / 100) * 85;
+		finalYV = (yv / 100) * 85;
+		if (finalXV > 0)
+		{
+			finalXV = floor(finalXV);
+		}
+		else
+		{
+			finalXV = ceil(finalXV);
+		}
+		if (finalYV > 0)
+		{
+			finalYV = floor(finalYV);
+		}
+		else
+		{
+			finalYV = ceil(finalYV);
+		}
 	}
 
-	y = floor(y + finalYV);
-	x = floor(x + finalXV);
+	y += finalYV;
+	x += finalXV;
 }
+
+float Player::getCurrentMovingSpeed()
+{
+	float currentMovingSpeed = 0;
+	if (xv != 0)
+	{
+		if (xv > 0)
+		{
+			if (zAngle > 135.000 || zAngle < -135.000)
+			{
+				currentMovingSpeed = xv;
+			}
+		}
+		else
+		{
+			if (zAngle < 45.000 && zAngle > -45.000)
+			{
+				currentMovingSpeed = abs(xv); 
+			}
+		}
+	}
+
+	if (yv != 0)
+	{
+		if (yv > 0)
+		{
+			if (zAngle < -45.000 && zAngle > -135.000)
+			{
+				currentMovingSpeed = yv;
+			}
+		}
+		else
+		{
+			if (zAngle > 45.000 && zAngle < 135.000)
+			{
+				currentMovingSpeed = abs(yv);
+			}
+		}
+	}
+	
+	return currentMovingSpeed;
+}
+

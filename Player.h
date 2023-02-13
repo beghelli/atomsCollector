@@ -12,6 +12,7 @@ private:
 	bool isRunning;
 	void calculatePosition(const unsigned char* keys);
 	void calculateZAngle(SDL_Point mousePosition);
+	float getCurrentMovingSpeed();
 	void fire(bool isMouseDown);
 
 public:

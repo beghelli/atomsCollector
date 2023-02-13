@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include "GameEntity.h"
 #include "constants.h"
@@ -11,6 +12,11 @@ void GameEntity::setId(unsigned int id)
 unsigned int GameEntity::getId()
 {
 	return id;
+}
+
+void GameEntity::increaseAccelerationIn(double increaseValue)
+{
+	this->acceleration += increaseValue;
 }
 
 void GameEntity::setZAngle(double angle)
