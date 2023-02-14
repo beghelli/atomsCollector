@@ -9,10 +9,11 @@
 #include "Player.h"
 
 using namespace std;
+using namespace GameEntities;
 
 bool isFiring = false;
 
-Player::Player(int x, int y)
+GameEntities::Player::Player(int x, int y)
 {
 	this->x = x;
 	this->y = y;
@@ -31,7 +32,7 @@ Player::Player(int x, int y)
 	this->isRunning = false;
 }
 
-void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
+void GameEntities::Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
 	isRunning = keys[SDL_SCANCODE_LSHIFT];
 
@@ -57,12 +58,12 @@ void Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 	}
 }
 
-bool Player::shouldDestroy()
+bool GameEntities::Player::shouldDestroy()
 {
 	return false;
 }
 
-void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
+void GameEntities::Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	SDL_Rect body;
 	body.x = x;
@@ -79,7 +80,7 @@ void Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 	}
 }
 
-vector<GameEntity*> Player::getNewGameEntities()
+vector<GameEntity*> GameEntities::Player::getNewGameEntities()
 {
 	vector<GameEntity*> entities;
 	if (isFiring)
@@ -93,14 +94,14 @@ vector<GameEntity*> Player::getNewGameEntities()
 	return entities;
 }
 
-void Player::calculateZAngle(SDL_Point mousePosition)
+void GameEntities::Player::calculateZAngle(SDL_Point mousePosition)
 {
 	int mX = (x + entityWidth / 2) - mousePosition.x;
 	int mY = (y + entityHeight / 2) - mousePosition.y;
 	zAngle = atan2((float) mY, (float) mX) * (180.0f / M_PI);
 }
 
-void Player::calculatePosition(const unsigned char* keys)
+void GameEntities::Player::calculatePosition(const unsigned char* keys)
 {
 	currentMaxVelocity = baseMaxVelocity;
 	if (isRunning)
@@ -253,7 +254,7 @@ void Player::calculatePosition(const unsigned char* keys)
 	x += finalXV;
 }
 
-float Player::getCurrentMovingSpeed()
+float GameEntities::Player::getCurrentMovingSpeed()
 {
 	float currentMovingSpeed = 0;
 	if (xv != 0)

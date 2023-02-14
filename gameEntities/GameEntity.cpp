@@ -4,27 +4,29 @@
 #include "GameEntity.h"
 #include "constants.h"
 
-void GameEntity::setId(unsigned int id)
+using namespace GameEntities;
+
+void GameEntities::GameEntity::setId(unsigned int id)
 {
 	this->id = id;
 }
 
-unsigned int GameEntity::getId()
+unsigned int GameEntities::GameEntity::getId()
 {
 	return id;
 }
 
-void GameEntity::increaseAccelerationIn(double increaseValue)
+void GameEntities::GameEntity::increaseAccelerationIn(double increaseValue)
 {
 	this->acceleration += increaseValue;
 }
 
-void GameEntity::setZAngle(double angle)
+void GameEntities::GameEntity::setZAngle(double angle)
 {
 	this->zAngle = angle;
 }
 
-void GameEntity::updateScreenLimitPositionState()
+void GameEntities::GameEntity::updateScreenLimitPositionState()
 {
 	this->limitPositionState.isOnLimitBottomY = (y + entityHeight) > SCREEN_HEIGHT;
 	this->limitPositionState.isOnLimitTopY = y < 0;
@@ -33,7 +35,7 @@ void GameEntity::updateScreenLimitPositionState()
 	this->limitPositionState.isOnLimitLeftX = x < 0;
 }
 
-void GameEntity::limitPositionToScreenSize()
+void GameEntities::GameEntity::limitPositionToScreenSize()
 {
 	updateScreenLimitPositionState();
 	if (limitPositionState.isOnLimitBottomY)
@@ -61,7 +63,7 @@ void GameEntity::limitPositionToScreenSize()
 	}
 }
 
-bool GameEntity::reachedAnyScreenLimit()
+bool GameEntities::GameEntity::reachedAnyScreenLimit()
 {
 	updateScreenLimitPositionState();
 
@@ -69,7 +71,7 @@ bool GameEntity::reachedAnyScreenLimit()
 		|| limitPositionState.isOnLimitBottomY || limitPositionState.isOnLimitTopY;
 }
 
-bool GameEntity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
+bool GameEntities::GameEntity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	if (! textures[entityTextureIndex])
 	{
@@ -96,7 +98,7 @@ bool GameEntity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 	return true;
 }
 
-void GameEntity::destroy(SDL_Texture* textures[])
+void GameEntities::GameEntity::destroy(SDL_Texture* textures[])
 {
 	SDL_DestroyTexture(textures[entityTextureIndex]);
 }

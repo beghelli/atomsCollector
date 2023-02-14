@@ -7,6 +7,8 @@
 
 #define MAX_ENTITIES 100
 
+using namespace GameEntities;
+
 SDL_Window* window;
 SDL_Renderer* renderer;
 

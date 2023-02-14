@@ -4,8 +4,9 @@
 #include "GameEntity.h"
 
 using namespace std;
+using namespace GameEntities;
 
-Bullet::Bullet(int x, int y)
+GameEntities::Bullet::Bullet(int x, int y)
 {
 	this->x = x;
 	this->y = y;
@@ -25,7 +26,7 @@ Bullet::Bullet(int x, int y)
 	this->baseMaxVelocity = this->currentMaxVelocity;
 }
 
-void Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
+void GameEntities::Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	SDL_Rect body;
 	body.x = x;
@@ -42,7 +43,7 @@ void Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 	}
 }
 
-void Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
+void GameEntities::Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
 	x = originalX + (cos((zAngle + 180) / (180.0f / M_PI))*(xv));
 	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv));
@@ -50,12 +51,12 @@ void Bullet::update(const unsigned char* keys, SDL_Point mousePosition, bool isM
 	yv += acceleration;
 }
 
-bool Bullet::shouldDestroy()
+bool GameEntities::Bullet::shouldDestroy()
 {
 	return reachedAnyScreenLimit();
 }
 
-vector<GameEntity*> Bullet::getNewGameEntities()
+vector<GameEntity*> GameEntities::Bullet::getNewGameEntities()
 {
 	vector<GameEntity*> entities;
 	return entities;

@@ -5,6 +5,7 @@
 #include "GameEntity.h"
 
 using namespace std;
+using namespace GameEntities;
 
 namespace Support
 {
