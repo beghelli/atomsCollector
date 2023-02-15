@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "constants.h"
+#include "Atom.h"
 #include "Bullet.h"
 #include "Player.h"
 #include "GameEntityRepository.h"
@@ -16,6 +17,7 @@ bool init();
 bool load();
 void kill();
 bool loop();
+void fillAtoms();
 
 SDL_Point mousePosition;
 SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
@@ -118,26 +120,60 @@ bool init()
 	}
 
 	entityRepository = new Support::GameEntityRepository();
+	fillAtoms();
 	
 	return true;
 }
 
+void fillAtoms()
+{
+	struct AtomInfo {
+		int x;
+		int y;
+		double zAngle;
+	};
+
+	AtomInfo atomsInfo[3];
+	atomsInfo[0].x = 25;
+	atomsInfo[0].y = 25;
+	atomsInfo[0].zAngle = 180;
+
+	atomsInfo[1].x = 500;
+	atomsInfo[1].y = 400;
+	atomsInfo[1].zAngle = 70;
+
+	atomsInfo[2].x = 25;
+	atomsInfo[2].y = 450;
+	atomsInfo[2].zAngle = 140;
+
+	for (int i = 0; i < 3; i++)
+	{
+		Atom* atom = new Atom(atomsInfo[i].x, atomsInfo[i].y);
+		atom->setZAngle(atomsInfo[i].zAngle);
+
+		entityRepository->addEntity(atom);
+	}
+}
+
 bool load()
 {
-	Player *player = new Player(0, 0);
+	Player* player = new Player(0, 0);
 	bool resultPlayer = player->load(renderer, textures);
 
-	Bullet *bullet = new Bullet(0, 0);
+	Bullet* bullet = new Bullet(0, 0);
 	bool resultBullet = bullet->load(renderer, textures);
-
 	delete bullet;
+	
+	Atom* atom = new Atom(0, 0);
+	bool resultAtom = atom->load(renderer, textures);
+	delete atom;
 
 	if (resultPlayer)
 	{
 		entityRepository->addEntity(player);	
 	}
 
-	return resultPlayer && resultBullet;
+	return resultPlayer && resultBullet && resultAtom;
 }
 
 void kill()
