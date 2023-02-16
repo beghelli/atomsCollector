@@ -63,6 +63,11 @@ bool GameEntities::Player::shouldDestroy()
 	return false;
 }
 
+bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntities)
+{
+	return true;
+}
+
 void GameEntities::Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	SDL_Rect body;
@@ -89,6 +94,7 @@ vector<GameEntity*> GameEntities::Player::getNewGameEntities()
 		bullet->setZAngle(zAngle);
 		float currentMovingSpeed = getCurrentMovingSpeed();	
 		bullet->increaseAccelerationIn(currentMovingSpeed);
+		bullet->setShooter(this);
 		entities.push_back(bullet);
 	}
 	return entities;

@@ -16,6 +16,26 @@ unsigned int GameEntities::GameEntity::getId()
 	return id;
 }
 
+int GameEntities::GameEntity::getX()
+{
+	return x;
+}
+
+int GameEntities::GameEntity::getY()
+{
+	return y;
+}
+
+int GameEntities::GameEntity::getHeight()
+{
+	return entityHeight;
+}
+
+int GameEntities::GameEntity::getWidth()
+{
+	return entityWidth;
+}
+
 void GameEntities::GameEntity::increaseAccelerationIn(double increaseValue)
 {
 	this->acceleration += increaseValue;

@@ -1,6 +1,8 @@
 #include <math.h>
 #include <vector>
+
 #include "Bullet.h"
+#include "Player.h"
 #include "GameEntity.h"
 
 using namespace std;
@@ -24,6 +26,16 @@ GameEntities::Bullet::Bullet(int x, int y)
 	this->entityTextureIndex = 1;
 	this->currentMaxVelocity = 16;
 	this->baseMaxVelocity = this->currentMaxVelocity;
+}
+
+GameEntity* GameEntities::Bullet::getShooter()
+{
+	return shooterEntity;
+}
+
+void GameEntities::Bullet::setShooter(GameEntity* shooterEntity)
+{
+	this->shooterEntity = shooterEntity;
 }
 
 void GameEntities::Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
@@ -54,6 +66,20 @@ void GameEntities::Bullet::update(const unsigned char* keys, SDL_Point mousePosi
 bool GameEntities::Bullet::shouldDestroy()
 {
 	return reachedAnyScreenLimit();
+}
+
+bool GameEntities::Bullet::processCollisions(vector<GameEntity*> collidingEntities)
+{
+	bool shouldKeepThis = true;
+	for (GameEntity* gameEntity : collidingEntities)
+	{
+		if (gameEntity->getId() != shooterEntity->getId())
+		{
+			shouldKeepThis = false;
+		}
+	}
+
+	return shouldKeepThis; 
 }
 
 vector<GameEntity*> GameEntities::Bullet::getNewGameEntities()

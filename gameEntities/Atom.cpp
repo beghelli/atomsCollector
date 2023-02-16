@@ -37,6 +37,11 @@ bool GameEntities::Atom::shouldDestroy()
 	return reachedAnyScreenLimit();
 }
 
+bool GameEntities::Atom::processCollisions(vector<GameEntity*> collidingEntities)
+{
+	return collidingEntities.size() == 0;
+}
+
 void GameEntities::Atom::render(SDL_Renderer* renderer, SDL_Texture* textures[])
 {
 	SDL_Rect body;

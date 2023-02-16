@@ -15,6 +15,7 @@ namespace GameEntities
 
 			void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 			bool shouldDestroy();
+			bool processCollisions(vector<GameEntity*> collidingEntities);
 			void render(SDL_Renderer* renderer, SDL_Texture* textures[]);
 			vector<GameEntity*> getNewGameEntities();
 		private:

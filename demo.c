@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Player.h"
 #include "GameEntityRepository.h"
+#include "CollisionDetector.h"
 
 #define MAX_ENTITIES 100
 
@@ -22,6 +23,7 @@ void fillAtoms();
 SDL_Point mousePosition;
 SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
 Support::GameEntityRepository* entityRepository;
+Support::CollisionDetector* collisionDetector;
 
 int main(int argc, char *argv[])
 {
@@ -62,9 +64,37 @@ bool loop()
 		}
 	}
 
-	auto processEntities = [&](unsigned int id, GameEntity* gameEntity) -> bool
+	auto processEntitiesPosition = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
-		gameEntity->update(keys, mousePosition, isMouseDown); 
+		gameEntity->update(keys, mousePosition, isMouseDown);
+		return true;
+	};
+	entityRepository->iterate(processEntitiesPosition);
+
+	vector<GameEntity*> entitiesToBeDeleted;
+	auto processCollisions = [&](unsigned int id, GameEntity* gameEntity) -> bool
+	{
+		if (DEBUG)
+		{
+			cout << "###### Processing collisions for entity ID " << gameEntity->getId() << " #####" << endl;
+		}
+		vector<GameEntity*> collidingEntities = collisionDetector->getCollidingEntities(gameEntity);
+		bool shouldKeep = gameEntity->processCollisions(collidingEntities);
+		if (! shouldKeep)
+		{
+			entitiesToBeDeleted.push_back(gameEntity);
+		}
+
+		return true;
+	};
+	entityRepository->iterate(processCollisions);
+	for (GameEntity* gameEntity : entitiesToBeDeleted)
+	{
+		entityRepository->deleteEntity(gameEntity->getId()); // Not ideal, forces a lookup in the entities array when we can just pass the entity to the repository already.
+	}
+
+	auto renderEntities = [&](unsigned int id, GameEntity* gameEntity) -> bool
+	{
 		if (gameEntity->shouldDestroy())
 		{
 			return false;
@@ -81,8 +111,7 @@ bool loop()
 			return true;
 		}
 	};
-
-	entityRepository->iterate(processEntities);
+	entityRepository->iterate(renderEntities);
 
 	SDL_RenderPresent(renderer);
 
@@ -121,6 +150,8 @@ bool init()
 
 	entityRepository = new Support::GameEntityRepository();
 	fillAtoms();
+
+	collisionDetector = new Support::CollisionDetector(entityRepository);
 	
 	return true;
 }
@@ -134,7 +165,7 @@ void fillAtoms()
 	};
 
 	AtomInfo atomsInfo[3];
-	atomsInfo[0].x = 25;
+	atomsInfo[0].x = 50;
 	atomsInfo[0].y = 25;
 	atomsInfo[0].zAngle = 180;
 
