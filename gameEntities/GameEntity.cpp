@@ -36,6 +36,16 @@ int GameEntities::GameEntity::getWidth()
 	return entityWidth;
 }
 
+vector<vector<int>> GameEntities::GameEntity::getBodyCoordinatesX()
+{
+	return bodyCoordinatesX;
+}
+
+vector<vector<int>> GameEntities::GameEntity::getBodyCoordinatesY()
+{
+	return bodyCoordinatesY;
+}
+
 void GameEntities::GameEntity::increaseAccelerationIn(double increaseValue)
 {
 	this->acceleration += increaseValue;

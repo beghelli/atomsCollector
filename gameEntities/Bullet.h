@@ -21,6 +21,7 @@ namespace GameEntities
 		void setShooter(GameEntity* shooter);
 		GameEntity* getShooter();
 		vector<GameEntity*> getNewGameEntities();
+		void initializeBodyCoordinates();
 
 	private:
 		int originalX;

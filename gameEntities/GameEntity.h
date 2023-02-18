@@ -12,6 +12,8 @@ namespace GameEntities
 	{
 
 	protected:
+		vector<vector<int>> bodyCoordinatesX;
+		vector<vector<int>> bodyCoordinatesY;
 		unsigned int id;
 		int x;
 		int y;
@@ -47,6 +49,8 @@ namespace GameEntities
 		int getY();
 		int getHeight();
 		int getWidth();
+		vector<vector<int>> getBodyCoordinatesX();
+		vector<vector<int>> getBodyCoordinatesY();
 		void increaseAccelerationIn(double increaseValue);
 		void setZAngle(double angle);
 		bool load(SDL_Renderer* renderer, SDL_Texture* textures[]);
@@ -57,5 +61,6 @@ namespace GameEntities
 		virtual bool processCollisions(vector<GameEntity*> collidingEntities)=0;
 		virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[])=0;
 		virtual vector<GameEntity*> getNewGameEntities()=0;
+		virtual void initializeBodyCoordinates()=0;
 	};
 }

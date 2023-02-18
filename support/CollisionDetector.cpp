@@ -93,7 +93,10 @@ vector<GameEntity*> Support::CollisionDetector::getCollidingEntities(GameEntity*
 
 		if (isCollidingX && isCollidingY)
 		{	
-			collidingEntities.push_back(iteratedGameEntity);
+			if (hasCollidingCoordinates(gameEntity, iteratedGameEntity))
+			{
+				collidingEntities.push_back(iteratedGameEntity);
+			}
 		}
 		
 		return true;
@@ -102,4 +105,83 @@ vector<GameEntity*> Support::CollisionDetector::getCollidingEntities(GameEntity*
 	entityRepository->iterate(checkOtherEntityForCollisions);
 
 	return collidingEntities;
+}
+
+bool Support::CollisionDetector::hasCollidingCoordinates(GameEntity* mainEntity, GameEntity* otherEntity)
+{
+	vector<vector<int>> mainEntityBodyCoordX = incrementEntityCoord(mainEntity->getBodyCoordinatesX(), mainEntity->getX());
+	vector<vector<int>> mainEntityBodyCoordY = incrementEntityCoord(mainEntity->getBodyCoordinatesY(), mainEntity->getY());
+
+	vector<vector<int>> otherEntityBodyCoordX = incrementEntityCoord(otherEntity->getBodyCoordinatesX(), otherEntity->getX());
+	vector<vector<int>> otherEntityBodyCoordY = incrementEntityCoord(otherEntity->getBodyCoordinatesY(), otherEntity->getY());
+
+	bool hasCollidingCoordX = hasOneValueInCommon(mainEntityBodyCoordX, otherEntityBodyCoordX);
+	bool hasCollidingCoordY = hasOneValueInCommon(mainEntityBodyCoordY, otherEntityBodyCoordY);
+
+	return hasCollidingCoordX && hasCollidingCoordY;
+}
+
+vector<vector<int>> Support::CollisionDetector::incrementEntityCoord(vector<vector<int>> bodyCoord, int incrementValue)
+{
+	for (int rowI = 0; rowI < bodyCoord.size(); rowI++)
+	{
+		for (int columnI = 0; columnI < bodyCoord[rowI].size(); columnI++)
+		{
+			if (bodyCoord[rowI][columnI] > 0)
+			{
+				bodyCoord[rowI][columnI] += incrementValue - 1;
+			}
+		}
+	}
+
+	return bodyCoord;
+}
+
+bool Support::CollisionDetector::isValueInsideCoord(int value, vector<vector<int>>bodyCoord)
+{
+	bool hasValue = false;
+	for (vector<int> row : bodyCoord)
+	{
+		if (hasValue)
+		{
+			break;
+		}
+		for (int i = 0; i < row.size(); i++)
+		{			
+			if (row[i] == value)
+			{
+				hasValue = true;
+				break;
+			}
+		}
+	}
+
+	return hasValue;
+}
+
+bool Support::CollisionDetector::hasOneValueInCommon(vector<vector<int>> bodyCoord, vector<vector<int>> otherBodyCoord)
+{
+	bool hasOneValueInCommon = false;
+	for (vector<int> row : bodyCoord)
+	{
+		if (hasOneValueInCommon)
+		{
+			break;
+		}
+		for (int i = 0; i < row.size(); i++)
+		{
+			if (row[i] == 0)
+			{
+				continue;
+			}
+
+			if (isValueInsideCoord(row[i], otherBodyCoord))
+			{
+				hasOneValueInCommon = true;
+				break;
+			}
+		}
+	}
+
+	return hasOneValueInCommon;
 }
