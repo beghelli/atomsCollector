@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	{
 		while (loop())
 		{
-			SDL_Delay(20);
+			SDL_Delay(18);
 		}
 	}
 
@@ -164,7 +164,7 @@ void fillAtoms()
 		double zAngle;
 	};
 
-	AtomInfo atomsInfo[3];
+	AtomInfo atomsInfo[4];
 	atomsInfo[0].x = 50;
 	atomsInfo[0].y = 25;
 	atomsInfo[0].zAngle = 180;
@@ -177,7 +177,11 @@ void fillAtoms()
 	atomsInfo[2].y = 450;
 	atomsInfo[2].zAngle = 140;
 
-	for (int i = 0; i < 3; i++)
+	atomsInfo[3].x = 300;
+	atomsInfo[3].y = 50;
+	atomsInfo[3].zAngle = -110;
+
+	for (int i = 0; i < 4; i++)
 	{
 		Atom* atom = new Atom(atomsInfo[i].x, atomsInfo[i].y);
 		atom->setZAngle(atomsInfo[i].zAngle);

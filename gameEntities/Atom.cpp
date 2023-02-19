@@ -90,6 +90,25 @@ void GameEntities::Atom::initializeBodyCoordinates()
 
 void GameEntities::Atom::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
+	if (reachedAnyScreenLimit())
+	{
+		if (limitPositionState.isOnLimitBottomY
+			|| limitPositionState.isOnLimitTopY)
+		{
+			zAngle *= -1;
+		}
+		
+		if (limitPositionState.isOnLimitRightX
+			|| limitPositionState.isOnLimitLeftX)
+		{
+			zAngle = 180 - zAngle;
+		}
+		originalX = x;
+		originalY = y;
+		xv = acceleration;
+		yv = acceleration;
+	}
+
 	x = originalX + (cos((zAngle + 180) / (180.0f / M_PI))*(xv));
 	y = originalY + (sin((zAngle + 180) / (180.0f / M_PI))*(yv));
 	xv += acceleration;
@@ -98,7 +117,7 @@ void GameEntities::Atom::update(const unsigned char* keys, SDL_Point mousePositi
 
 bool GameEntities::Atom::shouldDestroy()
 {
-	return reachedAnyScreenLimit();
+	return false;
 }
 
 bool GameEntities::Atom::processCollisions(vector<GameEntity*> collidingEntities)
