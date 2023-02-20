@@ -26,7 +26,6 @@ GameEntities::Bullet::Bullet(int x, int y)
 	this->entityTextureIndex = 1;
 	this->currentMaxVelocity = 16;
 	this->baseMaxVelocity = this->currentMaxVelocity;
-	this->initializeBodyCoordinates();
 }
 
 GameEntity* GameEntities::Bullet::getShooter()
@@ -37,31 +36,6 @@ GameEntity* GameEntities::Bullet::getShooter()
 void GameEntities::Bullet::setShooter(GameEntity* shooterEntity)
 {
 	this->shooterEntity = shooterEntity;
-}
-
-void GameEntities::Bullet::initializeBodyCoordinates()
-{
-	if (bodyCoordinatesX.size() == 0)
-	{
-		vector<int> firstRow{ 0,  2,  3,  4,  0 };
-		this->bodyCoordinatesX.push_back(firstRow);
-
-		vector<int> secondRow{ 1,  2,  3,  4,  5 };
-		this->bodyCoordinatesX.push_back(secondRow);
-		
-		this->bodyCoordinatesX.push_back(bodyCoordinatesX[1]);
-		this->bodyCoordinatesX.push_back(bodyCoordinatesX[1]);
-		this->bodyCoordinatesX.push_back(bodyCoordinatesX[0]);
-	}
-
-	if (bodyCoordinatesY.size() == 0)
-	{
-		this->bodyCoordinatesY.push_back({ 0,  1,  1,  1,  0 });
-		this->bodyCoordinatesY.push_back({ 2,  2,  2,  2,  2 });
-		this->bodyCoordinatesY.push_back(bodyCoordinatesY[1]);
-		this->bodyCoordinatesY.push_back(bodyCoordinatesY[1]);
-		this->bodyCoordinatesY.push_back(bodyCoordinatesY[0]);
-	}
 }
 
 void GameEntities::Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])

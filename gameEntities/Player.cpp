@@ -30,24 +30,6 @@ GameEntities::Player::Player(int x, int y)
 	this->currentMaxVelocity = 4;
 	this->baseMaxVelocity = this->currentMaxVelocity;
 	this->isRunning = false;
-	this->initializeBodyCoordinates();
-}
-
-void GameEntities::Player::initializeBodyCoordinates()
-{
-	// X
-	vector<int> XCoordinates{  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25  };
-	for (int i = 0; i < 25; i++)
-	{
-		this->bodyCoordinatesX.push_back(XCoordinates);
-	}
-
-	// Y
-	for (int i = 0; i < 25; i++)
-	{
-		vector<int> YCoordinates(25, i);
-		this->bodyCoordinatesY.push_back(YCoordinates);
-	}
 }
 
 void GameEntities::Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)

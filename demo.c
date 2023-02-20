@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "constants.h"
@@ -10,6 +11,7 @@
 #define MAX_ENTITIES 100
 
 using namespace GameEntities;
+using namespace std::chrono;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -29,9 +31,11 @@ int main(int argc, char *argv[])
 {
 	if (init() && load())
 	{
+		bool continueLoop = true;
 		while (loop())
 		{
-			SDL_Delay(18);
+			continueLoop = loop();
+			SDL_Delay(22);
 		}
 	}
 
