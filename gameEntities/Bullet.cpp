@@ -26,6 +26,7 @@ GameEntities::Bullet::Bullet(int x, int y)
 	this->entityTextureIndex = 1;
 	this->currentMaxVelocity = 16;
 	this->baseMaxVelocity = this->currentMaxVelocity;
+	this->type = "Bullet";
 }
 
 GameEntity* GameEntities::Bullet::getShooter()
@@ -66,6 +67,11 @@ void GameEntities::Bullet::update(const unsigned char* keys, SDL_Point mousePosi
 bool GameEntities::Bullet::shouldDestroy()
 {
 	return reachedAnyScreenLimit();
+}
+
+bool GameEntities::Bullet::isGameOver()
+{
+	return false;
 }
 
 bool GameEntities::Bullet::processCollisions(vector<GameEntity*> collidingEntities)

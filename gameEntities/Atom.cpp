@@ -22,6 +22,7 @@ GameEntities::Atom::Atom(int x, int y)
 	this->entityWidth = 25;
 	this->entityTextureFile = "hidrogen.bmp";
 	this->entityTextureIndex = 2;
+	this->type = "Atom";
 }
 
 void GameEntities::Atom::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
@@ -52,6 +53,11 @@ void GameEntities::Atom::update(const unsigned char* keys, SDL_Point mousePositi
 }
 
 bool GameEntities::Atom::shouldDestroy()
+{
+	return false;
+}
+
+bool GameEntities::Atom::isGameOver()
 {
 	return false;
 }

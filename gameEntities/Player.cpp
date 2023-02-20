@@ -30,6 +30,17 @@ GameEntities::Player::Player(int x, int y)
 	this->currentMaxVelocity = 4;
 	this->baseMaxVelocity = this->currentMaxVelocity;
 	this->isRunning = false;
+	this->type = "Player";
+}
+
+void GameEntities::Player::setLife(int life)
+{
+	this->life = life;
+}
+
+int GameEntities::Player::getLife()
+{
+	return life;
 }
 
 void GameEntities::Player::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
@@ -63,8 +74,21 @@ bool GameEntities::Player::shouldDestroy()
 	return false;
 }
 
+bool GameEntities::Player::isGameOver()
+{
+	return this->life <= 0;
+}
+
 bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntities)
 {
+	for (GameEntity* gameEntity : collidingEntities)
+	{
+		if (gameEntity->type == "Atom")
+		{
+			life--;
+		}
+	}
+
 	return true;
 }
 

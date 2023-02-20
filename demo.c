@@ -26,13 +26,14 @@ SDL_Point mousePosition;
 SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
 Support::GameEntityRepository* entityRepository;
 Support::CollisionDetector* collisionDetector;
+bool isGameOver;
 
 int main(int argc, char *argv[])
 {
 	if (init() && load())
 	{
 		bool continueLoop = true;
-		while (loop())
+		while (loop() && ! isGameOver)
 		{
 			continueLoop = loop();
 			SDL_Delay(22);
@@ -99,6 +100,12 @@ bool loop()
 
 	auto renderEntities = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
+		if (isGameOver)
+		{
+			return false;
+		}
+
+		isGameOver = gameEntity->isGameOver();
 		if (gameEntity->shouldDestroy())
 		{
 			return false;
@@ -156,7 +163,8 @@ bool init()
 	fillAtoms();
 
 	collisionDetector = new Support::CollisionDetector(entityRepository);
-	
+	isGameOver = false;
+
 	return true;
 }
 
@@ -197,6 +205,7 @@ void fillAtoms()
 bool load()
 {
 	Player* player = new Player(0, 0);
+	player->setLife(2);
 	bool resultPlayer = player->load(renderer, textures);
 
 	Bullet* bullet = new Bullet(0, 0);

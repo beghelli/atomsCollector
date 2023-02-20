@@ -52,8 +52,11 @@ namespace GameEntities
 		bool load(SDL_Renderer* renderer, SDL_Texture* textures[]);
 		void destroy(SDL_Texture* textures[]);
 
+		string type;
+
 		virtual void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)=0;
 		virtual bool shouldDestroy()=0;
+		virtual bool isGameOver()=0;
 		virtual bool processCollisions(vector<GameEntity*> collidingEntities)=0;
 		virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[])=0;
 		virtual vector<GameEntity*> getNewGameEntities()=0;

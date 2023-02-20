@@ -11,6 +11,7 @@ namespace GameEntities
 	{
 
 		private:
+			int life;
 			bool isRunning;
 			void calculatePosition(const unsigned char* keys);
 			void calculateZAngle(SDL_Point mousePosition);
@@ -20,8 +21,11 @@ namespace GameEntities
 		public:
 			Player(int x, int y);
 
+			void setLife(int life);
+			int getLife();
 			void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 			bool shouldDestroy();
+			bool isGameOver();
 			bool processCollisions(vector<GameEntity*> collidingEntities);
 			void render(SDL_Renderer* renderer, SDL_Texture* textures[]);
 			vector<GameEntity*> getNewGameEntities();
