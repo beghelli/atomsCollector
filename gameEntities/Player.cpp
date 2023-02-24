@@ -24,7 +24,7 @@ GameEntities::Player::Player(int x, int y)
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
 	this->entityHeight = 25;
-	this->entityWidth = 25;
+	this->entityWidth = 28;
 	this->entityTextureFile = "player.bmp";
 	this->entityTextureIndex = 0;
 	this->currentMaxVelocity = 4;

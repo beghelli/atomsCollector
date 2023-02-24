@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "GameEntityRepository.h"
 #include "CollisionDetector.h"
+#include "ScreenWriter.h"
 
 #define MAX_ENTITIES 100
 
@@ -20,23 +21,25 @@ bool init();
 bool load();
 void kill();
 bool loop();
+bool gameLoop();
+bool menuLoop();
 void fillAtoms();
 
 SDL_Point mousePosition;
 SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
 Support::GameEntityRepository* entityRepository;
 Support::CollisionDetector* collisionDetector;
+Support::ScreenWriter* screenWriter;
 bool isGameOver;
 
 int main(int argc, char *argv[])
 {
 	if (init() && load())
 	{
-		bool continueLoop = true;
-		while (loop() && ! isGameOver)
+		
+		while (loop())
 		{
-			continueLoop = loop();
-			SDL_Delay(22);
+			SDL_Delay(10);
 		}
 	}
 
@@ -46,7 +49,40 @@ int main(int argc, char *argv[])
 
 bool loop()
 {
-	static const unsigned char* keys = SDL_GetKeyboardState( NULL );
+	if (isGameOver)
+	{
+		return menuLoop();
+	}
+	else
+	{
+		return gameLoop();
+	}
+
+	return false;
+}
+
+bool menuLoop()
+{
+	const unsigned char* keys = SDL_GetKeyboardState( NULL );
+	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
+	SDL_RenderClear(renderer);
+
+	string message = "Pressione S para começar!";
+	screenWriter->write(message);
+	
+	if (keys[SDL_SCANCODE_N])
+	{
+		isGameOver = false;
+	}
+
+	SDL_RenderPresent(renderer);
+
+	return true;
+}
+
+bool gameLoop()
+{
+	const unsigned char* keys = SDL_GetKeyboardState( NULL );
 	bool isMouseDown = false;
 	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_Event e;
@@ -160,12 +196,43 @@ bool init()
 	}
 
 	entityRepository = new Support::GameEntityRepository();
-	fillAtoms();
 
 	collisionDetector = new Support::CollisionDetector(entityRepository);
-	isGameOver = false;
+	screenWriter = new Support::ScreenWriter(renderer);
+	if (! screenWriter->initialize())
+	{
+		return false;
+	}
+
+	isGameOver = true;
 
 	return true;
+}
+
+bool load()
+{
+	Player* player = new Player(0, 0);
+	player->setLife(2);
+	bool resultPlayer = player->load(renderer, textures);
+
+	Bullet* bullet = new Bullet(0, 0);
+	bool resultBullet = bullet->load(renderer, textures);
+	delete bullet;
+	
+	Atom* atom = new Atom(0, 0);
+	bool resultAtom = atom->load(renderer, textures);
+	delete atom;
+
+	if (resultPlayer)
+	{
+		entityRepository->addEntity(player);	
+	}
+
+	fillAtoms();
+
+	bool resultWriter = screenWriter->load();
+
+	return resultPlayer && resultBullet && resultAtom && resultWriter;
 }
 
 void fillAtoms()
@@ -200,28 +267,6 @@ void fillAtoms()
 
 		entityRepository->addEntity(atom);
 	}
-}
-
-bool load()
-{
-	Player* player = new Player(0, 0);
-	player->setLife(2);
-	bool resultPlayer = player->load(renderer, textures);
-
-	Bullet* bullet = new Bullet(0, 0);
-	bool resultBullet = bullet->load(renderer, textures);
-	delete bullet;
-	
-	Atom* atom = new Atom(0, 0);
-	bool resultAtom = atom->load(renderer, textures);
-	delete atom;
-
-	if (resultPlayer)
-	{
-		entityRepository->addEntity(player);	
-	}
-
-	return resultPlayer && resultBullet && resultAtom;
 }
 
 void kill()

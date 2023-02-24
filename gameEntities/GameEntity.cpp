@@ -112,7 +112,6 @@ bool GameEntities::GameEntity::load(SDL_Renderer* renderer, SDL_Texture* texture
 		}
 
 		SDL_FreeSurface(imageSurface);
-		SDL_Texture *texturemageSurface = NULL;
 	}
 
 	return true;
