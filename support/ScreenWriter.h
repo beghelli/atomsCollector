@@ -22,6 +22,7 @@ namespace Support
 
 		public:
 			ScreenWriter(SDL_Renderer* renderer);
+			~ScreenWriter();
 			bool initialize();
 			bool load();
 			void write(string message);

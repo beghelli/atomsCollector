@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
 {
 	if (init() && load())
 	{
-		
 		while (loop())
 		{
 			SDL_Delay(10);
@@ -67,7 +66,7 @@ bool menuLoop()
 	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
 	SDL_RenderClear(renderer);
 
-	string message = "Pressione S para começar!";
+	string message = "Pressione N para comecar!";
 	screenWriter->write(message);
 	
 	if (keys[SDL_SCANCODE_N])
@@ -204,7 +203,7 @@ bool init()
 		return false;
 	}
 
-	isGameOver = true;
+	isGameOver = false;
 
 	return true;
 }
@@ -276,5 +275,6 @@ void kill()
 	renderer = NULL;
 	window = NULL;
 	delete entityRepository;
+	delete screenWriter;
 	SDL_Quit();
 }

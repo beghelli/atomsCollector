@@ -12,6 +12,16 @@ Support::ScreenWriter::ScreenWriter(SDL_Renderer* renderer)
 	this->renderer = renderer;
 }
 
+Support::ScreenWriter::~ScreenWriter()
+{
+	TTF_CloseFont(font);
+	for (TextTextureRecord textureRecord : textures)
+	{
+		SDL_DestroyTexture(textureRecord.texture);
+	}
+	textures.clear();
+}
+
 bool Support::ScreenWriter::initialize()
 {
 	bool success = true;
