@@ -1,4 +1,3 @@
-#include <chrono>
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "constants.h"
@@ -12,7 +11,6 @@
 #define MAX_ENTITIES 100
 
 using namespace GameEntities;
-using namespace std::chrono;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -21,8 +19,8 @@ bool init();
 bool load();
 void kill();
 bool loop();
-bool gameLoop();
-bool menuLoop();
+bool gameLoop(const unsigned char* keys, bool isMouseDown);
+bool menuLoop(const unsigned char* keys, bool isMouseDown);
 void fillAtoms();
 
 SDL_Point mousePosition;
@@ -48,47 +46,11 @@ int main(int argc, char *argv[])
 
 bool loop()
 {
-	if (isGameOver)
-	{
-		return menuLoop();
-	}
-	else
-	{
-		return gameLoop();
-	}
-
-	return false;
-}
-
-bool menuLoop()
-{
-	const unsigned char* keys = SDL_GetKeyboardState( NULL );
-	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
-	SDL_RenderClear(renderer);
-
-	string message = "Pressione N para comecar!";
-	screenWriter->write(message);
-	
-	if (keys[SDL_SCANCODE_N])
-	{
-		isGameOver = false;
-	}
-
-	SDL_RenderPresent(renderer);
-
-	return true;
-}
-
-bool gameLoop()
-{
 	const unsigned char* keys = SDL_GetKeyboardState( NULL );
 	bool isMouseDown = false;
 	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_Event e;
-
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderClear(renderer);
-
+	
 	while (SDL_PollEvent(&e) != 0)
 	{
 		switch (e.type)
@@ -103,6 +65,41 @@ bool gameLoop()
 				break;
 		}
 	}
+
+	if (isGameOver)
+	{
+		return menuLoop(keys, isMouseDown);
+	}
+	else
+	{
+		return gameLoop(keys, isMouseDown);
+	}
+
+	return false;
+}
+
+bool menuLoop(const unsigned char* keys, bool isMouseDown)
+{
+	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
+	SDL_RenderClear(renderer);
+	
+	string message = "Pressione N para comecar!";
+	screenWriter->write(message);
+	
+	if (keys[SDL_SCANCODE_N])
+	{
+		isGameOver = false;
+	}
+
+	SDL_RenderPresent(renderer);
+
+	return true;
+}
+
+bool gameLoop(const unsigned char* keys, bool isMouseDown)
+{	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderClear(renderer);
 
 	auto processEntitiesPosition = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
@@ -203,7 +200,7 @@ bool init()
 		return false;
 	}
 
-	isGameOver = false;
+	isGameOver = true;
 
 	return true;
 }
