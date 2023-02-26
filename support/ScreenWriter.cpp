@@ -4,8 +4,10 @@
 #include <SDL2/SDL_ttf.h>
 #include "constants.h"
 #include "ScreenWriter.h"
+#include "Message.h"
 
 using namespace std;
+using namespace Support;
 
 Support::ScreenWriter::ScreenWriter(SDL_Renderer* renderer)
 {
@@ -49,13 +51,13 @@ bool Support::ScreenWriter::load()
 	return true;
 }
 
-void Support::ScreenWriter::write(string message)
+void Support::ScreenWriter::write(Message message)
 {
 	TextTextureRecord workingTextureRecord;
 	bool textureLoaded = false;
 	for (TextTextureRecord textureRecord : textures)
 	{
-		if (textureRecord.text == message)
+		if (textureRecord.text == message.getText())
 		{
 			workingTextureRecord = textureRecord;
 			textureLoaded = true;
@@ -67,7 +69,7 @@ void Support::ScreenWriter::write(string message)
 	{
 		cout << "Loading Text Texture" << endl;
 		SDL_Color textColor = { 0, 0, 0 };
-		SDL_Surface* textSurface = TTF_RenderText_Solid(font, message.c_str(), textColor);
+		SDL_Surface* textSurface = TTF_RenderText_Solid(font, message.getTextChar(), textColor);
 		if (textSurface == NULL)
 		{
 			cout << "Text surface could not be loaded. Error " << TTF_GetError() << endl; 
@@ -81,7 +83,7 @@ void Support::ScreenWriter::write(string message)
 			}
 			else
 			{
-				workingTextureRecord.text = message;
+				workingTextureRecord.text = message.getText();
 				workingTextureRecord.texture = texture;
 				textures.push_back(workingTextureRecord);
 				textureLoaded = true;
@@ -93,10 +95,10 @@ void Support::ScreenWriter::write(string message)
 	if (textureLoaded)
 	{
 		SDL_Rect body;
-		body.x = 50;
-		body.y = 50;
-		body.h = 100;
-		body.w = 650;
+		body.x = message.getPositionX(); 
+		body.y = message.getPositionY();
+		body.h = message.getHeight();
+		body.w = message.getWidth();
 
 		SDL_RenderCopyEx(renderer, workingTextureRecord.texture, NULL, &body, 0, NULL, SDL_FLIP_NONE);
 	}

@@ -3,8 +3,10 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "Message.h"
 
 using namespace std;
+using namespace Support;
 
 namespace Support
 {
@@ -25,6 +27,6 @@ namespace Support
 			~ScreenWriter();
 			bool initialize();
 			bool load();
-			void write(string message);
+			void write(Message message);
 	};
 }

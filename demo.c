@@ -7,10 +7,12 @@
 #include "GameEntityRepository.h"
 #include "CollisionDetector.h"
 #include "ScreenWriter.h"
+#include "Message.h"
 
 #define MAX_ENTITIES 100
 
 using namespace GameEntities;
+using namespace Support;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -27,9 +29,9 @@ void fillAtoms();
 
 SDL_Point mousePosition;
 SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
-Support::GameEntityRepository* entityRepository;
-Support::CollisionDetector* collisionDetector;
-Support::ScreenWriter* screenWriter;
+GameEntityRepository* entityRepository;
+CollisionDetector* collisionDetector;
+ScreenWriter* screenWriter;
 bool isGameOver;
 
 int main(int argc, char *argv[])
@@ -85,7 +87,7 @@ bool menuLoop(const unsigned char* keys, bool isMouseDown)
 	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
 	SDL_RenderClear(renderer);
 	
-	string message = "Pressione N para comecar!";
+	Message message("Pressione N para comecar!", 25, 1, 150, 150, 500, 100);
 	screenWriter->write(message);
 
 	SDL_RenderPresent(renderer);
@@ -199,10 +201,10 @@ bool init()
 		return false;
 	}
 
-	entityRepository = new Support::GameEntityRepository();
+	entityRepository = new GameEntityRepository();
 
-	collisionDetector = new Support::CollisionDetector(entityRepository);
-	screenWriter = new Support::ScreenWriter(renderer);
+	collisionDetector = new CollisionDetector(entityRepository);
+	screenWriter = new ScreenWriter(renderer);
 	if (! screenWriter->initialize())
 	{
 		return false;
