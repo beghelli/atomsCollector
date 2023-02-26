@@ -15,7 +15,7 @@ Support::GameEntityRepository::GameEntityRepository()
 
 Support::GameEntityRepository::~GameEntityRepository()
 {
-	iterate([](unsigned int id, GameEntity* gameEntity) -> bool { return false; });
+	clear();
 }
 
 void Support::GameEntityRepository::addEntity(GameEntity* gameEntity)
@@ -42,4 +42,9 @@ void Support::GameEntityRepository::iterate(function<bool(unsigned int, GameEnti
 			deleteEntity(gameEntityPair.first);
 		}
 	}
+}
+
+void Support::GameEntityRepository::clear()
+{
+	iterate([](unsigned int id, GameEntity* gameEntity) -> bool { return false; });
 }

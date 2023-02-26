@@ -17,6 +17,8 @@ SDL_Renderer* renderer;
 
 bool init();
 bool load();
+void setGameScene();
+void unload();
 void kill();
 bool loop();
 bool gameLoop(const unsigned char* keys, bool isMouseDown);
@@ -85,13 +87,14 @@ bool menuLoop(const unsigned char* keys, bool isMouseDown)
 	
 	string message = "Pressione N para comecar!";
 	screenWriter->write(message);
-	
+
+	SDL_RenderPresent(renderer);
+
 	if (keys[SDL_SCANCODE_N])
 	{
 		isGameOver = false;
+		setGameScene();
 	}
-
-	SDL_RenderPresent(renderer);
 
 	return true;
 }
@@ -157,6 +160,11 @@ bool gameLoop(const unsigned char* keys, bool isMouseDown)
 	entityRepository->iterate(renderEntities);
 
 	SDL_RenderPresent(renderer);
+	
+	if (isGameOver)
+	{
+		unload();
+	}
 
 	return true;
 }
@@ -208,8 +216,8 @@ bool init()
 bool load()
 {
 	Player* player = new Player(0, 0);
-	player->setLife(2);
 	bool resultPlayer = player->load(renderer, textures);
+	delete player;
 
 	Bullet* bullet = new Bullet(0, 0);
 	bool resultBullet = bullet->load(renderer, textures);
@@ -219,16 +227,23 @@ bool load()
 	bool resultAtom = atom->load(renderer, textures);
 	delete atom;
 
-	if (resultPlayer)
-	{
-		entityRepository->addEntity(player);	
-	}
-
-	fillAtoms();
-
 	bool resultWriter = screenWriter->load();
 
 	return resultPlayer && resultBullet && resultAtom && resultWriter;
+}
+
+void unload()
+{
+	entityRepository->clear();
+}
+
+void setGameScene()
+{
+	Player* player = new Player(0, 0);
+	player->setLife(2);
+	entityRepository->addEntity(player);	
+
+	fillAtoms();
 }
 
 void fillAtoms()

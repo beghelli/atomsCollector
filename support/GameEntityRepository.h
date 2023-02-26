@@ -22,5 +22,6 @@ namespace Support
 			void addEntity(GameEntity* gameEntity);
 			void deleteEntity(unsigned int gameEntityId);
 			void iterate(function<bool(unsigned int, GameEntity*)> iteratorFunc);
+			void clear();
 	};
 }
