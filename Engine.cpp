@@ -1,42 +1,23 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "Engine.h"
+#include "Game.h"
 #include "constants.h"
-#include "Atom.h"
-#include "Bullet.h"
-#include "Player.h"
 #include "GameEntityRepository.h"
 #include "CollisionDetector.h"
 #include "ScreenWriter.h"
 #include "Message.h"
 
-#define MAX_ENTITIES 100
-
-using namespace GameEntities;
 using namespace Support;
 
-SDL_Window* window;
-SDL_Renderer* renderer;
-
-bool init();
-bool load();
-void setGameScene();
-void unload();
-void kill();
-bool loop();
-bool gameLoop(const unsigned char* keys, bool isMouseDown);
-bool menuLoop(const unsigned char* keys, bool isMouseDown);
-void fillAtoms();
-
-SDL_Point mousePosition;
-SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
-GameEntityRepository* entityRepository;
-CollisionDetector* collisionDetector;
-ScreenWriter* screenWriter;
-bool isGameOver;
-
-int main(int argc, char *argv[])
+Engine::Engine(Game* game)
 {
-	if (init() && load())
+	this->game = game;
+}
+
+int Engine::run()
+{
+	if (init() && load() && game->load(renderer, textures))
 	{
 		while (loop())
 		{
@@ -48,7 +29,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-bool loop()
+bool Engine::loop()
 {
 	const unsigned char* keys = SDL_GetKeyboardState( NULL );
 	bool isMouseDown = false;
@@ -82,7 +63,7 @@ bool loop()
 	return false;
 }
 
-bool menuLoop(const unsigned char* keys, bool isMouseDown)
+bool Engine::menuLoop(const unsigned char* keys, bool isMouseDown)
 {
 	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
 	SDL_RenderClear(renderer);
@@ -95,13 +76,13 @@ bool menuLoop(const unsigned char* keys, bool isMouseDown)
 	if (keys[SDL_SCANCODE_N])
 	{
 		isGameOver = false;
-		setGameScene();
+		game->setGameScene(entityRepository);
 	}
 
 	return true;
 }
 
-bool gameLoop(const unsigned char* keys, bool isMouseDown)
+bool Engine::gameLoop(const unsigned char* keys, bool isMouseDown)
 {	
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
@@ -171,7 +152,7 @@ bool gameLoop(const unsigned char* keys, bool isMouseDown)
 	return true;
 }
 
-bool init()
+bool Engine::init()
 {
 	int windowPosX, windowPosY;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -202,8 +183,8 @@ bool init()
 	}
 
 	entityRepository = new GameEntityRepository();
-
 	collisionDetector = new CollisionDetector(entityRepository);
+	
 	screenWriter = new ScreenWriter(renderer);
 	if (! screenWriter->initialize())
 	{
@@ -215,74 +196,17 @@ bool init()
 	return true;
 }
 
-bool load()
+bool Engine::load()
 {
-	Player* player = new Player(0, 0);
-	bool resultPlayer = player->load(renderer, textures);
-	delete player;
-
-	Bullet* bullet = new Bullet(0, 0);
-	bool resultBullet = bullet->load(renderer, textures);
-	delete bullet;
-	
-	Atom* atom = new Atom(0, 0);
-	bool resultAtom = atom->load(renderer, textures);
-	delete atom;
-
-	bool resultWriter = screenWriter->load();
-
-	return resultPlayer && resultBullet && resultAtom && resultWriter;
+	return screenWriter->load();
 }
 
-void unload()
+void Engine::unload()
 {
 	entityRepository->clear();
 }
 
-void setGameScene()
-{
-	Player* player = new Player(0, 0);
-	player->setLife(2);
-	entityRepository->addEntity(player);	
-
-	fillAtoms();
-}
-
-void fillAtoms()
-{
-	struct AtomInfo {
-		int x;
-		int y;
-		double zAngle;
-	};
-
-	AtomInfo atomsInfo[4];
-	atomsInfo[0].x = 50;
-	atomsInfo[0].y = 25;
-	atomsInfo[0].zAngle = 180;
-
-	atomsInfo[1].x = 500;
-	atomsInfo[1].y = 400;
-	atomsInfo[1].zAngle = 70;
-
-	atomsInfo[2].x = 25;
-	atomsInfo[2].y = 450;
-	atomsInfo[2].zAngle = 140;
-
-	atomsInfo[3].x = 300;
-	atomsInfo[3].y = 50;
-	atomsInfo[3].zAngle = -110;
-
-	for (int i = 0; i < 4; i++)
-	{
-		Atom* atom = new Atom(atomsInfo[i].x, atomsInfo[i].y);
-		atom->setZAngle(atomsInfo[i].zAngle);
-
-		entityRepository->addEntity(atom);
-	}
-}
-
-void kill()
+void Engine::kill()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
