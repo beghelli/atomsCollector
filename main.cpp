@@ -1,10 +1,12 @@
-#include "Engine.h"
+#include "Core.h"
 #include "MyGame.h"
+
+using namespace Engine;
 
 int main(int argc, char *argv[])
 {
 	MyGame* game = new MyGame();
-	Engine* engine = new Engine(game);
+	Core* engineCore = new Core(game);
 
-	return engine->run();
+	return engineCore->run();
 }

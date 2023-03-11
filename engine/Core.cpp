@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "Engine.h"
+#include "Core.h"
 #include "Game.h"
 #include "constants.h"
 #include "GameEntityRepository.h"
@@ -10,12 +10,12 @@
 
 using namespace Support;
 
-Engine::Engine(Game* game)
+Engine::Core::Core(Game* game)
 {
 	this->game = game;
 }
 
-int Engine::run()
+int Engine::Core::run()
 {
 	if (init() && load() && game->load(renderer, textures))
 	{
@@ -29,7 +29,7 @@ int Engine::run()
 	return 0;
 }
 
-bool Engine::loop()
+bool Engine::Core::loop()
 {
 	const unsigned char* keys = SDL_GetKeyboardState( NULL );
 	bool isMouseDown = false;
@@ -63,7 +63,7 @@ bool Engine::loop()
 	return false;
 }
 
-bool Engine::menuLoop(const unsigned char* keys, bool isMouseDown)
+bool Engine::Core::menuLoop(const unsigned char* keys, bool isMouseDown)
 {
 	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
 	SDL_RenderClear(renderer);
@@ -82,7 +82,7 @@ bool Engine::menuLoop(const unsigned char* keys, bool isMouseDown)
 	return true;
 }
 
-bool Engine::gameLoop(const unsigned char* keys, bool isMouseDown)
+bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 {	
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
@@ -152,7 +152,7 @@ bool Engine::gameLoop(const unsigned char* keys, bool isMouseDown)
 	return true;
 }
 
-bool Engine::init()
+bool Engine::Core::init()
 {
 	int windowPosX, windowPosY;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -196,17 +196,17 @@ bool Engine::init()
 	return true;
 }
 
-bool Engine::load()
+bool Engine::Core::load()
 {
 	return screenWriter->load();
 }
 
-void Engine::unload()
+void Engine::Core::unload()
 {
 	entityRepository->clear();
 }
 
-void Engine::kill()
+void Engine::Core::kill()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

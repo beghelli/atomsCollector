@@ -5,7 +5,7 @@
 #include "GameEntity.h"
 
 using namespace std;
-using namespace GameEntities;
+using namespace Engine;
 
 Support::GameEntityRepository::GameEntityRepository()
 {

@@ -4,6 +4,7 @@
 #include "GameEntity.h"
 
 using namespace std;
+using namespace Engine;
 
 namespace GameEntities
 {

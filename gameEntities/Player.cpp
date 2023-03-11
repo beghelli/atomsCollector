@@ -9,7 +9,7 @@
 #include "Player.h"
 
 using namespace std;
-using namespace GameEntities;
+using namespace Engine;
 
 bool isFiring = false;
 
