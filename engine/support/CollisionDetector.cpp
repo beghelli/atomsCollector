@@ -3,12 +3,12 @@
 #include <vector>
 #include "constants.h"
 #include "CollisionDetector.h"
-#include "GameEntityRepository.h"
+#include "EntityRepository.h"
 #include "GameEntity.h"
 
 using namespace std::chrono;
 
-Support::CollisionDetector::CollisionDetector(GameEntityRepository* entityRepository)
+Support::CollisionDetector::CollisionDetector(EntityRepository* entityRepository)
 {
 	this->entityRepository = entityRepository;
 }

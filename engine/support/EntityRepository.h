@@ -9,7 +9,7 @@ using namespace Engine;
 
 namespace Support
 {
-	class GameEntityRepository
+	class EntityRepository
 	{
 		private:
 			unordered_map<unsigned int, GameEntity*> gameEntitiesMap;	
@@ -17,8 +17,8 @@ namespace Support
 			unsigned int nextEntityId;
 
 		public:
-			GameEntityRepository();
-			~GameEntityRepository();
+			EntityRepository();
+			~EntityRepository();
 			void addEntity(GameEntity* gameEntity);
 			void deleteEntity(unsigned int gameEntityId);
 			void iterate(function<bool(unsigned int, GameEntity*)> iteratorFunc);

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "GameEntity.h"
-#include "GameEntityRepository.h"
+#include "EntityRepository.h"
 
 using namespace Support;
 
@@ -11,10 +11,10 @@ namespace Support
 	class CollisionDetector
 	{
 		private:
-			GameEntityRepository* entityRepository;
+			EntityRepository* entityRepository;
 
 		public:
-			CollisionDetector(GameEntityRepository* entityRepository);
+			CollisionDetector(EntityRepository* entityRepository);
 			vector<GameEntity*> getCollidingEntities(GameEntity* gameEntity);
 	};
 

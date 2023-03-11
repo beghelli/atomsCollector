@@ -1,38 +1,38 @@
 #include <functional>
 #include <iostream>
 #include <unordered_map>
-#include "GameEntityRepository.h"
+#include "EntityRepository.h"
 #include "GameEntity.h"
 
 using namespace std;
 using namespace Engine;
 
-Support::GameEntityRepository::GameEntityRepository()
+Support::EntityRepository::EntityRepository()
 {
 	this->entitiesCount = 0;
 	this->nextEntityId = 1;
 }
 
-Support::GameEntityRepository::~GameEntityRepository()
+Support::EntityRepository::~EntityRepository()
 {
 	clear();
 }
 
-void Support::GameEntityRepository::addEntity(GameEntity* gameEntity)
+void Support::EntityRepository::addEntity(GameEntity* gameEntity)
 {
 	gameEntity->setId(this->nextEntityId);
 	this->gameEntitiesMap[this->nextEntityId++] = gameEntity;
 	this->entitiesCount++;
 }
 
-void Support::GameEntityRepository::deleteEntity(unsigned int gameEntityId)
+void Support::EntityRepository::deleteEntity(unsigned int gameEntityId)
 {
 	delete this->gameEntitiesMap[gameEntityId];
 	this->gameEntitiesMap.erase(gameEntityId);
 	this->entitiesCount--;
 }
 
-void Support::GameEntityRepository::iterate(function<bool(unsigned int, GameEntity*)> iteratorFunc)
+void Support::EntityRepository::iterate(function<bool(unsigned int, GameEntity*)> iteratorFunc)
 {
 	for (auto gameEntityPair : this->gameEntitiesMap)
 	{
@@ -44,7 +44,7 @@ void Support::GameEntityRepository::iterate(function<bool(unsigned int, GameEnti
 	}
 }
 
-void Support::GameEntityRepository::clear()
+void Support::EntityRepository::clear()
 {
 	iterate([](unsigned int id, GameEntity* gameEntity) -> bool { return false; });
 }

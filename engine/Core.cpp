@@ -3,7 +3,7 @@
 #include "Core.h"
 #include "Game.h"
 #include "constants.h"
-#include "GameEntityRepository.h"
+#include "EntityRepository.h"
 #include "CollisionDetector.h"
 #include "ScreenWriter.h"
 #include "Message.h"
@@ -182,7 +182,7 @@ bool Engine::Core::init()
 		return false;
 	}
 
-	entityRepository = new GameEntityRepository();
+	entityRepository = new EntityRepository();
 	collisionDetector = new CollisionDetector(entityRepository);
 	
 	screenWriter = new ScreenWriter(renderer);

@@ -3,7 +3,7 @@
 #include "Atom.h"
 #include "Bullet.h"
 #include "Player.h"
-#include "GameEntityRepository.h"
+#include "EntityRepository.h"
 
 using namespace GameEntities;
 using namespace Support;
@@ -25,7 +25,7 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 	return resultPlayer && resultBullet && resultAtom;
 }
 
-void MyGame::setGameScene(GameEntityRepository* entityRepository)
+void MyGame::setGameScene(EntityRepository* entityRepository)
 {
 	Player* player = new Player(0, 0);
 	player->setLife(2);
@@ -34,7 +34,7 @@ void MyGame::setGameScene(GameEntityRepository* entityRepository)
 	fillAtoms(entityRepository);
 }
 
-void MyGame::fillAtoms(GameEntityRepository* entityRepository)
+void MyGame::fillAtoms(EntityRepository* entityRepository)
 {
 	struct AtomInfo {
 		int x;
