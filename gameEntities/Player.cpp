@@ -8,11 +8,12 @@
 #include "GameEntity.h"
 #include "Player.h"
 #include "ScreenWriter.h"
-#include "EventsManager.h"
+#include "PlayerAndAtomCollided.h"
 
 using namespace std;
 using namespace Engine;
 using namespace Support;
+using namespace Events;
 
 bool isFiring = false;
 
@@ -84,13 +85,12 @@ bool GameEntities::Player::isGameOver()
 
 bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntities)
 {
-	EventsManager* eventsMgr = EventsManager::Get();
-
 	for (GameEntity* gameEntity : collidingEntities)
 	{
 		if (gameEntity->type == "Atom")
 		{
-			eventsMgr->trigger("playerAndAtomCollided");
+			PlayerAndAtomCollided* event = new PlayerAndAtomCollided(50);
+			event->trigger();
 		}
 	}
 

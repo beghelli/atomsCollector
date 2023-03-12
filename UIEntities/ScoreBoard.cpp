@@ -4,9 +4,11 @@
 #include "Message.h"
 #include "Entity.h"
 #include "EventsManager.h"
+#include "PlayerAndAtomCollided.h"
 
 using namespace Engine;
 using namespace Support;
+using namespace Events;
 
 bool UIEntities::ScoreBoard::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
@@ -54,11 +56,12 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 
 void UIEntities::ScoreBoard::registerPlayerAtomCollisionListener()
 {
-	auto listener = [&]() -> void
+	auto listener = [&](Event* event) -> void
 	{
-		otherAtomsQuantity += 10;
+		PlayerAndAtomCollided* castedEvent = dynamic_cast<PlayerAndAtomCollided*>(event);
+		otherAtomsQuantity += castedEvent->atomicMass;
 	};
 
 	EventsManager* eventsMgr = EventsManager::Get();
-	eventsMgr->listenFor("playerAndAtomCollided", listener);
+	eventsMgr->listenFor("PlayerAndAtomCollided", listener);
 }

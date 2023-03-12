@@ -2,14 +2,16 @@
 #include <functional>
 #include <vector>
 #include <string>
+#include "Event.h"
 
 using namespace std;
+using namespace Support;
 
 namespace Support
 {
 	typedef struct EventListener {
 		string event;
-		function<void()> callback;
+		function<void(Event* event)> callback;
 	} EventListener;
 
 	class EventsManager
@@ -20,7 +22,7 @@ namespace Support
 
 		public:
 			static EventsManager* Get();
-			void listenFor(string event, function<void()> listenerFunction);
-			void trigger(string event);
+			void listenFor(string event, function<void(Event* event)> listenerFunction);
+			void trigger(Event* event);
 	};
 }
