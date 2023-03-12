@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "Game.h"
+#include "Entity.h"
+#include "GameEntity.h"
 #include "EntityRepository.h"
 #include "CollisionDetector.h"
 #include "ScreenWriter.h"
@@ -24,7 +26,8 @@ namespace Engine
 
 			SDL_Point mousePosition;
 			SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
-			EntityRepository* entityRepository;
+			EntityRepository<GameEntity>* entityRepository;
+			EntityRepository<Entity>* UIEntityRepository;
 			CollisionDetector* collisionDetector;
 			ScreenWriter* screenWriter;
 			Game* game;

@@ -39,6 +39,7 @@ namespace Engine
 			
 			virtual bool isGameOver()=0;
 			virtual bool processCollisions(vector<GameEntity*> collidingEntities)=0;
+			virtual bool shouldDestroy()=0;
 			virtual vector<GameEntity*> getNewGameEntities()=0;
 	};
 }

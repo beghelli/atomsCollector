@@ -4,6 +4,7 @@
 #include "EntityRepository.h"
 
 using namespace Support;
+using namespace Engine;
 
 namespace Support
 {
@@ -11,10 +12,10 @@ namespace Support
 	class CollisionDetector
 	{
 		private:
-			EntityRepository* entityRepository;
+			EntityRepository<GameEntity>* entityRepository;
 
 		public:
-			CollisionDetector(EntityRepository* entityRepository);
+			CollisionDetector(EntityRepository<GameEntity>* entityRepository);
 			vector<GameEntity*> getCollidingEntities(GameEntity* gameEntity);
 	};
 

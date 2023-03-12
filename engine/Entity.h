@@ -1,8 +1,10 @@
 #pragma once
 #include "string"
 #include <SDL2/SDL.h>
+#include "ScreenWriter.h"
 
-using namespace std; 
+using namespace std;
+using namespace Support;
 
 namespace Engine
 {
@@ -24,14 +26,13 @@ namespace Engine
 			int getY();
 			int getHeight();
 			int getWidth();
-			bool load(SDL_Renderer* renderer, SDL_Texture* textures[]);
+			bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
 			void destroy(SDL_Texture* textures[]);
 			
 			string type;
 
 			virtual void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)=0;
 			virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[])=0;
-			virtual bool shouldDestroy()=0;
 	};
 
 }

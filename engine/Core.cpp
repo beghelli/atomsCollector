@@ -17,7 +17,7 @@ Engine::Core::Core(Game* game)
 
 int Engine::Core::run()
 {
-	if (init() && load() && game->load(renderer, textures))
+	if (init() && load() && game->load(renderer, textures, screenWriter))
 	{
 		while (loop())
 		{
@@ -76,7 +76,7 @@ bool Engine::Core::menuLoop(const unsigned char* keys, bool isMouseDown)
 	if (keys[SDL_SCANCODE_N])
 	{
 		isGameOver = false;
-		game->setGameScene(entityRepository);
+		game->setGameScene(entityRepository, UIEntityRepository);
 	}
 
 	return true;
@@ -182,7 +182,8 @@ bool Engine::Core::init()
 		return false;
 	}
 
-	entityRepository = new EntityRepository();
+	entityRepository = new EntityRepository<GameEntity>();
+	UIEntityRepository = new EntityRepository<Entity>();
 	collisionDetector = new CollisionDetector(entityRepository);
 	
 	screenWriter = new ScreenWriter(renderer);
@@ -204,6 +205,7 @@ bool Engine::Core::load()
 void Engine::Core::unload()
 {
 	entityRepository->clear();
+	UIEntityRepository->clear();
 }
 
 void Engine::Core::kill()
@@ -213,6 +215,7 @@ void Engine::Core::kill()
 	renderer = NULL;
 	window = NULL;
 	delete entityRepository;
+	delete UIEntityRepository;
 	delete screenWriter;
 	SDL_Quit();
 }

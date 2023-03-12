@@ -2,6 +2,9 @@
 #include <SDL2/SDL.h>
 #include "constants.h"
 #include "Entity.h"
+#include "ScreenWriter.h"
+
+using namespace Support;
 
 void Engine::Entity::setId(unsigned int id)
 {
@@ -33,9 +36,9 @@ int Engine::Entity::getWidth()
 	return entityWidth;
 }
 
-bool Engine::Entity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
+bool Engine::Entity::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
-	if (! textures[entityTextureIndex])
+	if (! entityTextureFile.empty() && ! textures[entityTextureIndex])
 	{
 		string BMPPath = ".\\" + ASSETS_FOLDER + "\\" + entityTextureFile;
 		SDL_Surface* imageSurface = SDL_LoadBMP(BMPPath.c_str());
@@ -61,5 +64,8 @@ bool Engine::Entity::load(SDL_Renderer* renderer, SDL_Texture* textures[])
 
 void Engine::Entity::destroy(SDL_Texture* textures[])
 {
-	SDL_DestroyTexture(textures[entityTextureIndex]);
+	if (! entityTextureFile.empty())
+	{
+		SDL_DestroyTexture(textures[entityTextureIndex]);
+	}
 }

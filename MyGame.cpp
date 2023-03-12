@@ -1,40 +1,52 @@
 #include <SDL2/SDL.h>
 #include "MyGame.h"
+#include "ScreenWriter.h"
+#include "Entity.h"
+#include "GameEntity.h"
 #include "Atom.h"
 #include "Bullet.h"
 #include "Player.h"
+#include "ScoreBoard.h"
 #include "EntityRepository.h"
 
-using namespace GameEntities;
 using namespace Support;
+using namespace Engine;
+using namespace GameEntities;
+using namespace UIEntities;
 
-bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[])
+bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
 	Player* player = new Player(0, 0);
-	bool resultPlayer = player->load(renderer, textures);
+	bool resultPlayer = player->load(renderer, textures, screenWriter);
 	delete player;
 
 	Bullet* bullet = new Bullet(0, 0);
-	bool resultBullet = bullet->load(renderer, textures);
+	bool resultBullet = bullet->load(renderer, textures, screenWriter);
 	delete bullet;
 	
 	Atom* atom = new Atom(0, 0);
-	bool resultAtom = atom->load(renderer, textures);
+	bool resultAtom = atom->load(renderer, textures, screenWriter);
 	delete atom;
+
+	ScoreBoard* scoreBoard = new ScoreBoard();
+	bool resultScoreBoard = scoreBoard->load(renderer, textures, screenWriter);
+	delete scoreBoard;
 
 	return resultPlayer && resultBullet && resultAtom;
 }
 
-void MyGame::setGameScene(EntityRepository* entityRepository)
+void MyGame::setGameScene(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
 {
 	Player* player = new Player(0, 0);
 	player->setLife(2);
 	entityRepository->addEntity(player);
 
 	fillAtoms(entityRepository);
+
+	addUIElements(UIEntityRepository);
 }
 
-void MyGame::fillAtoms(EntityRepository* entityRepository)
+void MyGame::fillAtoms(EntityRepository<GameEntity>* entityRepository)
 {
 	struct AtomInfo {
 		int x;
@@ -66,4 +78,10 @@ void MyGame::fillAtoms(EntityRepository* entityRepository)
 
 		entityRepository->addEntity(atom);
 	}
+}
+
+void MyGame::addUIElements(EntityRepository<Entity>* entityRepository)
+{
+	ScoreBoard* scoreBoard = new ScoreBoard();
+	entityRepository->addEntity(scoreBoard);
 }

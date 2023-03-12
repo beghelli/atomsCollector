@@ -7,8 +7,9 @@
 #include "GameEntity.h"
 
 using namespace std::chrono;
+using namespace Engine;
 
-Support::CollisionDetector::CollisionDetector(EntityRepository* entityRepository)
+Support::CollisionDetector::CollisionDetector(EntityRepository<GameEntity>* entityRepository)
 {
 	this->entityRepository = entityRepository;
 }

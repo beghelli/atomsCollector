@@ -2,26 +2,24 @@
 #include <functional>
 #include <unordered_map>
 #include <string>
-#include "GameEntity.h"
 
 using namespace std;
-using namespace Engine;
 
 namespace Support
 {
-	class EntityRepository
+	template <class C> class EntityRepository
 	{
 		private:
-			unordered_map<unsigned int, GameEntity*> gameEntitiesMap;	
+			unordered_map<unsigned int, C*> gameEntitiesMap;	
 			unsigned int entitiesCount;
 			unsigned int nextEntityId;
 
 		public:
 			EntityRepository();
 			~EntityRepository();
-			void addEntity(GameEntity* gameEntity);
+			void addEntity(C* gameEntity);
 			void deleteEntity(unsigned int gameEntityId);
-			void iterate(function<bool(unsigned int, GameEntity*)> iteratorFunc);
+			void iterate(function<bool(unsigned int, C*)> iteratorFunc);
 			void clear();
 	};
 }
