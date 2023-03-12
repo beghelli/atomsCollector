@@ -10,13 +10,13 @@ using namespace Support;
 
 namespace Support
 {
-	class ScreenWriter
-	{
-		typedef struct TextTextureRecord {
-			string text;
-			SDL_Texture* texture;
-		} TextTextureRecord;
+	typedef struct TextTextureRecord {
+		string text;
+		SDL_Texture* texture;
+	} TextTextureRecord;
 
+	class ScreenWriter
+	{	
 		private:
 			SDL_Renderer* renderer;
 			TTF_Font* font;
@@ -27,6 +27,7 @@ namespace Support
 			~ScreenWriter();
 			bool initialize();
 			bool load();
+			TextTextureRecord loadTextTexture(Message message);
 			void write(Message message);
 	};
 }

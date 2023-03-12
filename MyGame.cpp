@@ -27,11 +27,11 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	Atom* atom = new Atom(0, 0);
 	bool resultAtom = atom->load(renderer, textures, screenWriter);
 	delete atom;
-
+	
 	ScoreBoard* scoreBoard = new ScoreBoard();
 	bool resultScoreBoard = scoreBoard->load(renderer, textures, screenWriter);
 	delete scoreBoard;
-
+	
 	return resultPlayer && resultBullet && resultAtom;
 }
 

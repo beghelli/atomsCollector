@@ -53,6 +53,22 @@ bool Support::ScreenWriter::load()
 
 void Support::ScreenWriter::write(Message message)
 {
+	TextTextureRecord workingTextureRecord = loadTextTexture(message);
+		
+	if (workingTextureRecord.texture)
+	{
+		SDL_Rect body;
+		body.x = message.getPositionX(); 
+		body.y = message.getPositionY();
+		body.h = message.getHeight();
+		body.w = message.getWidth();
+
+		SDL_RenderCopyEx(renderer, workingTextureRecord.texture, NULL, &body, 0, NULL, SDL_FLIP_NONE);
+	}
+}
+
+TextTextureRecord Support::ScreenWriter::loadTextTexture(Message message)
+{
 	TextTextureRecord workingTextureRecord;
 	bool textureLoaded = false;
 	for (TextTextureRecord textureRecord : textures)
@@ -92,16 +108,5 @@ void Support::ScreenWriter::write(Message message)
 		}
 	}
 
-	if (textureLoaded)
-	{
-		SDL_Rect body;
-		body.x = message.getPositionX(); 
-		body.y = message.getPositionY();
-		body.h = message.getHeight();
-		body.w = message.getWidth();
-
-		SDL_RenderCopyEx(renderer, workingTextureRecord.texture, NULL, &body, 0, NULL, SDL_FLIP_NONE);
-	}
-
-	return;
+	return workingTextureRecord;
 }
