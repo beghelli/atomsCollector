@@ -83,5 +83,6 @@ void MyGame::fillAtoms(EntityRepository<GameEntity>* entityRepository)
 void MyGame::addUIElements(EntityRepository<Entity>* entityRepository)
 {
 	ScoreBoard* scoreBoard = new ScoreBoard();
+	scoreBoard->registerPlayerAtomCollisionListener();
 	entityRepository->addEntity(scoreBoard);
 }

@@ -3,6 +3,7 @@
 #include "ScreenWriter.h"
 #include "Message.h"
 #include "Entity.h"
+#include "EventsManager.h"
 
 using namespace Engine;
 using namespace Support;
@@ -51,3 +52,13 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	screenWriter->write(otherElementsMessage);
 }
 
+void UIEntities::ScoreBoard::registerPlayerAtomCollisionListener()
+{
+	auto listener = [&]() -> void
+	{
+		otherAtomsQuantity += 10;
+	};
+
+	EventsManager* eventsMgr = EventsManager::Get();
+	eventsMgr->listenFor("playerAndAtomCollided", listener);
+}

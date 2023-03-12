@@ -8,6 +8,7 @@
 #include "GameEntity.h"
 #include "Player.h"
 #include "ScreenWriter.h"
+#include "EventsManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -83,11 +84,13 @@ bool GameEntities::Player::isGameOver()
 
 bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntities)
 {
+	EventsManager* eventsMgr = EventsManager::Get();
+
 	for (GameEntity* gameEntity : collidingEntities)
 	{
 		if (gameEntity->type == "Atom")
 		{
-			life--;
+			eventsMgr->trigger("playerAndAtomCollided");
 		}
 	}
 

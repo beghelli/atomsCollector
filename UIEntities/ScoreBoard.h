@@ -17,5 +17,6 @@ namespace UIEntities
 			bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
 			void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 			void render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
+			void registerPlayerAtomCollisionListener();
 	};
 }
