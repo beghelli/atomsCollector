@@ -3,8 +3,11 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "GameEntity.h"
+#include "ScreenWriter.h"
 #include "Atom.h"
 #include <string>
+
+using namespace Support;
 
 GameEntities::Atom::Atom(int x, int y)
 {
@@ -67,7 +70,7 @@ bool GameEntities::Atom::processCollisions(vector<GameEntity*> collidingEntities
 	return collidingEntities.size() == 0;
 }
 
-void GameEntities::Atom::render(SDL_Renderer* renderer, SDL_Texture* textures[])
+void GameEntities::Atom::render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
 	SDL_Rect body;
 	body.x = x;

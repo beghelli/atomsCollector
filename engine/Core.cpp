@@ -130,7 +130,7 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 		}
 		else
 		{
-			gameEntity->render(renderer, textures);
+			gameEntity->render(renderer, textures, screenWriter);
 			vector<GameEntity*> newGameEntities = gameEntity->getNewGameEntities();
 
 			for (GameEntity* gameEntity : newGameEntities)
@@ -141,6 +141,13 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 		}
 	};
 	entityRepository->iterate(renderEntities);
+
+	auto renderUIEntities = [&](unsigned int id, Entity* UIEntity) -> bool
+	{
+		UIEntity->render(renderer, textures, screenWriter);
+		return true;
+	};
+	UIEntityRepository->iterate(renderUIEntities);
 
 	SDL_RenderPresent(renderer);
 	

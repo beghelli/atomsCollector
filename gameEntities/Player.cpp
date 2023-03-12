@@ -7,9 +7,11 @@
 #include "Bullet.h"
 #include "GameEntity.h"
 #include "Player.h"
+#include "ScreenWriter.h"
 
 using namespace std;
 using namespace Engine;
+using namespace Support;
 
 bool isFiring = false;
 
@@ -92,7 +94,7 @@ bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntiti
 	return true;
 }
 
-void GameEntities::Player::render(SDL_Renderer* renderer, SDL_Texture* textures[])
+void GameEntities::Player::render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
 	SDL_Rect body;
 	body.x = x;

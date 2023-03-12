@@ -4,9 +4,11 @@
 #include "Bullet.h"
 #include "Player.h"
 #include "GameEntity.h"
+#include "ScreenWriter.h"
 
 using namespace std;
 using namespace Engine;
+using namespace Support;
 
 GameEntities::Bullet::Bullet(int x, int y)
 {
@@ -39,7 +41,7 @@ void GameEntities::Bullet::setShooter(GameEntity* shooterEntity)
 	this->shooterEntity = shooterEntity;
 }
 
-void GameEntities::Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[])
+void GameEntities::Bullet::render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
 	SDL_Rect body;
 	body.x = x;

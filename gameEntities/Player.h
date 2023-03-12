@@ -2,9 +2,11 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "GameEntity.h"
+#include "ScreenWriter.h"
 
 using namespace std;
 using namespace Engine;
+using namespace Support;
 
 namespace GameEntities
 {
@@ -28,7 +30,7 @@ namespace GameEntities
 			bool shouldDestroy();
 			bool isGameOver();
 			bool processCollisions(vector<GameEntity*> collidingEntities);
-			void render(SDL_Renderer* renderer, SDL_Texture* textures[]);
+			void render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
 			vector<GameEntity*> getNewGameEntities();
 	};
 }
