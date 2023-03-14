@@ -13,7 +13,10 @@ namespace GameEntities
 	class Atom : public GameEntity
 	{
 		public:
-			Atom(int x, int y);
+			int atomicNumber;
+			int atomicMass;
+
+			Atom(int x, int y, int atomicNumber, int atomicMass);
 
 			void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 			bool shouldDestroy();

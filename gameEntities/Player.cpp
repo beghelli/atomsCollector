@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "GameEntity.h"
 #include "Player.h"
+#include "Atom.h"
 #include "ScreenWriter.h"
 #include "PlayerAndAtomCollided.h"
 
@@ -89,7 +90,8 @@ bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntiti
 	{
 		if (gameEntity->type == "Atom")
 		{
-			PlayerAndAtomCollided* event = new PlayerAndAtomCollided(50);
+			Atom* atom = dynamic_cast<Atom*>(gameEntity);
+			PlayerAndAtomCollided* event = new PlayerAndAtomCollided(atom->atomicNumber, atom->atomicMass);
 			event->trigger();
 		}
 	}

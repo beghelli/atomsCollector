@@ -9,7 +9,7 @@
 
 using namespace Support;
 
-GameEntities::Atom::Atom(int x, int y)
+GameEntities::Atom::Atom(int x, int y, int atomicNumber, int atomicMass)
 {
 	this->x = x;
 	this->y = y;
@@ -26,6 +26,8 @@ GameEntities::Atom::Atom(int x, int y)
 	this->entityTextureFile = "hidrogen.bmp";
 	this->entityTextureIndex = 2;
 	this->type = "Atom";
+	this->atomicNumber = atomicNumber;
+	this->atomicMass = atomicMass;
 }
 
 void GameEntities::Atom::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)

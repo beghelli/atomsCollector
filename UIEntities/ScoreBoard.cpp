@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <string>
 #include "ScoreBoard.h"
 #include "ScreenWriter.h"
 #include "Message.h"
@@ -10,9 +11,16 @@ using namespace Engine;
 using namespace Support;
 using namespace Events;
 
+UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, int atomicNumber)
+{
+	this->label = label;
+	this->maxCapacity = maxCapacity;
+	this->atomicNumber = atomicNumber;
+}
+
 bool UIEntities::ScoreBoard::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
-	Message otherElementsMessage("Outros", 25, 1, 0, 0, 80, 20);
+	Message otherElementsMessage(label, 25, 1, 0, 0, 80, 20);
 	screenWriter->loadTextTexture(otherElementsMessage);
 
 	return Entity::load(renderer, textures, screenWriter);	
@@ -31,7 +39,7 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	int otherMessageWidth = 80;
 	int otherMessageHeight = 20;
 
-	Message otherElementsMessage("Outros", 25, 1, leftLimit, topLimit, otherMessageWidth, otherMessageHeight);
+	Message otherElementsMessage(label, 25, 1, leftLimit, topLimit, otherMessageWidth, otherMessageHeight);
 	
 	int space = 10;
 	SDL_Rect* capacityBar = new SDL_Rect();
@@ -43,7 +51,8 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	SDL_Rect* capacityBarContent = new SDL_Rect();
 	capacityBarContent->x = capacityBar->x + 1;
 	capacityBarContent->y = capacityBar->y + 1;
-	capacityBarContent->w = ((capacityBar->w - 2) / 100) * otherAtomsQuantity;
+	int filledPercentage = (otherAtomsQuantity * 100) / maxCapacity;
+	capacityBarContent->w = ((capacityBar->w - 2) / 100) * filledPercentage; 
 	capacityBarContent->h = capacityBar->h - 2;
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
@@ -59,7 +68,10 @@ void UIEntities::ScoreBoard::registerPlayerAtomCollisionListener()
 	auto listener = [&](Event* event) -> void
 	{
 		PlayerAndAtomCollided* castedEvent = dynamic_cast<PlayerAndAtomCollided*>(event);
-		otherAtomsQuantity += castedEvent->atomicMass;
+		if (castedEvent->atomicNumber == atomicNumber)
+		{
+			otherAtomsQuantity += castedEvent->atomicMass;
+		}
 	};
 
 	EventsManager* eventsMgr = EventsManager::Get();

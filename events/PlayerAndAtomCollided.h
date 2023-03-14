@@ -9,7 +9,8 @@ namespace Events
 	{
 		public:
 			int atomicMass;
-			PlayerAndAtomCollided(int atomicMass);
+			int atomicNumber;
+			PlayerAndAtomCollided(int atomicNumber, int atomicMass);
 			~PlayerAndAtomCollided();
 		protected:
 			string getId();
