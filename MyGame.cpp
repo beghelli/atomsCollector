@@ -28,11 +28,15 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	bool resultAtom = atom->load(renderer, textures, screenWriter);
 	delete atom;
 	
-	ScoreBoard* scoreBoard = new ScoreBoard("Hidrogênio", 10, 1);
-	bool resultScoreBoard = scoreBoard->load(renderer, textures, screenWriter);
-	delete scoreBoard;
+	ScoreBoard* hidrogenScoreBoard = new ScoreBoard("Hidrogenio");
+	bool resultHidrogenScoreBoard = hidrogenScoreBoard->load(renderer, textures, screenWriter);
+	delete hidrogenScoreBoard;
+
+	ScoreBoard* oxigenScoreBoard = new ScoreBoard("Oxigenio");
+	bool resultOxigenScoreBoard = oxigenScoreBoard->load(renderer, textures, screenWriter);
+	delete oxigenScoreBoard;
 	
-	return resultPlayer && resultBullet && resultAtom;
+	return resultPlayer && resultBullet && resultAtom && resultHidrogenScoreBoard && resultOxigenScoreBoard;
 }
 
 void MyGame::setGameScene(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
@@ -71,8 +75,8 @@ void MyGame::fillAtoms(EntityRepository<GameEntity>* entityRepository)
 
 	atomsInfo[2].x = 25;
 	atomsInfo[2].y = 450;
-	atomsInfo[2].atomicNumber = 2;
-	atomsInfo[2].atomicMass = 2;
+	atomsInfo[2].atomicNumber = 8;
+	atomsInfo[2].atomicMass = 16;
 	atomsInfo[2].zAngle = 140;
 
 	atomsInfo[3].x = 300;
@@ -93,7 +97,23 @@ void MyGame::fillAtoms(EntityRepository<GameEntity>* entityRepository)
 
 void MyGame::addUIElements(EntityRepository<Entity>* entityRepository)
 {
-	ScoreBoard* scoreBoard = new ScoreBoard("Hidrogênio", 10, 1);
+
+	SDL_Color hidrogenColor;
+	hidrogenColor.r = 210;
+	hidrogenColor.g = 212;
+	hidrogenColor.b = 225;
+	hidrogenColor.a = 1;	
+	ScoreBoard* scoreBoard = new ScoreBoard("Hidrogenio", 10, 1, hidrogenColor, 5, 5);
 	scoreBoard->registerPlayerAtomCollisionListener();
 	entityRepository->addEntity(scoreBoard);
+
+	SDL_Color oxigenColor;
+	oxigenColor.r = 30;
+	oxigenColor.g = 144;
+	oxigenColor.b = 255;
+	oxigenColor.a = 1;	
+	ScoreBoard* oxigenScoreBoard = new ScoreBoard("Oxigenio", 80, 8, oxigenColor, 270, 5);
+	oxigenScoreBoard->registerPlayerAtomCollisionListener();
+	entityRepository->addEntity(oxigenScoreBoard);
+
 }

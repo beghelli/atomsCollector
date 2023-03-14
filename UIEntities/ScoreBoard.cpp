@@ -11,11 +11,19 @@ using namespace Engine;
 using namespace Support;
 using namespace Events;
 
-UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, int atomicNumber)
+UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, int atomicNumber, SDL_Color color, int x, int y)
 {
 	this->label = label;
 	this->maxCapacity = maxCapacity;
 	this->atomicNumber = atomicNumber;
+	this->x = x;
+	this->y = y;
+	this->color = color;
+}
+
+UIEntities::ScoreBoard::ScoreBoard(string label)
+{
+	this->label = label;
 }
 
 bool UIEntities::ScoreBoard::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
@@ -33,8 +41,8 @@ void UIEntities::ScoreBoard::update(const unsigned char* keys, SDL_Point mousePo
 
 void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
 {
-	int leftLimit = 5;
-	int topLimit = 5;
+	int leftLimit = this->x;
+	int topLimit = this->y;
 
 	int otherMessageWidth = 80;
 	int otherMessageHeight = 20;
@@ -58,7 +66,7 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
 	SDL_RenderDrawRect(renderer, capacityBar);
 
-	SDL_SetRenderDrawColor(renderer, 255, 165, 0, 1);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, capacityBarContent);
 	screenWriter->write(otherElementsMessage);
 }

@@ -16,9 +16,11 @@ namespace UIEntities
 			string label;
 			int maxCapacity;
 			int atomicNumber;
+			SDL_Color color;
 
 		public:
-			ScoreBoard(string label, int maxCapacity, int atomicNumber);
+			ScoreBoard(string label);
+			ScoreBoard(string label, int maxCapacity, int atomicNumber, SDL_Color color, int x, int y);
 			bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
 			void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 			void render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
