@@ -56,7 +56,7 @@ bool Engine::Core::loop()
 
 	switch (game->status)
 	{
-		case Game::STATUS_IN_MENU:
+		case Game::STATUS_OUT_GAME:
 			return game->renderMenus(renderer, textures, screenWriter, keys, isMouseDown);
 			break;
 		case Game::STATUS_IN_GAME:
@@ -128,7 +128,7 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 
 		if (gameEntity->isGameOver())
 		{
-			game->status = Game::STATUS_IN_MENU;
+			game->status = Game::STATUS_OUT_GAME;
 		}
 		if (gameEntity->shouldDestroy())
 		{
@@ -205,7 +205,7 @@ bool Engine::Core::init()
 		return false;
 	}
 
-	game->status = Game::STATUS_IN_MENU;
+	game->status = Game::STATUS_OUT_GAME;
 
 	return true;
 }

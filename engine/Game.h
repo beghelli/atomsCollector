@@ -13,7 +13,7 @@ using namespace Support;
 class Game
 {
 	public:
-		static const int STATUS_IN_MENU = 1;
+		static const int STATUS_OUT_GAME = 1;
 		static const int STATUS_IN_GAME = 2;
 		static const int STATUS_LOADING = 3;
 
