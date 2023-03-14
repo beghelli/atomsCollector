@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <string>
 #include "ScoreBoard.h"
@@ -59,8 +60,9 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	SDL_Rect* capacityBarContent = new SDL_Rect();
 	capacityBarContent->x = capacityBar->x + 1;
 	capacityBarContent->y = capacityBar->y + 1;
-	int filledPercentage = (otherAtomsQuantity * 100) / maxCapacity;
-	capacityBarContent->w = ((capacityBar->w - 2) / 100) * filledPercentage; 
+	double filledPercentage = otherAtomsQuantity / (double)maxCapacity;
+	double onePercentValue = capacityBar->w - 2;
+	capacityBarContent->w = ceil(onePercentValue * filledPercentage); 
 	capacityBarContent->h = capacityBar->h - 2;
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
