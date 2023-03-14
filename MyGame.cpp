@@ -1,6 +1,8 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "cstdlib"
 #include "constants.h"
+#include "Game.h"
 #include "MyGame.h"
 #include "ScreenWriter.h"
 #include "Entity.h"
@@ -41,6 +43,42 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	return resultPlayer && resultBullet && resultAtom && resultHidrogenScoreBoard && resultOxigenScoreBoard;
 }
 
+bool MyGame::renderMenus(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)
+{
+	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 1);
+	SDL_RenderClear(renderer);
+	
+	Message message("Pressione N para comecar!", 25, 1, 150, 150, 500, 100);
+	screenWriter->write(message);
+
+	SDL_RenderPresent(renderer);
+
+	if (keys[SDL_SCANCODE_N])
+	{
+		status = Game::STATUS_LOADING;
+		auto loader = [&](EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository) -> void
+		{
+			setGameScene(entityRepository, UIEntityRepository);
+		};
+		loadingQueue.push_back(loader);
+	}
+
+	return true;
+}
+
+void MyGame::renderLoadingScreen(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)
+{
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+	SDL_RenderClear(renderer);
+	
+	int messageWidth = 500;
+	int messageHeight = 100;
+	Message message("Loading", 25, 1, (SCREEN_WIDTH / 2) - (messageWidth / 2), (SCREEN_HEIGHT / 2) - (messageHeight / 2), messageWidth, messageHeight);
+	screenWriter->write(message);
+
+	SDL_RenderPresent(renderer);
+}
+
 void MyGame::setGameScene(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
 {
 	Player* player = new Player(0, 0);
@@ -50,6 +88,8 @@ void MyGame::setGameScene(EntityRepository<GameEntity>* entityRepository, Entity
 	fillAtoms(entityRepository);
 
 	addUIElements(UIEntityRepository);
+
+	status = Game::STATUS_IN_GAME;
 }
 
 void MyGame::onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)

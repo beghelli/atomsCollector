@@ -16,9 +16,14 @@ namespace Engine
 
 	class Core
 	{
+		
 		public:
 			Core(Game* game);
 			int run();
+			static void runGameLoaders(Core* core);
+
+			EntityRepository<GameEntity>* entityRepository;
+			EntityRepository<Entity>* UIEntityRepository;
 
 		private:
 			SDL_Window* window;
@@ -26,8 +31,6 @@ namespace Engine
 
 			SDL_Point mousePosition;
 			SDL_Texture *textures[MAX_ENTITIES] = { nullptr };
-			EntityRepository<GameEntity>* entityRepository;
-			EntityRepository<Entity>* UIEntityRepository;
 			CollisionDetector* collisionDetector;
 			ScreenWriter* screenWriter;
 			Game* game;
@@ -39,7 +42,6 @@ namespace Engine
 			void kill();
 			bool loop();
 			bool gameLoop(const unsigned char* keys, bool isMouseDown);
-			bool menuLoop(const unsigned char* keys, bool isMouseDown);
 
 	};
 }

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <functional>
 #include <SDL2/SDL.h>
 #include "Core.h"
 #include "Game.h"
@@ -8,6 +10,7 @@
 #include "ScreenWriter.h"
 #include "Message.h"
 
+using namespace std;
 using namespace Support;
 
 Engine::Core::Core(Game* game)
@@ -51,35 +54,33 @@ bool Engine::Core::loop()
 		}
 	}
 
-	if (isGameOver)
+	switch (game->status)
 	{
-		return menuLoop(keys, isMouseDown);
-	}
-	else
-	{
-		return gameLoop(keys, isMouseDown);
+		case Game::STATUS_IN_MENU:
+			return game->renderMenus(renderer, textures, screenWriter, keys, isMouseDown);
+			break;
+		case Game::STATUS_IN_GAME:
+			return gameLoop(keys, isMouseDown);
+			break;
+		case Game::STATUS_LOADING:
+			thread loadingTask(runGameLoaders, this);
+			loadingTask.detach();
+			game->renderLoadingScreen(renderer, textures, screenWriter, keys, isMouseDown);
+			return true;
+			break;
 	}
 
 	return false;
 }
 
-bool Engine::Core::menuLoop(const unsigned char* keys, bool isMouseDown)
+void Engine::Core::runGameLoaders(Core* core)
 {
-	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 255);
-	SDL_RenderClear(renderer);
-	
-	Message message("Pressione N para comecar!", 25, 1, 150, 150, 500, 100);
-	screenWriter->write(message);
-
-	SDL_RenderPresent(renderer);
-
-	if (keys[SDL_SCANCODE_N])
+	auto workingQueue = core->game->loadingQueue;
+	core->game->loadingQueue.clear();
+	for (function<void(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)> loader : workingQueue)
 	{
-		isGameOver = false;
-		game->setGameScene(entityRepository, UIEntityRepository);
+		loader(core->entityRepository, core->UIEntityRepository);
 	}
-
-	return true;
 }
 
 bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
@@ -120,12 +121,15 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 
 	auto renderEntities = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
-		if (isGameOver)
+		if (game->status != Game::STATUS_IN_GAME)
 		{
 			return false;
 		}
 
-		isGameOver = gameEntity->isGameOver();
+		if (gameEntity->isGameOver())
+		{
+			game->status = Game::STATUS_IN_MENU;
+		}
 		if (gameEntity->shouldDestroy())
 		{
 			return false;
@@ -153,7 +157,7 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 
 	SDL_RenderPresent(renderer);
 	
-	if (isGameOver)
+	if (game->status != Game::STATUS_IN_GAME)
 	{
 		unload();
 	}
@@ -201,7 +205,7 @@ bool Engine::Core::init()
 		return false;
 	}
 
-	isGameOver = true;
+	game->status = Game::STATUS_IN_MENU;
 
 	return true;
 }
