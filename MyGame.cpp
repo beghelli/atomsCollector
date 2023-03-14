@@ -1,4 +1,6 @@
 #include <SDL2/SDL.h>
+#include "cstdlib"
+#include "constants.h"
 #include "MyGame.h"
 #include "ScreenWriter.h"
 #include "Entity.h"
@@ -48,6 +50,44 @@ void MyGame::setGameScene(EntityRepository<GameEntity>* entityRepository, Entity
 	fillAtoms(entityRepository);
 
 	addUIElements(UIEntityRepository);
+}
+
+void MyGame::onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
+{
+	int atomsCount = 0;
+	auto counter = [&](unsigned int id, GameEntity* gameEntity) -> bool 
+	{
+		if (gameEntity->type == "Atom")
+		{
+			atomsCount++;
+		}
+		return true;
+	};
+	entityRepository->iterate(counter);
+
+	if (atomsCount < 3)
+	{
+		int x = 1 + (rand() % SCREEN_WIDTH);
+		int y = 1 + (rand() % SCREEN_HEIGHT);
+		int atomicNumber = 1;
+		int atomicMass = 1;
+		int zAngle = 1 + (rand() % 360); 
+		if (x % 2 == 0)
+		{
+			atomicNumber = 8;
+			atomicMass = 16;
+			x = 0;
+			zAngle = zAngle * -1;
+		}
+		else
+		{
+			y = 0;
+		}
+
+		Atom* atom = new Atom(x, y, atomicNumber, atomicMass);
+		atom->setZAngle(zAngle);
+		entityRepository->addEntity(atom);
+	}
 }
 
 void MyGame::fillAtoms(EntityRepository<GameEntity>* entityRepository)

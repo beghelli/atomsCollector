@@ -87,6 +87,8 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
 
+	game->onGameLoopStart(entityRepository, UIEntityRepository);
+
 	auto processEntitiesPosition = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
 		gameEntity->update(keys, mousePosition, isMouseDown);

@@ -1,4 +1,3 @@
-#include <chrono>
 #include <iostream>
 #include <vector>
 #include "constants.h"
@@ -6,7 +5,6 @@
 #include "EntityRepository.h"
 #include "GameEntity.h"
 
-using namespace std::chrono;
 using namespace Engine;
 
 Support::CollisionDetector::CollisionDetector(EntityRepository<GameEntity>* entityRepository)

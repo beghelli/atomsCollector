@@ -14,5 +14,6 @@ class Game
 	public:
 		virtual bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)=0;
 		virtual void setGameScene(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)=0;
+		virtual void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)=0;
 
 };
