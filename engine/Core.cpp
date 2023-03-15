@@ -8,7 +8,6 @@
 #include "EntityRepository.h"
 #include "CollisionDetector.h"
 #include "ScreenWriter.h"
-#include "Message.h"
 
 using namespace std;
 using namespace Support;
@@ -63,8 +62,11 @@ bool Engine::Core::loop()
 			return gameLoop(keys, isMouseDown);
 			break;
 		case Game::STATUS_LOADING:
-			thread loadingTask(runGameLoaders, this);
-			loadingTask.detach();
+			if (game->loadingQueue.size() > 0)
+			{
+				thread loadingTask(runGameLoaders, this);
+				loadingTask.detach();
+			}
 			game->renderLoadingScreen(renderer, textures, screenWriter, keys, isMouseDown);
 			return true;
 			break;
@@ -88,7 +90,7 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
 
-	game->onGameLoopStart(entityRepository, UIEntityRepository);
+	game->currentGameScene->onGameLoopStart(entityRepository, UIEntityRepository);
 
 	auto processEntitiesPosition = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{

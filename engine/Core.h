@@ -13,7 +13,6 @@ using namespace Support;
 
 namespace Engine 
 {
-
 	class Core
 	{
 		

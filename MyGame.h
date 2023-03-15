@@ -15,11 +15,4 @@ class MyGame: public Game
 		bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
 		bool renderMenus(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown); 
 		void renderLoadingScreen(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown);
-		void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
-
-	private:
-		void setGameScene(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
-		void fillAtoms(EntityRepository<GameEntity>* entityRepository);
-		void addUIElements(EntityRepository<Entity>* UIEntityRepository);
-
 };

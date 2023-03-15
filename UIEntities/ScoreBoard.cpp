@@ -71,6 +71,9 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, capacityBarContent);
 	screenWriter->write(otherElementsMessage);
+
+	delete capacityBarContent;	
+	delete capacityBar;
 }
 
 void UIEntities::ScoreBoard::registerPlayerAtomCollisionListener()
