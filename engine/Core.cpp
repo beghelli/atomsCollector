@@ -176,6 +176,7 @@ bool Engine::Core::init()
 		cout << SDL_GetError() << endl;
 		return false;
 	}
+	SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
 	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_SHOWN;
 	if (SDL_GetNumVideoDisplays() > 1)
 	{
