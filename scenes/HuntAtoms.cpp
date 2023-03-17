@@ -40,12 +40,11 @@ void Scenes::HuntAtoms::onGameLoopStart(EntityRepository<GameEntity>* entityRepo
 	{
 		int x = 1 + (rand() % SCREEN_WIDTH);
 		int y = 1 + (rand() % SCREEN_HEIGHT);
-		int atomicNumber = 1;
 		int atomicMass = 1;
 		int zAngle = 1 + (rand() % 360); 
+		int atomicNumber = 1 + (rand() % 7);
 		if (x % 2 == 0)
 		{
-			atomicNumber = 8;
 			atomicMass = 16;
 			x = 0;
 			zAngle = zAngle * -1;
@@ -112,8 +111,9 @@ void Scenes::HuntAtoms::addUIElements(EntityRepository<Entity>* entityRepository
 	hidrogenColor.r = 210;
 	hidrogenColor.g = 212;
 	hidrogenColor.b = 225;
-	hidrogenColor.a = 1;	
-	ScoreBoard* hidrogenScoreBoard = new ScoreBoard("Hidrogenio", 10, 1, hidrogenColor, 5, 5);
+	hidrogenColor.a = 1;
+	vector<int> trackedHydrogenAtomicNumber{1};
+	ScoreBoard* hidrogenScoreBoard = new ScoreBoard("Hidrogenio", 10, trackedHydrogenAtomicNumber, hidrogenColor, 5, 5);
 	hidrogenScoreBoard->registerPlayerAtomCollisionListener();
 	entityRepository->addEntity(hidrogenScoreBoard);
 
@@ -122,7 +122,18 @@ void Scenes::HuntAtoms::addUIElements(EntityRepository<Entity>* entityRepository
 	oxigenColor.g = 144;
 	oxigenColor.b = 255;
 	oxigenColor.a = 1;	
-	ScoreBoard* oxigenScoreBoard = new ScoreBoard("Oxigenio", 80, 8, oxigenColor, 270, 5);
+	vector<int> trackedOxigenAtomicNumber{8};
+	ScoreBoard* oxigenScoreBoard = new ScoreBoard("Oxigenio", 80, trackedOxigenAtomicNumber, oxigenColor, 270, 5);
 	oxigenScoreBoard->registerPlayerAtomCollisionListener();
 	entityRepository->addEntity(oxigenScoreBoard);
+	
+	SDL_Color otherColor;
+	oxigenColor.r = 245;
+	oxigenColor.g = 40;
+	oxigenColor.b = 145;
+	oxigenColor.a = 1;	
+	vector<int> trackedAtomicNumbers{2,3,4,5,6,7};
+	ScoreBoard* otherScoreBoard = new ScoreBoard("Outros", 150, trackedAtomicNumbers, otherColor, 535, 5);
+	otherScoreBoard->registerPlayerAtomCollisionListener();
+	entityRepository->addEntity(otherScoreBoard);
 }

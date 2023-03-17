@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <SDL2/SDL.h>
 #include <string>
 #include "ScoreBoard.h"
@@ -12,11 +13,11 @@ using namespace Engine;
 using namespace Support;
 using namespace Events;
 
-UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, int atomicNumber, SDL_Color color, int x, int y)
+UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, vector<int> atomicNumbers, SDL_Color color, int x, int y)
 {
 	this->label = label;
 	this->maxCapacity = maxCapacity;
-	this->atomicNumber = atomicNumber;
+	this->atomicNumbers = atomicNumbers;
 	this->x = x;
 	this->y = y;
 	this->color = color;
@@ -81,7 +82,9 @@ void UIEntities::ScoreBoard::registerPlayerAtomCollisionListener()
 	auto listener = [&](Event* event) -> void
 	{
 		PlayerAndAtomCollided* castedEvent = dynamic_cast<PlayerAndAtomCollided*>(event);
-		if (castedEvent->atomicNumber == atomicNumber)
+		vector<int>::iterator it;
+		it = find(atomicNumbers.begin(), atomicNumbers.end(), castedEvent->atomicNumber);
+		if (it != atomicNumbers.end())
 		{
 			otherAtomsQuantity += castedEvent->atomicMass;
 		}
