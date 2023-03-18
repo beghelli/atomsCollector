@@ -38,9 +38,9 @@ bool Support::ScreenWriter::initialize()
 
 bool Support::ScreenWriter::load()
 {
-	int fontSize = 50;
-	string fontPath = ".\\" + ASSETS_FOLDER + "\\" + "akira.otf";
-	font = TTF_OpenFont(fontPath.c_str(), fontSize); 
+	int fontSize = 100;
+	string fontPath = "." + PATH_SEPARATOR + ASSETS_FOLDER + PATH_SEPARATOR + "freeSans.ttf";
+	font = TTF_OpenFont(fontPath.c_str(), fontSize);
 
 	if (font == NULL)
 	{
@@ -54,11 +54,11 @@ bool Support::ScreenWriter::load()
 void Support::ScreenWriter::write(Message message)
 {
 	TextTextureRecord workingTextureRecord = loadTextTexture(message);
-		
+
 	if (workingTextureRecord.texture)
 	{
 		SDL_Rect body;
-		body.x = message.getPositionX(); 
+		body.x = message.getPositionX();
 		body.y = message.getPositionY();
 		body.h = message.getHeight();
 		body.w = message.getWidth();
@@ -88,7 +88,7 @@ TextTextureRecord Support::ScreenWriter::loadTextTexture(Message message)
 		SDL_Surface* textSurface = TTF_RenderText_Solid(font, message.getTextChar(), textColor);
 		if (textSurface == NULL)
 		{
-			cout << "Text surface could not be loaded. Error " << TTF_GetError() << endl; 
+			cout << "Text surface could not be loaded. Error " << TTF_GetError() << endl;
 		}
 		else
 		{

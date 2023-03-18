@@ -40,7 +40,7 @@ bool Engine::Entity::load(SDL_Renderer* renderer, SDL_Texture* textures[], Scree
 {
 	if (! entityTextureFile.empty() && ! textures[entityTextureIndex])
 	{
-		string BMPPath = ".\\" + ASSETS_FOLDER + "\\" + entityTextureFile;
+		string BMPPath = "." + PATH_SEPARATOR + ASSETS_FOLDER + PATH_SEPARATOR + entityTextureFile;
 		SDL_Surface* imageSurface = SDL_LoadBMP(BMPPath.c_str());
 		if (! imageSurface)
 		{
