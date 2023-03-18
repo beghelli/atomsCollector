@@ -23,11 +23,11 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	Bullet* bullet = new Bullet(0, 0);
 	bool resultBullet = bullet->load(renderer, textures, screenWriter);
 	delete bullet;
-	
+
 	Atom* atom = new Atom(0, 0, 1, 1);
 	bool resultAtom = atom->load(renderer, textures, screenWriter);
 	delete atom;
-	
+
 	ScoreBoard* hidrogenScoreBoard = new ScoreBoard("Hidrogenio");
 	bool resultHidrogenScoreBoard = hidrogenScoreBoard->load(renderer, textures, screenWriter);
 	delete hidrogenScoreBoard;
@@ -35,7 +35,7 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	ScoreBoard* oxigenScoreBoard = new ScoreBoard("Oxigenio");
 	bool resultOxigenScoreBoard = oxigenScoreBoard->load(renderer, textures, screenWriter);
 	delete oxigenScoreBoard;
-	
+
 	return resultPlayer && resultBullet && resultAtom && resultHidrogenScoreBoard && resultOxigenScoreBoard;
 }
 
@@ -43,13 +43,13 @@ bool MyGame::renderMenus(SDL_Renderer* renderer, SDL_Texture* textures[], Screen
 {
 	SDL_SetRenderDrawColor(renderer, 50, 50, 255, 1);
 	SDL_RenderClear(renderer);
-	
-	Message message("Pressione N para comecar!", 25, 1, 150, 150, 500, 100);
+
+	Message message("Pressione ENTER para começar!", 25, 1, 150, 150, 550, 100);
 	screenWriter->write(message);
 
 	SDL_RenderPresent(renderer);
 
-	if (keys[SDL_SCANCODE_N])
+	if (keys[SDL_SCANCODE_RETURN])
 	{
 		HuntAtoms* huntAtoms = new HuntAtoms();
 		loadScene(huntAtoms);
@@ -62,7 +62,7 @@ void MyGame::renderLoadingScreen(SDL_Renderer* renderer, SDL_Texture* textures[]
 {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
 	SDL_RenderClear(renderer);
-	
+
 	int messageWidth = 500;
 	int messageHeight = 100;
 	Message message("Loading", 25, 1, (SCREEN_WIDTH / 2) - (messageWidth / 2), (SCREEN_HEIGHT / 2) - (messageHeight / 2), messageWidth, messageHeight);
