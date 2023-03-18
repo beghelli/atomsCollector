@@ -85,7 +85,7 @@ TextTextureRecord Support::ScreenWriter::loadTextTexture(Message message)
 	{
 		cout << "Loading Text Texture" << endl;
 		SDL_Color textColor = { 0, 0, 0 };
-		SDL_Surface* textSurface = TTF_RenderText_Solid(font, message.getTextChar(), textColor);
+		SDL_Surface* textSurface = TTF_RenderText_Solid(font, message.getText().c_str(), textColor);
 		if (textSurface == NULL)
 		{
 			cout << "Text surface could not be loaded. Error " << TTF_GetError() << endl;

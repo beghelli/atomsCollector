@@ -11,17 +11,12 @@ Support::Message::Message(string text, int fontSize, int fontId, int positionX, 
 	this->positionX = positionX;
 	this->positionY = positionY;
 	this->width = width;
-	this->height = height;	
+	this->height = height;
 }
 
 string Support::Message::getText()
 {
 	return text;
-}
-
-const char* Support::Message::getTextChar()
-{
-	return getText().c_str();
 }
 
 int Support::Message::getFontSize()
@@ -41,14 +36,14 @@ int Support::Message::getPositionX()
 
 int Support::Message::getPositionY()
 {
-	return positionY;	
+	return positionY;
 }
 
 int Support::Message::getWidth()
 {
 	return width;
 }
-		
+
 int Support::Message::getHeight()
 {
 	return height;

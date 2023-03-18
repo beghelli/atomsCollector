@@ -19,7 +19,6 @@ namespace Support
 		public:
 			Message(string text, int fontSize, int fontId, int positionX, int positionY, int width, int height);
 			string getText();
-			const char* getTextChar();
 			int getFontSize();
 			int getFontId();
 			int getPositionX();
