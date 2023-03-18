@@ -35,7 +35,8 @@ template <class C> void Support::EntityRepository<C>::deleteEntity(unsigned int 
 
 template <class C> void Support::EntityRepository<C>::iterate(function<bool(unsigned int, C*)> iteratorFunc)
 {
-	for (auto gameEntityPair : this->gameEntitiesMap)
+	auto workingGameEntitiesMap = this->gameEntitiesMap;
+	for (auto gameEntityPair : workingGameEntitiesMap)
 	{
 		bool keepEntity = iteratorFunc(gameEntityPair.first, gameEntityPair.second);
 		if (! keepEntity)
