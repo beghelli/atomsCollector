@@ -37,7 +37,7 @@ bool Engine::Core::loop()
 	bool isMouseDown = false;
 	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_Event e;
-	
+
 	while (SDL_PollEvent(&e) != 0)
 	{
 		switch (e.type)
@@ -86,7 +86,7 @@ void Engine::Core::runGameLoaders(Core* core)
 }
 
 bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
-{	
+{
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
 
@@ -155,10 +155,11 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 		UIEntity->render(renderer, textures, screenWriter);
 		return true;
 	};
+
 	UIEntityRepository->iterate(renderUIEntities);
 
 	SDL_RenderPresent(renderer);
-	
+
 	if (game->status != Game::STATUS_IN_GAME)
 	{
 		unload();
@@ -201,7 +202,7 @@ bool Engine::Core::init()
 	entityRepository = new EntityRepository<GameEntity>();
 	UIEntityRepository = new EntityRepository<Entity>();
 	collisionDetector = new CollisionDetector(entityRepository);
-	
+
 	screenWriter = new ScreenWriter(renderer);
 	if (! screenWriter->initialize())
 	{
