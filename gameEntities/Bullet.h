@@ -9,7 +9,7 @@ using namespace std;
 using namespace Engine;
 using namespace Support;
 
-namespace GameEntities 
+namespace GameEntities
 {
 	class Bullet : public GameEntity{
 

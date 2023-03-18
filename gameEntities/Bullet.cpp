@@ -87,7 +87,7 @@ bool GameEntities::Bullet::processCollisions(vector<GameEntity*> collidingEntiti
 		}
 	}
 
-	return shouldKeepThis; 
+	return shouldKeepThis;
 }
 
 vector<GameEntity*> GameEntities::Bullet::getNewGameEntities()
