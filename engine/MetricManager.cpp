@@ -11,6 +11,7 @@ Engine::MetricManager::MetricManager()
 
 	this->unitInPixelsX = SCREEN_WIDTH / widthUnits;
 	this->unitInPixelsY = SCREEN_HEIGHT / heightUnits;
+	this->unitInPixels = (this->unitInPixelsX + this->unitInPixelsY) / 2;
 }
 
 Engine::MetricManager* Engine::MetricManager::Get()
@@ -25,19 +26,26 @@ Engine::MetricManager* Engine::MetricManager::Get()
 
 void Engine::MetricManager::debugPrint()
 {
-	cout << "Height units: " << heightUnits << endl;
-	cout << "Width units: " << widthUnits << endl;
-	cout << "Unit pixels: " << unitInPixelsX << " , " << unitInPixelsY << endl;
+	auto mgr = Engine::MetricManager::Get();
+	cout << "Height units: " << mgr->heightUnits << endl;
+	cout << "Width units: " << mgr->widthUnits << endl;
+	cout << "Unit pixels: " << mgr->unitInPixelsX << " , " << mgr->unitInPixelsY << endl;
 }
 
-int Engine::MetricManager::unitToPixelsX(double units)
+double Engine::MetricManager::unitToPixelsX(double units)
 {
 	auto mgr = Engine::MetricManager::Get();
 	return units * mgr->unitInPixelsX;
 }
 
-int Engine::MetricManager::unitToPixelsY(double units)
+double Engine::MetricManager::unitToPixelsY(double units)
 {
 	auto mgr = Engine::MetricManager::Get();
 	return units * mgr->unitInPixelsY;
+}
+
+double Engine::MetricManager::unitToPixels(double units)
+{
+	auto mgr = Engine::MetricManager::Get();
+	return units * mgr->unitInPixels;
 }

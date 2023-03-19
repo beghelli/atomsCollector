@@ -1,10 +1,10 @@
 #include <math.h>
 #include <vector>
-
 #include "Bullet.h"
 #include "Player.h"
 #include "GameEntity.h"
 #include "ScreenWriter.h"
+#include "MetricManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -19,14 +19,14 @@ GameEntities::Bullet::Bullet(int x, int y)
 	this->xv = 1;
 	this->yv = 1;
 	this->zAngle = 0;
-	this->acceleration = 10;
+	this->acceleration = Engine::MetricManager::unitToPixels(0.06);
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
-	this->entityHeight = 5;
-	this->entityWidth = 5;
+	this->entityHeight = (int) Engine::MetricManager::unitToPixelsY(0.05);
+	this->entityWidth = (int) Engine::MetricManager::unitToPixelsX(0.05);
 	this->entityTextureFile = "bullet.bmp";
 	this->entityTextureIndex = 1;
-	this->currentMaxVelocity = 16;
+	this->currentMaxVelocity = (int) Engine::MetricManager::unitToPixels(0.12);
 	this->baseMaxVelocity = this->currentMaxVelocity;
 	this->type = "Bullet";
 }

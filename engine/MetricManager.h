@@ -13,10 +13,12 @@ namespace Engine
 			MetricManager();
 			double unitInPixelsX;
 			double unitInPixelsY;
+			double unitInPixels;
 
 			static MetricManager* Get();
-			static int unitToPixelsX(double units);
-			static int unitToPixelsY(double units);
-			void debugPrint();
+			static double unitToPixelsX(double units);
+			static double unitToPixelsY(double units);
+			static double unitToPixels(double units);
+			static void debugPrint();
 	};
 }

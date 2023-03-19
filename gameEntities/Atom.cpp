@@ -1,11 +1,12 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <string>
 #include <SDL2/SDL.h>
 #include "GameEntity.h"
 #include "ScreenWriter.h"
 #include "Atom.h"
-#include <string>
+#include "MetricManager.h"
 
 using namespace Support;
 
@@ -18,11 +19,11 @@ GameEntities::Atom::Atom(int x, int y, int atomicNumber, int atomicMass)
 	this->xv = 0;
 	this->yv = 0;
 	this->zAngle = 0;
-	this->acceleration = 2;
+	this->acceleration = Engine::MetricManager::unitToPixels(0.02);
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
-	this->entityHeight = 25;
-	this->entityWidth = 25;
+	this->entityHeight = (int) Engine::MetricManager::unitToPixelsY(0.25);
+	this->entityWidth = (int) Engine::MetricManager::unitToPixelsX(0.25);
 	this->entityTextureFile = "hidrogen.bmp";
 	this->entityTextureIndex = 2;
 	this->type = "Atom";
@@ -39,7 +40,7 @@ void GameEntities::Atom::update(const unsigned char* keys, SDL_Point mousePositi
 		{
 			zAngle *= -1;
 		}
-		
+
 		if (limitPositionState.isOnLimitRightX
 			|| limitPositionState.isOnLimitLeftX)
 		{
