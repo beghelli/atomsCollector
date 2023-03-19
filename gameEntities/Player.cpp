@@ -10,6 +10,7 @@
 #include "Atom.h"
 #include "ScreenWriter.h"
 #include "PlayerAndAtomCollided.h"
+#include "MetricManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -28,8 +29,8 @@ GameEntities::Player::Player(int x, int y)
 	this->acceleration = 0.5;
 	this->isAcceleratingX = false;
 	this->isAcceleratingY = false;
-	this->entityHeight = 25;
-	this->entityWidth = 28;
+	this->entityHeight = Engine::MetricManager::unitToPixelsY(0.5);
+	this->entityWidth = Engine::MetricManager::unitToPixelsX(0.55);
 	this->entityTextureFile = "player.bmp";
 	this->entityTextureIndex = 0;
 	this->currentMaxVelocity = 4;
@@ -123,7 +124,7 @@ vector<GameEntity*> GameEntities::Player::getNewGameEntities()
 	{
 		Bullet* bullet = new Bullet(x + entityWidth / 2, y + entityHeight / 2);
 		bullet->setZAngle(zAngle);
-		float currentMovingSpeed = getCurrentMovingSpeed();	
+		float currentMovingSpeed = getCurrentMovingSpeed();
 		bullet->increaseAccelerationIn(currentMovingSpeed);
 		bullet->setShooter(this);
 		entities.push_back(bullet);
@@ -307,7 +308,7 @@ float GameEntities::Player::getCurrentMovingSpeed()
 		{
 			if (zAngle < 45.000 && zAngle > -45.000)
 			{
-				currentMovingSpeed = abs(xv); 
+				currentMovingSpeed = abs(xv);
 			}
 		}
 	}
@@ -329,7 +330,7 @@ float GameEntities::Player::getCurrentMovingSpeed()
 			}
 		}
 	}
-	
+
 	return currentMovingSpeed;
 }
 
