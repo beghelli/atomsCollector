@@ -178,7 +178,7 @@ bool Engine::Core::init()
 		return false;
 	}
 	SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
-	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_SHOWN;
+	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_MOUSE_CAPTURE | SDL_WINDOW_FULLSCREEN;
 	if (SDL_GetNumVideoDisplays() > 1)
 	{
 		windowPosX = SDL_WINDOWPOS_CENTERED_DISPLAY(2);
