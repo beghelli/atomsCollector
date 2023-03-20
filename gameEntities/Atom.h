@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <unordered_map>
+#include <string>
 #include <SDL2/SDL.h>
 #include "GameEntity.h"
 #include "ScreenWriter.h"
@@ -9,15 +11,26 @@ using namespace Support;
 
 namespace GameEntities
 {
+	typedef struct AtomData {
+		string id;
+		int atomicNumber;
+		int atomicMass;
+		string acronym;
+		SDL_Color color;
+		string name;
+		string description;
+	} AtomData;
 
 	class Atom : public GameEntity
 	{
 		public:
 			int atomicNumber;
 			int atomicMass;
+			static unordered_map<string, AtomData> atomDataRepository;
 
 			Atom(int x, int y, int atomicNumber, int atomicMass);
 
+			bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
 			void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown);
 			bool shouldDestroy();
 			bool isGameOver();
@@ -28,6 +41,7 @@ namespace GameEntities
 		private:
 			int originalX;
 			int originalY;
+			bool loadDataRepository();
 	};
 
 }

@@ -65,7 +65,7 @@ void MyGame::renderLoadingScreen(SDL_Renderer* renderer, SDL_Texture* textures[]
 
 	int messageWidth = 500;
 	int messageHeight = 100;
-	Message message("Loading", 25, 1, (SCREEN_WIDTH / 2) - (messageWidth / 2), (SCREEN_HEIGHT / 2) - (messageHeight / 2), messageWidth, messageHeight);
+	Message message("Carregando", 25, 1, (SCREEN_WIDTH / 2) - (messageWidth / 2), (SCREEN_HEIGHT / 2) - (messageHeight / 2), messageWidth, messageHeight);
 	screenWriter->write(message);
 
 	SDL_RenderPresent(renderer);

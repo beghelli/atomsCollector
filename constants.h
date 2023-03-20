@@ -16,5 +16,7 @@ const int SCREEN_HEIGHT = 720;
 const bool FULLSCREEN = false;
 
 const string ASSETS_FOLDER = "assets";
+const string DATA_FOLDER = "data";
+const char CSV_SEPARATOR = ';';
 
 static const string PATH_SEPARATOR(1, filesystem::path::preferred_separator);
