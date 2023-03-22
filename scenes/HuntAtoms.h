@@ -12,7 +12,7 @@ namespace Scenes
 	{
 		public:
 			int load(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
-			void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
+			void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown);
 
 		private:
 			void fillAtoms(EntityRepository<GameEntity>* entityRepository);

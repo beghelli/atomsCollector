@@ -14,6 +14,6 @@ namespace Engine
 	{
 		public:
 			virtual int load(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)=0;
-			virtual void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)=0;
+			virtual void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)=0;
 	};
 }

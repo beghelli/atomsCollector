@@ -26,7 +26,7 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 	return Game::STATUS_IN_GAME;
 }
 
-void Scenes::HuntAtoms::onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
+void Scenes::HuntAtoms::onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)
 {
 	int atomsCount = 0;
 	auto counter = [&](unsigned int id, GameEntity* gameEntity) -> bool

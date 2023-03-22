@@ -90,7 +90,7 @@ bool Engine::Core::gameLoop(const unsigned char* keys, bool isMouseDown)
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
 
-	game->currentGameScene->onGameLoopStart(entityRepository, UIEntityRepository);
+	game->currentGameScene->onGameLoopStart(entityRepository, UIEntityRepository, screenWriter, keys, isMouseDown);
 
 	auto processEntitiesPosition = [&](unsigned int id, GameEntity* gameEntity) -> bool
 	{
