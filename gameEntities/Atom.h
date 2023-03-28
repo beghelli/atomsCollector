@@ -11,22 +11,12 @@ using namespace Support;
 
 namespace GameEntities
 {
-	typedef struct AtomData {
-		string id;
-		int atomicNumber;
-		int atomicMass;
-		string acronym;
-		SDL_Color color;
-		string name;
-		string description;
-	} AtomData;
 
 	class Atom : public GameEntity
 	{
 		public:
 			int atomicNumber;
 			int atomicMass;
-			static unordered_map<string, AtomData> atomDataRepository;
 
 			Atom(int x, int y, int atomicNumber, int atomicMass);
 
@@ -41,7 +31,6 @@ namespace GameEntities
 		private:
 			int originalX;
 			int originalY;
-			bool loadDataRepository();
 	};
 
 }

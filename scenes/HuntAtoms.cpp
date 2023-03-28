@@ -6,10 +6,12 @@
 #include "Game.h"
 #include "constants.h"
 #include "ScoreBoard.h"
+#include "AtomDAO.h"
 
 using namespace Engine;
 using namespace GameEntities;
 using namespace UIEntities;
+using namespace Data;
 
 int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
 {
@@ -112,13 +114,14 @@ void Scenes::HuntAtoms::addUIElements(EntityRepository<Entity>* entityRepository
 {
 	SDL_Color hidrogenColor;
 
-	auto atomsData = Atom::atomDataRepository["1H1"];
+	AtomDAO atomDAO;
+	auto atomsData = atomDAO.getById("1H1");
 	vector<int> trackedHydrogenAtomicNumber{atomsData.atomicNumber};
 	ScoreBoard* hidrogenScoreBoard = new ScoreBoard(atomsData.name, 10, trackedHydrogenAtomicNumber, atomsData.color, 5, 5);
 	hidrogenScoreBoard->registerPlayerAtomCollisionListener();
 	entityRepository->addEntity(hidrogenScoreBoard);
 
-	atomsData = Atom::atomDataRepository["8O16"];
+	atomsData = atomDAO.getById("8O16");
 	vector<int> trackedOxigenAtomicNumber{atomsData.atomicNumber};
 	ScoreBoard* oxigenScoreBoard = new ScoreBoard(atomsData.name, 80, trackedOxigenAtomicNumber, atomsData.color, 270, 5);
 	oxigenScoreBoard->registerPlayerAtomCollisionListener();
