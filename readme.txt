@@ -74,7 +74,7 @@ Linux
 Install SDL2 and SDL2_ttf (for text display) libraries:
 - sudo apt-get install libsdl2-dev
 - sudo apt-get install libsdl2-ttf-dev
-g++ -o game game main.cpp ./engine/Core.cpp ./engine/Game.cpp ./engine/MetricManager.cpp ./engine/Entity.cpp MyGame.cpp ./engine/GameEntity.cpp ./gameEntities/Atom.cpp ./gameEntities/Player.cpp ./gameEntities/Bullet.cpp ./UIEntities/ScoreBoard.cpp ./scenes/HuntAtoms.cpp ./data/AtomDAO.cpp ./engine/support/EntityRepository.cpp ./engine/support/CollisionDetector.cpp ./engine/support/ScreenWriter.cpp ./engine/support/Message.cpp ./engine/support/EventsManager.cpp ./engine/support/Event.cpp ./events/PlayerAndAtomCollided.cpp -I./gameEntities/ -I./scenes/ -I./UIEntities/ -I./events/ -I./engine/support/ -I./engine/ -I./data/ -I. -lSDL2main -lSDL2 -lSDL2_ttf
+g++ -o game main.cpp ./engine/Core.cpp ./engine/Game.cpp ./engine/MetricManager.cpp ./engine/Entity.cpp MyGame.cpp ./engine/GameEntity.cpp ./gameEntities/Atom.cpp ./gameEntities/Player.cpp ./gameEntities/Bullet.cpp ./UIEntities/ScoreBoard.cpp ./scenes/HuntAtoms.cpp ./data/AtomDAO.cpp ./data/MoleculeDAO.cpp ./engine/support/EntityRepository.cpp ./engine/support/CollisionDetector.cpp ./engine/support/ScreenWriter.cpp ./engine/support/Message.cpp ./engine/support/EventsManager.cpp ./engine/support/Event.cpp ./events/PlayerAndAtomCollided.cpp -I./gameEntities/ -I./scenes/ -I./UIEntities/ -I./events/ -I./engine/support/ -I./engine/ -I./data/ -I. -lSDL2main -lSDL2 -lSDL2_ttf
 
 COMPILE AND LINKER COMMAND (STATICALLY INCLUDE DEPENDENCIES, PRODUCTION)
 Windows

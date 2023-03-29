@@ -7,6 +7,7 @@
 #include "constants.h"
 #include "ScoreBoard.h"
 #include "AtomDAO.h"
+#include "MoleculeDAO.h"
 
 using namespace Engine;
 using namespace GameEntities;
@@ -22,6 +23,9 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 	fillAtoms(entityRepository);
 
 	addUIElements(UIEntityRepository);
+
+	MoleculeDAO moleculeDAO;
+	moleculeDAO.loadData();
 
 	SDL_Delay(1000);
 
