@@ -24,19 +24,9 @@ Scenes::Support::AtomGenerator::AtomGenerator(MoleculeData sceneDesiredMolecule,
 
 void Scenes::Support::AtomGenerator::setAtoms(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
 {
-	int atomsCount = 0;
+	int atomsCount = entityRepository->getEntityCount("Atom", Entity::DEFAULT_INSTANCE_TYPE);
 	vector<GameEntity *> atoms;
 	
-	auto counter = [&](unsigned int id, GameEntity* gameEntity) -> bool
-	{
-		if (gameEntity->type == "Atom")
-		{
-			atomsCount++;
-		}
-		return true;
-	};
-	entityRepository->iterate(counter);
-
 	if (atomsCount < 3)
 	{
 		int x = 1 + (rand() % SCREEN_WIDTH);

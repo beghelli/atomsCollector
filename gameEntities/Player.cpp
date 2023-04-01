@@ -36,7 +36,7 @@ GameEntities::Player::Player(int x, int y)
 	this->currentMaxVelocity = (int) Engine::MetricManager::unitToPixels(0.05);
 	this->baseMaxVelocity = this->currentMaxVelocity;
 	this->isRunning = false;
-	this->type = "Player";
+	this->classType = "Player";
 }
 
 void GameEntities::Player::setLife(int life)
@@ -89,7 +89,7 @@ bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntiti
 {
 	for (GameEntity* gameEntity : collidingEntities)
 	{
-		if (gameEntity->type == "Atom")
+		if (gameEntity->getClassType() == "Atom")
 		{
 			Atom* atom = dynamic_cast<Atom*>(gameEntity);
 			PlayerAndAtomCollided* event = new PlayerAndAtomCollided(atom->atomicNumber, atom->atomicMass);

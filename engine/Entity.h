@@ -18,6 +18,8 @@ namespace Engine
 			int entityWidth;
 			string entityTextureFile;
 			int entityTextureIndex;
+			string classType;
+			string instanceType;
 			
 		public:
 			void setId(unsigned int id);
@@ -26,10 +28,12 @@ namespace Engine
 			int getY();
 			int getHeight();
 			int getWidth();
+			string getClassType();
+			string getInstanceType();
 			bool load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter);
-			void destroy(SDL_Texture* textures[]);
-			
-			string type;
+			void destroy(SDL_Texture* textures[]);	
+
+			static const string DEFAULT_INSTANCE_TYPE;
 
 			virtual void update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)=0;
 			virtual void render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)=0;

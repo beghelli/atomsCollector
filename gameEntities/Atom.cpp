@@ -29,7 +29,7 @@ GameEntities::Atom::Atom(int x, int y, int atomicNumber, int atomicMass)
 	this->entityWidth = (int) Engine::MetricManager::unitToPixelsX(0.25);
 	this->entityTextureFile = "hidrogen.bmp";
 	this->entityTextureIndex = 2;
-	this->type = "Atom";
+	this->classType = "Atom";
 	this->atomicNumber = atomicNumber;
 	this->atomicMass = atomicMass;
 }

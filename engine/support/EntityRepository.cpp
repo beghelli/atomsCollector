@@ -24,10 +24,13 @@ template <class C> void Engine::Support::EntityRepository<C>::addEntity(C* gameE
 	gameEntity->setId(this->nextEntityId);
 	this->gameEntitiesMap[this->nextEntityId++] = gameEntity;
 	this->entitiesCount++;
+	this->changeEntitiesMapCount(gameEntity->getClassType(), gameEntity->getInstanceType(), 1);
 }
 
 template <class C> void Engine::Support::EntityRepository<C>::deleteEntity(unsigned int gameEntityId)
 {
+	auto entity = this->gameEntitiesMap[gameEntityId];
+	this->changeEntitiesMapCount(entity->getClassType(), entity->getInstanceType(), -1);
 	delete this->gameEntitiesMap[gameEntityId];
 	this->gameEntitiesMap.erase(gameEntityId);
 	this->entitiesCount--;
@@ -49,6 +52,32 @@ template <class C> void Engine::Support::EntityRepository<C>::iterate(function<b
 template <class C> void Engine::Support::EntityRepository<C>::clear()
 {
 	iterate([](unsigned int id, C* gameEntity) -> bool { return false; });
+}
+
+template <class C> void Engine::Support::EntityRepository<C>::changeEntitiesMapCount(string classType, string instanceType, int changeValue)
+{
+	this->initCount(classType, instanceType);
+	this->entitiesMapCount[classType][instanceType] += changeValue;
+}
+
+template <class C> int Engine::Support::EntityRepository<C>::getEntityCount(string classType, string instanceType)
+{
+	this->initCount(classType, instanceType);
+	return this->entitiesMapCount[classType][instanceType];
+}
+
+template <class C> void Engine::Support::EntityRepository<C>::initCount(string classType, string instanceType)
+{
+	if (! this->entitiesMapCount.count(classType))
+	{
+		unordered_map<string, int> instanceTypeCount;
+		this->entitiesMapCount[classType] = instanceTypeCount;
+	}
+
+	if (! this->entitiesMapCount[classType].count(instanceType))
+	{
+		this->entitiesMapCount[classType][instanceType] = 0;
+	}
 }
 
 template class Engine::Support::EntityRepository<GameEntity>;

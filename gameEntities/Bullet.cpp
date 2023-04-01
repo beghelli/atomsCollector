@@ -28,7 +28,7 @@ GameEntities::Bullet::Bullet(int x, int y)
 	this->entityTextureIndex = 1;
 	this->currentMaxVelocity = (int) Engine::MetricManager::unitToPixels(0.12);
 	this->baseMaxVelocity = this->currentMaxVelocity;
-	this->type = "Bullet";
+	this->classType = "Bullet";
 }
 
 GameEntity* GameEntities::Bullet::getShooter()

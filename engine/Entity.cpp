@@ -6,6 +6,8 @@
 
 using namespace Engine::Support;
 
+const string Engine::Entity::DEFAULT_INSTANCE_TYPE = "0";
+
 void Engine::Entity::setId(unsigned int id)
 {
 	this->id = id;
@@ -34,6 +36,23 @@ int Engine::Entity::getHeight()
 int Engine::Entity::getWidth()
 {
 	return entityWidth;
+}
+
+string Engine::Entity::getClassType()
+{
+	return classType;
+}
+
+string Engine::Entity::getInstanceType()
+{
+	if (instanceType.length() == 0)
+	{
+		return instanceType;
+	}
+	else
+	{
+		return DEFAULT_INSTANCE_TYPE;
+	}
 }
 
 bool Engine::Entity::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
