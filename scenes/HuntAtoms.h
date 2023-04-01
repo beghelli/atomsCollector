@@ -6,7 +6,9 @@
 #include "Entity.h"
 #include "GameEntity.h"
 #include "AtomGenerator.h"
+#include "LevelDAO.h"
 
+using namespace Data;
 using namespace Scenes::Support;
 
 namespace Scenes
@@ -14,11 +16,13 @@ namespace Scenes
 	class HuntAtoms : public GameScene
 	{
 		public:
+			HuntAtoms(LevelData levelData);
 			int load(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
 			void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown);
 
 		private:
 			AtomGenerator* atomGenerator;
+			LevelData levelData;
 			void fillAtoms(EntityRepository<GameEntity>* entityRepository);
 			void addUIElements(EntityRepository<Entity>* UIEntityRepository);
 	};

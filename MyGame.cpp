@@ -8,7 +8,9 @@
 #include "Player.h"
 #include "ScoreBoard.h"
 #include "HuntAtoms.h"
+#include "LevelDAO.h"
 
+using namespace Data;
 using namespace Engine::Support;
 using namespace GameEntities;
 using namespace UIEntities;
@@ -36,7 +38,9 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	bool resultOxigenScoreBoard = oxigenScoreBoard->load(renderer, textures, screenWriter);
 	delete oxigenScoreBoard;
 
-	return resultPlayer && resultBullet && resultAtom && resultHidrogenScoreBoard && resultOxigenScoreBoard;
+	bool resultLoadLevelsData = LevelDAO::loadData();
+
+	return resultPlayer && resultBullet && resultAtom && resultHidrogenScoreBoard && resultOxigenScoreBoard && resultLoadLevelsData;
 }
 
 bool MyGame::renderMenus(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)
@@ -51,7 +55,8 @@ bool MyGame::renderMenus(SDL_Renderer* renderer, SDL_Texture* textures[], Screen
 
 	if (keys[SDL_SCANCODE_RETURN])
 	{
-		HuntAtoms* huntAtoms = new HuntAtoms();
+		LevelDAO levelDAO;
+		HuntAtoms* huntAtoms = new HuntAtoms(levelDAO.getById("first"));
 		loadScene(huntAtoms);
 	}
 

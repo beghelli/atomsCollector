@@ -20,9 +20,10 @@ namespace Scenes
 		{
 			private:
 				MoleculeData sceneDesiredMolecule;
+				int desiredAtomsAppearanceChance;
 
 			public:
-				AtomGenerator(MoleculeData sceneDesiredMolecule);
+				AtomGenerator(MoleculeData sceneDesiredMolecule, int desiredAtomsAppearanceChance);
 				void setAtoms(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
 		};
 	}

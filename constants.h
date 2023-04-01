@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int DEBUG = false;
+const int DEBUG = true;
 const int DEBUG_KEY = SDL_SCANCODE_B;
 
 // Game only works well with aspect ratio equals to 16:9. So we should only use dimensions like:

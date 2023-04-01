@@ -16,9 +16,10 @@ using namespace Engine::Support;
 using namespace Engine;
 using namespace Data;
 
-Scenes::Support::AtomGenerator::AtomGenerator(MoleculeData sceneDesiredMolecule)
+Scenes::Support::AtomGenerator::AtomGenerator(MoleculeData sceneDesiredMolecule, int desiredAtomsAppearanceChance)
 {
 	this->sceneDesiredMolecule = sceneDesiredMolecule;
+	this->desiredAtomsAppearanceChance = desiredAtomsAppearanceChance;
 }
 
 void Scenes::Support::AtomGenerator::setAtoms(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)

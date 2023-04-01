@@ -7,6 +7,7 @@
 #include "ScoreBoard.h"
 #include "AtomDAO.h"
 #include "MoleculeDAO.h"
+#include "LevelDAO.h"
 
 using namespace Engine;
 using namespace Engine::Support;
@@ -14,6 +15,11 @@ using namespace GameEntities;
 using namespace UIEntities;
 using namespace Data;
 using namespace Scenes::Support;
+
+Scenes::HuntAtoms::HuntAtoms(LevelData levelData)
+{
+	this->levelData = levelData;
+}
 
 int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
 {
@@ -28,7 +34,7 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 	MoleculeDAO moleculeDAO;
 	moleculeDAO.loadData();
 
-	atomGenerator = new AtomGenerator(moleculeDAO.getById("water")); 
+	atomGenerator = new AtomGenerator(moleculeDAO.getById(levelData.desiredMoleculeId), levelData.desiredAtomsAppearanceChance); 
 
 	SDL_Delay(1000);
 
