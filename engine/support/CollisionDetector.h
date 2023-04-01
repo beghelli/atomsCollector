@@ -3,20 +3,23 @@
 #include "GameEntity.h"
 #include "EntityRepository.h"
 
-using namespace Support;
+using namespace Engine::Support;
 using namespace Engine;
 
-namespace Support
+namespace Engine
 {
-
-	class CollisionDetector
+	namespace Support
 	{
-		private:
-			EntityRepository<GameEntity>* entityRepository;
 
-		public:
-			CollisionDetector(EntityRepository<GameEntity>* entityRepository);
-			vector<GameEntity*> getCollidingEntities(GameEntity* gameEntity);
-	};
+		class CollisionDetector
+		{
+			private:
+				EntityRepository<GameEntity>* entityRepository;
 
+			public:
+				CollisionDetector(EntityRepository<GameEntity>* entityRepository);
+				vector<GameEntity*> getCollidingEntities(GameEntity* gameEntity);
+		};
+
+	}
 }

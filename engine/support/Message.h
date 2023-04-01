@@ -3,27 +3,30 @@
 
 using namespace std;
 
-namespace Support
+namespace Engine
 {
-	class Message
+	namespace Support
 	{
-		private:
-			string text;
-			int fontSize;
-			int fontId;
-			int positionX;
-			int positionY;
-			int width;
-			int height;
+		class Message
+		{
+			private:
+				string text;
+				int fontSize;
+				int fontId;
+				int positionX;
+				int positionY;
+				int width;
+				int height;
 
-		public:
-			Message(string text, int fontSize, int fontId, int positionX, int positionY, int width, int height);
-			string getText();
-			int getFontSize();
-			int getFontId();
-			int getPositionX();
-			int getPositionY();
-			int getWidth();
-			int getHeight();
-	};
+			public:
+				Message(string text, int fontSize, int fontId, int positionX, int positionY, int width, int height);
+				string getText();
+				int getFontSize();
+				int getFontId();
+				int getPositionX();
+				int getPositionY();
+				int getWidth();
+				int getHeight();
+		};
+	}
 }

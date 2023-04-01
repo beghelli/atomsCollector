@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "ScreenWriter.h"
 
-using namespace Support;
+using namespace Engine::Support;
 
 void Engine::Entity::setId(unsigned int id)
 {

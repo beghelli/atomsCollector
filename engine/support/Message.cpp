@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Support::Message::Message(string text, int fontSize, int fontId, int positionX, int positionY, int width, int height)
+Engine::Support::Message::Message(string text, int fontSize, int fontId, int positionX, int positionY, int width, int height)
 {
 	this->text = text;
 	this->fontSize = fontSize;
@@ -14,37 +14,37 @@ Support::Message::Message(string text, int fontSize, int fontId, int positionX, 
 	this->height = height;
 }
 
-string Support::Message::getText()
+string Engine::Support::Message::getText()
 {
 	return text;
 }
 
-int Support::Message::getFontSize()
+int Engine::Support::Message::getFontSize()
 {
 	return fontSize;
 }
 
-int Support::Message::getFontId()
+int Engine::Support::Message::getFontId()
 {
 	return fontId;
 }
 
-int Support::Message::getPositionX()
+int Engine::Support::Message::getPositionX()
 {
 	return positionX;
 }
 
-int Support::Message::getPositionY()
+int Engine::Support::Message::getPositionY()
 {
 	return positionY;
 }
 
-int Support::Message::getWidth()
+int Engine::Support::Message::getWidth()
 {
 	return width;
 }
 
-int Support::Message::getHeight()
+int Engine::Support::Message::getHeight()
 {
 	return height;
 }

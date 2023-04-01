@@ -6,7 +6,7 @@
 #include "GameEntity.h"
 #include "Game.h"
 
-using namespace Support;
+using namespace Engine::Support;
 using namespace Engine;
 
 class MyGame: public Game

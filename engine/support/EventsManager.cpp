@@ -4,21 +4,21 @@
 #include "Event.h"
 
 using namespace std;
-using namespace Support;
+using namespace Engine::Support;
 
-Support::EventsManager* Support::EventsManager::eventsManager{nullptr};
+Engine::Support::EventsManager* Engine::Support::EventsManager::eventsManager{nullptr};
 
-Support::EventsManager* Support::EventsManager::Get()
+Engine::Support::EventsManager* Engine::Support::EventsManager::Get()
 {
 	if (eventsManager == nullptr)
 	{
-		eventsManager = new Support::EventsManager();
+		eventsManager = new Engine::Support::EventsManager();
 	}
 
 	return eventsManager;
 }
 
-void Support::EventsManager::listenFor(string event, function<void(Event* event)> listenerFunction)
+void Engine::Support::EventsManager::listenFor(string event, function<void(Event* event)> listenerFunction)
 {
 	EventListener listener;
 	listener.event = event;
@@ -27,7 +27,7 @@ void Support::EventsManager::listenFor(string event, function<void(Event* event)
 	listeners.push_back(listener);
 }
 
-void Support::EventsManager::trigger(Event* event)
+void Engine::Support::EventsManager::trigger(Event* event)
 {
 	for (EventListener listener : listeners)
 	{

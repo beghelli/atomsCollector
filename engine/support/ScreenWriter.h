@@ -6,28 +6,31 @@
 #include "Message.h"
 
 using namespace std;
-using namespace Support;
+using namespace Engine::Support;
 
-namespace Support
+namespace Engine
 {
-	typedef struct TextTextureRecord {
-		string text;
-		SDL_Texture* texture;
-	} TextTextureRecord;
+	namespace Support
+	{
+		typedef struct TextTextureRecord {
+			string text;
+			SDL_Texture* texture;
+		} TextTextureRecord;
 
-	class ScreenWriter
-	{	
-		private:
-			SDL_Renderer* renderer;
-			TTF_Font* font;
-			vector<TextTextureRecord> textures;
+		class ScreenWriter
+		{	
+			private:
+				SDL_Renderer* renderer;
+				TTF_Font* font;
+				vector<TextTextureRecord> textures;
 
-		public:
-			ScreenWriter(SDL_Renderer* renderer);
-			~ScreenWriter();
-			bool initialize();
-			bool load();
-			TextTextureRecord loadTextTexture(Message message);
-			void write(Message message);
-	};
+			public:
+				ScreenWriter(SDL_Renderer* renderer);
+				~ScreenWriter();
+				bool initialize();
+				bool load();
+				TextTextureRecord loadTextTexture(Message message);
+				void write(Message message);
+		};
+	}
 }

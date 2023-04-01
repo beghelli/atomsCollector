@@ -10,7 +10,7 @@
 #include "ScreenWriter.h"
 
 using namespace std;
-using namespace Support;
+using namespace Engine::Support;
 
 Engine::Core::Core(Game* game)
 {

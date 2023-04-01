@@ -9,7 +9,7 @@
 
 #define MAX_ENTITIES 100
 
-using namespace Support;
+using namespace Engine::Support;
 
 namespace Engine 
 {

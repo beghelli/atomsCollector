@@ -5,6 +5,9 @@
 #include "ScreenWriter.h"
 #include "Entity.h"
 #include "GameEntity.h"
+#include "AtomGenerator.h"
+
+using namespace Scenes::Support;
 
 namespace Scenes
 {
@@ -15,6 +18,7 @@ namespace Scenes
 			void onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown);
 
 		private:
+			AtomGenerator* atomGenerator;
 			void fillAtoms(EntityRepository<GameEntity>* entityRepository);
 			void addUIElements(EntityRepository<Entity>* UIEntityRepository);
 	};

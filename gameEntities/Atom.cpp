@@ -10,7 +10,7 @@
 #include "AtomDAO.h"
 #include "MetricManager.h"
 
-using namespace Support;
+using namespace Engine::Support;
 using namespace Data;
 
 GameEntities::Atom::Atom(int x, int y, int atomicNumber, int atomicMass)

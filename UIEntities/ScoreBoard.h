@@ -5,7 +5,7 @@
 #include "Message.h"
 
 using namespace Engine;
-using namespace Support;
+using namespace Engine::Support;
 
 namespace UIEntities
 {

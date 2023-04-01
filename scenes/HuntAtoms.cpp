@@ -1,5 +1,4 @@
 #include <iostream>
-#include "cstdlib"
 #include "HuntAtoms.h"
 #include "Player.h"
 #include "Atom.h"
@@ -10,9 +9,11 @@
 #include "MoleculeDAO.h"
 
 using namespace Engine;
+using namespace Engine::Support;
 using namespace GameEntities;
 using namespace UIEntities;
 using namespace Data;
+using namespace Scenes::Support;
 
 int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository)
 {
@@ -27,6 +28,8 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 	MoleculeDAO moleculeDAO;
 	moleculeDAO.loadData();
 
+	atomGenerator = new AtomGenerator(moleculeDAO.getById("water")); 
+
 	SDL_Delay(1000);
 
 	return Game::STATUS_IN_GAME;
@@ -34,39 +37,7 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 
 void Scenes::HuntAtoms::onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)
 {
-	int atomsCount = 0;
-	auto counter = [&](unsigned int id, GameEntity* gameEntity) -> bool
-	{
-		if (gameEntity->type == "Atom")
-		{
-			atomsCount++;
-		}
-		return true;
-	};
-	entityRepository->iterate(counter);
-
-	if (atomsCount < 3)
-	{
-		int x = 1 + (rand() % SCREEN_WIDTH);
-		int y = 1 + (rand() % SCREEN_HEIGHT);
-		int atomicMass = 1;
-		int zAngle = 1 + (rand() % 360);
-		int atomicNumber = 1 + (rand() % 7);
-		if (x % 2 == 0)
-		{
-			atomicMass = 16;
-			x = 0;
-			zAngle = zAngle * -1;
-		}
-		else
-		{
-			y = 0;
-		}
-
-		Atom* atom = new Atom(x, y, atomicNumber, atomicMass);
-		atom->setZAngle(zAngle);
-		entityRepository->addEntity(atom);
-	}
+	atomGenerator->setAtoms(entityRepository, UIEntityRepository);
 }
 
 void Scenes::HuntAtoms::fillAtoms(EntityRepository<GameEntity>* entityRepository)

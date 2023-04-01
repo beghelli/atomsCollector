@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "GameEntity.h"
 
-using namespace Support;
+using namespace Engine::Support;
 using namespace Engine;
 
 namespace Engine

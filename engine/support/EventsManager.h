@@ -5,24 +5,27 @@
 #include "Event.h"
 
 using namespace std;
-using namespace Support;
+using namespace Engine::Support;
 
-namespace Support
+namespace Engine
 {
-	typedef struct EventListener {
-		string event;
-		function<void(Event* event)> callback;
-	} EventListener;
-
-	class EventsManager
+	namespace Support
 	{
-		private:
-			static EventsManager* eventsManager;
-			vector<EventListener> listeners;
+		typedef struct EventListener {
+			string event;
+			function<void(Event* event)> callback;
+		} EventListener;
 
-		public:
-			static EventsManager* Get();
-			void listenFor(string event, function<void(Event* event)> listenerFunction);
-			void trigger(Event* event);
-	};
+		class EventsManager
+		{
+			private:
+				static EventsManager* eventsManager;
+				vector<EventListener> listeners;
+
+			public:
+				static EventsManager* Get();
+				void listenFor(string event, function<void(Event* event)> listenerFunction);
+				void trigger(Event* event);
+		};
+	}
 }

@@ -9,7 +9,7 @@
 #include "ScoreBoard.h"
 #include "HuntAtoms.h"
 
-using namespace Support;
+using namespace Engine::Support;
 using namespace GameEntities;
 using namespace UIEntities;
 using namespace Scenes;

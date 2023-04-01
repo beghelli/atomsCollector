@@ -3,15 +3,18 @@
 
 using namespace std;
 
-namespace Support
+namespace Engine
 {
-	class Event
+	namespace Support
 	{
-		public:
-			string id;
-			void trigger();
+		class Event
+		{
+			public:
+				string id;
+				void trigger();
 
-		protected:
-			virtual string getId()=0;
-	};
+			protected:
+				virtual string getId()=0;
+		};
+	}
 }

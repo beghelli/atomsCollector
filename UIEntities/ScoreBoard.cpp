@@ -10,7 +10,7 @@
 #include "PlayerAndAtomCollided.h"
 
 using namespace Engine;
-using namespace Support;
+using namespace Engine::Support;
 using namespace Events;
 
 UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, vector<int> atomicNumbers, SDL_Color color, int x, int y)

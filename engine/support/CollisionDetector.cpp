@@ -7,12 +7,12 @@
 
 using namespace Engine;
 
-Support::CollisionDetector::CollisionDetector(EntityRepository<GameEntity>* entityRepository)
+Engine::Support::CollisionDetector::CollisionDetector(EntityRepository<GameEntity>* entityRepository)
 {
 	this->entityRepository = entityRepository;
 }
 
-vector<GameEntity*> Support::CollisionDetector::getCollidingEntities(GameEntity* gameEntity)
+vector<GameEntity*> Engine::Support::CollisionDetector::getCollidingEntities(GameEntity* gameEntity)
 {
 	vector<GameEntity*> collidingEntities;
 	struct EntityLimits

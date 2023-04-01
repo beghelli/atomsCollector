@@ -7,14 +7,14 @@
 #include "Message.h"
 
 using namespace std;
-using namespace Support;
+using namespace Engine::Support;
 
-Support::ScreenWriter::ScreenWriter(SDL_Renderer* renderer)
+Engine::Support::ScreenWriter::ScreenWriter(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
 }
 
-Support::ScreenWriter::~ScreenWriter()
+Engine::Support::ScreenWriter::~ScreenWriter()
 {
 	TTF_CloseFont(font);
 	for (TextTextureRecord textureRecord : textures)
@@ -24,7 +24,7 @@ Support::ScreenWriter::~ScreenWriter()
 	textures.clear();
 }
 
-bool Support::ScreenWriter::initialize()
+bool Engine::Support::ScreenWriter::initialize()
 {
 	bool success = true;
 	if (TTF_Init() == -1)
@@ -36,7 +36,7 @@ bool Support::ScreenWriter::initialize()
 	return success;
 }
 
-bool Support::ScreenWriter::load()
+bool Engine::Support::ScreenWriter::load()
 {
 	int fontSize = 100;
 	string fontPath = "." + PATH_SEPARATOR + ASSETS_FOLDER + PATH_SEPARATOR + "freeSans.ttf";
@@ -51,7 +51,7 @@ bool Support::ScreenWriter::load()
 	return true;
 }
 
-void Support::ScreenWriter::write(Message message)
+void Engine::Support::ScreenWriter::write(Message message)
 {
 	TextTextureRecord workingTextureRecord = loadTextTexture(message);
 
@@ -67,7 +67,7 @@ void Support::ScreenWriter::write(Message message)
 	}
 }
 
-TextTextureRecord Support::ScreenWriter::loadTextTexture(Message message)
+TextTextureRecord Engine::Support::ScreenWriter::loadTextTexture(Message message)
 {
 	TextTextureRecord workingTextureRecord;
 	bool textureLoaded = false;

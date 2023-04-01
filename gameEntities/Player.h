@@ -6,7 +6,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Support;
+using namespace Engine::Support;
 
 namespace GameEntities
 {
