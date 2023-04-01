@@ -21,6 +21,7 @@ UIEntities::ScoreBoard::ScoreBoard(string label, int maxCapacity, vector<int> at
 	this->x = x;
 	this->y = y;
 	this->color = color;
+	this->classType = "ScoreBoard";
 }
 
 UIEntities::ScoreBoard::ScoreBoard(string label)
@@ -33,12 +34,12 @@ bool UIEntities::ScoreBoard::load(SDL_Renderer* renderer, SDL_Texture* textures[
 	Message otherElementsMessage(label, 25, 1, 0, 0, 80, 20);
 	screenWriter->loadTextTexture(otherElementsMessage);
 
-	return Entity::load(renderer, textures, screenWriter);	
+	return Entity::load(renderer, textures, screenWriter);
 }
 
 void UIEntities::ScoreBoard::update(const unsigned char* keys, SDL_Point mousePosition, bool isMouseDown)
 {
-	
+
 }
 
 void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
@@ -50,7 +51,7 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	int otherMessageHeight = 20;
 
 	Message otherElementsMessage(label, 25, 1, leftLimit, topLimit, otherMessageWidth, otherMessageHeight);
-	
+
 	int space = 10;
 	SDL_Rect* capacityBar = new SDL_Rect();
 	capacityBar->x = leftLimit + otherMessageWidth + space;
@@ -63,7 +64,7 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	capacityBarContent->y = capacityBar->y + 1;
 	double filledPercentage = otherAtomsQuantity / (double)maxCapacity;
 	double onePercentValue = capacityBar->w - 2;
-	capacityBarContent->w = ceil(onePercentValue * filledPercentage); 
+	capacityBarContent->w = ceil(onePercentValue * filledPercentage);
 	capacityBarContent->h = capacityBar->h - 2;
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
@@ -73,7 +74,7 @@ void UIEntities::ScoreBoard::render(SDL_Renderer* renderer, SDL_Texture* texture
 	SDL_RenderFillRect(renderer, capacityBarContent);
 	screenWriter->write(otherElementsMessage);
 
-	delete capacityBarContent;	
+	delete capacityBarContent;
 	delete capacityBar;
 }
 
