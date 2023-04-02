@@ -45,7 +45,7 @@ string Engine::Entity::getClassType()
 
 string Engine::Entity::getInstanceType()
 {
-	if (instanceType.length() == 0)
+	if (instanceType.length() > 0)
 	{
 		return instanceType;
 	}
