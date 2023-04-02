@@ -23,13 +23,13 @@ vector<GameEntity*> Engine::Support::CollisionDetector::getCollidingEntities(Gam
 		int right;
 	};
 
-	EntityLimits mainEntityLimits; 
+	EntityLimits mainEntityLimits;
 	mainEntityLimits.top = gameEntity->getY();
 	mainEntityLimits.bottom = gameEntity->getY() + gameEntity->getHeight();
 	mainEntityLimits.left = gameEntity->getX();
 	mainEntityLimits.right = gameEntity->getX() + gameEntity->getWidth();
 
-	auto checkOtherEntityForCollisions = [&](unsigned int id, GameEntity* iteratedGameEntity) -> bool 
+	auto checkOtherEntityForCollisions = [&](unsigned int id, GameEntity* iteratedGameEntity) -> bool
 	{
 		bool isCollidingX = false;
 		bool isCollidingY = false;
@@ -50,7 +50,7 @@ vector<GameEntity*> Engine::Support::CollisionDetector::getCollidingEntities(Gam
 				&& mainEntityLimits.top <= iteratedEntityLimits.bottom)
 			|| (iteratedEntityLimits.top >= mainEntityLimits.top
 				&& iteratedEntityLimits.top <= mainEntityLimits.bottom);
-		
+
 		if (! isCollidingY)
 		{
 			isCollidingY = (mainEntityLimits.bottom <= iteratedEntityLimits.bottom
@@ -79,13 +79,13 @@ vector<GameEntity*> Engine::Support::CollisionDetector::getCollidingEntities(Gam
 			cout << "Is Colliding X - " << isCollidingX << endl;
 			cout << "Is Colliding Y - " << isCollidingY << endl;
 			cout << "Main entity ID " << gameEntity->getId() << endl;
-			cout << "Top: " << mainEntityLimits.top 
+			cout << "Top: " << mainEntityLimits.top
 				<< " Bottom: " << mainEntityLimits.bottom
 				<< " Left: " << mainEntityLimits.left
 				<< " Right: " << mainEntityLimits.right
 				<< endl;
 			cout << "Other entity ID " << iteratedGameEntity->getId() << endl;
-			cout << "Top: " << iteratedEntityLimits.top 
+			cout << "Top: " << iteratedEntityLimits.top
 				<< " Bottom: " << iteratedEntityLimits.bottom
 				<< " Left: " << iteratedEntityLimits.left
 				<< " Right: " << iteratedEntityLimits.right
@@ -93,10 +93,10 @@ vector<GameEntity*> Engine::Support::CollisionDetector::getCollidingEntities(Gam
 		}
 
 		if (isCollidingX && isCollidingY)
-		{	
+		{
 			collidingEntities.push_back(iteratedGameEntity);
 		}
-		
+
 		return true;
 	};
 

@@ -1,3 +1,6 @@
+#include "cstdlib"
+#include <algorithm>
+#include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -5,6 +8,7 @@
 #include "AtomDAO.h"
 #include "Atom.h"
 
+using namespace std;
 using namespace Data;
 
 unordered_map<string, AtomData> Data::AtomDAO::atomDataRepository;
@@ -12,6 +16,34 @@ unordered_map<string, AtomData> Data::AtomDAO::atomDataRepository;
 AtomData Data::AtomDAO::getById(string id)
 {
 	return atomDataRepository[id];
+}
+
+AtomData Data::AtomDAO::getRandomBut(vector<string> excludeIds)
+{
+	int totalItems = atomDataRepository.size() - excludeIds.size();
+	int seed = 1 + (rand() % totalItems);
+
+	int counter = 1;
+	AtomData atomData;
+
+	for (auto pair : atomDataRepository)
+	{
+		string id = pair.first;
+		if (find(excludeIds.begin(), excludeIds.end(), id) != excludeIds.end())
+		{
+			continue;
+		}
+
+		if (seed == counter)
+		{
+			atomData = pair.second;
+			break;
+		}
+
+		counter++;
+	}
+
+	return atomData;
 }
 
 bool Data::AtomDAO::loadData()

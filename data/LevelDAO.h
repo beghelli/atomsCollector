@@ -11,6 +11,7 @@ namespace Data
 		string title;
 		string desiredMoleculeId;
 		int desiredAtomsAppearanceChance;
+		int maximumAtomsCount;
 	} LevelData;
 
 	class LevelDAO

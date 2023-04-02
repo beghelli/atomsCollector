@@ -1,11 +1,14 @@
 #pragma once
+#include <map>
 #include "Atom.h"
 #include "EntityRepository.h"
 #include "GameEntity.h"
 #include "Entity.h"
 #include "MoleculeDAO.h"
+#include "LevelDAO.h"
+#include "AtomDAO.h"
 
-using namespace Engine::Support; 
+using namespace Engine::Support;
 using namespace Engine;
 using namespace Data;
 
@@ -19,11 +22,14 @@ namespace Scenes
 		class AtomGenerator
 		{
 			private:
-				MoleculeData sceneDesiredMolecule;
-				int desiredAtomsAppearanceChance;
+				LevelData levelData;
+				map<int, AtomData> appearenceChanceMap;
+				MoleculeData desiredMoleculeData;
+
+				void calculateAtomsAppearanceMap();
 
 			public:
-				AtomGenerator(MoleculeData sceneDesiredMolecule, int desiredAtomsAppearanceChance);
+				AtomGenerator(LevelData levelData);
 				void setAtoms(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository);
 		};
 	}

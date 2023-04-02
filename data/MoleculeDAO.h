@@ -20,6 +20,7 @@ namespace Data
 		string name;
 		string description;
 		vector<MolecularFormulaItem> formula;
+		int totalAtomsCount;
 	} MoleculeData;
 
 	class MoleculeDAO

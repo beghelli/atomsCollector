@@ -1,2 +1,2 @@
-id;Title;Desired Molecule;Molecule Atoms Appearance Chance
-first;Molécula de água;water;50
+id;Title;Desired Molecule;Molecule Atoms Appearance Chance;Maximum Atoms Count
+first;Molécula de água;water;50;15

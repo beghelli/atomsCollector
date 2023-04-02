@@ -29,6 +29,7 @@ bool Data::MoleculeDAO::loadData()
 		}
 
 		string line, data;
+		int totalAtomsCount = 0;
 		while (getline(moleculesFile, line))
 		{
 			MoleculeData moleculeData;
@@ -65,6 +66,7 @@ bool Data::MoleculeDAO::loadData()
 				if (formulaItemAttributeValue.length())
 				{
 					formulaItem.quantity = stoi(formulaItemAttributeValue);
+					totalAtomsCount += formulaItem.quantity;
 				}
 
 				if (formulaItem.atomId.length() && formulaItem.quantity)
@@ -79,6 +81,7 @@ bool Data::MoleculeDAO::loadData()
 				getline(formulaStream, formulaItemData, ' ');
 			}
 
+			moleculeData.totalAtomsCount = totalAtomsCount;
 			moleculeDataRepository[moleculeData.id] = moleculeData;
 		}
 

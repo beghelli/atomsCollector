@@ -23,7 +23,6 @@ namespace Scenes
 		private:
 			AtomGenerator* atomGenerator;
 			LevelData levelData;
-			void fillAtoms(EntityRepository<GameEntity>* entityRepository);
 			void addUIElements(EntityRepository<Entity>* UIEntityRepository);
 	};
 }

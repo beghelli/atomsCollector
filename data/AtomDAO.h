@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include <string>
 #include <SDL2/SDL.h>
 #include "Atom.h"
@@ -22,6 +23,7 @@ namespace Data
 			static unordered_map<string, AtomData> atomDataRepository;
 
 			AtomData getById(string id);
+			AtomData getRandomBut(vector<string> excludeIds);
 			static bool loadData();
 	};
 }

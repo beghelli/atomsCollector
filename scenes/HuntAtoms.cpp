@@ -27,14 +27,12 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 	player->setLife(2);
 	entityRepository->addEntity(player);
 
-	fillAtoms(entityRepository);
-
 	addUIElements(UIEntityRepository);
 
 	MoleculeDAO moleculeDAO;
 	moleculeDAO.loadData();
 
-	atomGenerator = new AtomGenerator(moleculeDAO.getById(levelData.desiredMoleculeId), levelData.desiredAtomsAppearanceChance); 
+	atomGenerator = new AtomGenerator(levelData);
 
 	SDL_Delay(1000);
 
@@ -44,51 +42,6 @@ int Scenes::HuntAtoms::load(EntityRepository<GameEntity>* entityRepository, Enti
 void Scenes::HuntAtoms::onGameLoopStart(EntityRepository<GameEntity>* entityRepository, EntityRepository<Entity>* UIEntityRepository, ScreenWriter* screenWriter, const unsigned char* keys, bool isMouseDown)
 {
 	atomGenerator->setAtoms(entityRepository, UIEntityRepository);
-}
-
-void Scenes::HuntAtoms::fillAtoms(EntityRepository<GameEntity>* entityRepository)
-{
-	struct AtomInfo {
-		int x;
-		int y;
-		int atomicNumber;
-		int atomicMass;
-		double zAngle;
-	};
-
-	AtomInfo atomsInfo[4];
-	atomsInfo[0].x = 50;
-	atomsInfo[0].y = 25;
-	atomsInfo[0].atomicNumber = 1;
-	atomsInfo[0].atomicMass = 1;
-	atomsInfo[0].zAngle = 180;
-
-	atomsInfo[1].x = 500;
-	atomsInfo[1].y = 400;
-	atomsInfo[1].atomicNumber = 1;
-	atomsInfo[1].atomicMass = 1;
-	atomsInfo[1].zAngle = 70;
-
-	atomsInfo[2].x = 25;
-	atomsInfo[2].y = 450;
-	atomsInfo[2].atomicNumber = 8;
-	atomsInfo[2].atomicMass = 16;
-	atomsInfo[2].zAngle = 140;
-
-	atomsInfo[3].x = 300;
-	atomsInfo[3].y = 50;
-	atomsInfo[3].atomicNumber = 1;
-	atomsInfo[3].atomicMass = 1;
-
-	atomsInfo[3].zAngle = -110;
-
-	for (int i = 0; i < 4; i++)
-	{
-		Atom* atom = new Atom(atomsInfo[i].x, atomsInfo[i].y, atomsInfo[i].atomicNumber, atomsInfo[i].atomicMass);
-		atom->setZAngle(atomsInfo[i].zAngle);
-
-		entityRepository->addEntity(atom);
-	}
 }
 
 void Scenes::HuntAtoms::addUIElements(EntityRepository<Entity>* entityRepository)

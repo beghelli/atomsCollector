@@ -18,7 +18,7 @@ LevelData Data::LevelDAO::getById(string id)
 
 bool Data::LevelDAO::loadData()
 {
-	const string filename = "." + PATH_SEPARATOR + DATA_FOLDER + PATH_SEPARATOR + "levels.csv"; 
+	const string filename = "." + PATH_SEPARATOR + DATA_FOLDER + PATH_SEPARATOR + "levels.csv";
 	fstream levelDataFile(filename, ios::in);
 
 	if (! levelDataFile.is_open())
@@ -34,8 +34,8 @@ bool Data::LevelDAO::loadData()
 		{
 			LevelData levelData;
 			stringstream lineStream(line);
-			
-			getline(lineStream, data, CSV_SEPARATOR);		
+
+			getline(lineStream, data, CSV_SEPARATOR);
 			levelData.id = data;
 
 			getline(lineStream, data, CSV_SEPARATOR);
@@ -46,6 +46,9 @@ bool Data::LevelDAO::loadData()
 
 			getline(lineStream, data, CSV_SEPARATOR);
 			levelData.desiredAtomsAppearanceChance = stoi(data);
+
+			getline(lineStream, data, CSV_SEPARATOR);
+			levelData.maximumAtomsCount = stoi(data);
 
 			levelDataRepository[levelData.id] = levelData;
 		}
