@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "ScoreBoard.h"
 #include "HuntAtoms.h"
+#include "AtomDAO.h"
 #include "LevelDAO.h"
 
 using namespace Data;
@@ -26,7 +27,8 @@ bool MyGame::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter*
 	bool resultBullet = bullet->load(renderer, textures, screenWriter);
 	delete bullet;
 
-	Atom* atom = new Atom(0, 0, 1, 1);
+	AtomData atomData;
+	Atom* atom = new Atom(0, 0, atomData);
 	bool resultAtom = atom->load(renderer, textures, screenWriter);
 	delete atom;
 

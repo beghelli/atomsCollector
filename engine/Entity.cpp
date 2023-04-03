@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "constants.h"
 #include "Entity.h"
 #include "ScreenWriter.h"
@@ -59,12 +60,12 @@ bool Engine::Entity::load(SDL_Renderer* renderer, SDL_Texture* textures[], Scree
 {
 	if (! entityTextureFile.empty() && ! textures[entityTextureIndex])
 	{
-		string BMPPath = "." + PATH_SEPARATOR + ASSETS_FOLDER + PATH_SEPARATOR + entityTextureFile;
-		SDL_Surface* imageSurface = SDL_LoadBMP(BMPPath.c_str());
+		string ImgPath = "." + PATH_SEPARATOR + ASSETS_FOLDER + PATH_SEPARATOR + entityTextureFile;
+		SDL_Surface* imageSurface = IMG_Load(ImgPath.c_str());
 		if (! imageSurface)
 		{
 			cout << "Failed loading texture image" << endl;
-			cout << "Texture image path: " << BMPPath << endl;
+			cout << "Texture image path: " << ImgPath << endl;
 			return false;
 		}
 		textures[entityTextureIndex] = SDL_CreateTextureFromSurface(renderer, imageSurface);

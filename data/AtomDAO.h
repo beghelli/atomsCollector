@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <SDL2/SDL.h>
-#include "Atom.h"
 
 namespace Data
 {
@@ -14,6 +13,7 @@ namespace Data
 		SDL_Color color;
 		string name;
 		string description;
+		string textureFilename;
 	} AtomData;
 
 	class AtomDAO

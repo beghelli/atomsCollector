@@ -84,7 +84,7 @@ void Scenes::Support::AtomGenerator::setAtoms(EntityRepository<GameEntity>* enti
 			y = 0;
 		}
 
-		Atom* atom = new Atom(x, y, atomicNumber, atomicMass);
+		Atom* atom = new Atom(x, y, atomData);
 		atom->setZAngle(zAngle);
 		entityRepository->addEntity(atom);
 	}

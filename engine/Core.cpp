@@ -2,6 +2,7 @@
 #include <thread>
 #include <functional>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "Core.h"
 #include "Game.h"
 #include "constants.h"
@@ -205,6 +206,13 @@ bool Engine::Core::init()
 	{
 		cout << "Could not initialize the renderer" << endl;
 		cout << SDL_GetError() << endl;
+		return false;
+	}
+
+	int imgFlags = IMG_INIT_PNG;
+	if( !( IMG_Init( imgFlags ) & imgFlags ) )
+	{
+		cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << endl;
 		return false;
 	}
 

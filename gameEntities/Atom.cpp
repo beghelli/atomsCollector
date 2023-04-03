@@ -13,7 +13,7 @@
 using namespace Engine::Support;
 using namespace Data;
 
-GameEntities::Atom::Atom(int x, int y, int atomicNumber, int atomicMass)
+GameEntities::Atom::Atom(int x, int y, AtomData atomData)
 {
 	this->x = x;
 	this->y = y;
@@ -27,11 +27,10 @@ GameEntities::Atom::Atom(int x, int y, int atomicNumber, int atomicMass)
 	this->isAcceleratingY = false;
 	this->entityHeight = (int) Engine::MetricManager::unitToPixelsY(0.25);
 	this->entityWidth = (int) Engine::MetricManager::unitToPixelsX(0.25);
-	this->entityTextureFile = "hidrogen.bmp";
-	this->entityTextureIndex = 2;
+	this->entityTextureFile = atomData.textureFilename;
+	this->entityTextureIndex = atomData.atomicNumber + 20;
 	this->classType = "Atom";
-	this->atomicNumber = atomicNumber;
-	this->atomicMass = atomicMass;
+	this->atomData = atomData;
 }
 
 bool GameEntities::Atom::load(SDL_Renderer* renderer, SDL_Texture* textures[], ScreenWriter* screenWriter)
@@ -90,6 +89,11 @@ void GameEntities::Atom::render(SDL_Renderer* renderer, SDL_Texture* textures[],
 	body.y = y;
 	body.h = entityHeight;
 	body.w = entityWidth;
+
+	if (! textures[entityTextureIndex])
+	{
+		this->load(renderer, textures, screenWriter);
+	}
 
 	int result = SDL_RenderCopyEx(renderer, textures[entityTextureIndex], NULL, &body, zAngle, NULL, SDL_FLIP_NONE);
 

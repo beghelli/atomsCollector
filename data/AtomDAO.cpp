@@ -1,3 +1,4 @@
+#include <iostream>
 #include "cstdlib"
 #include <algorithm>
 #include <vector>
@@ -96,6 +97,9 @@ bool Data::AtomDAO::loadData()
 
 			getline(str, data, CSV_SEPARATOR);
 			atomData.description = data;
+
+			getline(str, data, CSV_SEPARATOR);
+			atomData.textureFilename = data;
 
 			atomDataRepository[atomData.id] = atomData;
 		}

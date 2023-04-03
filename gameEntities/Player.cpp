@@ -92,7 +92,7 @@ bool GameEntities::Player::processCollisions(vector<GameEntity*> collidingEntiti
 		if (gameEntity->getClassType() == "Atom")
 		{
 			Atom* atom = dynamic_cast<Atom*>(gameEntity);
-			PlayerAndAtomCollided* event = new PlayerAndAtomCollided(atom->atomicNumber, atom->atomicMass);
+			PlayerAndAtomCollided* event = new PlayerAndAtomCollided(atom->atomData.atomicNumber, atom->atomData.atomicMass);
 			event->trigger();
 		}
 	}
