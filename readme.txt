@@ -75,7 +75,7 @@ Install SDL2 and SDL2_ttf (for text display) libraries:
 - sudo apt-get install libsdl2-dev
 - sudo apt-get install libsdl2-ttf-dev
 - sudo apt-get install libsdl2-image-dev
-g++ -o game main.cpp ./engine/Core.cpp ./engine/Game.cpp ./engine/MetricManager.cpp ./engine/Entity.cpp ./engine/GameEntity.cpp ./gameEntities/Atom.cpp ./gameEntities/Player.cpp ./gameEntities/Bullet.cpp ./UIEntities/ScoreBoard.cpp ./scenes/HuntAtoms.cpp ./scenes/support/AtomGenerator.cpp ./data/AtomDAO.cpp ./data/MoleculeDAO.cpp ./data/LevelDAO.cpp ./engine/support/EntityRepository.cpp ./engine/support/CollisionDetector.cpp ./engine/support/ScreenWriter.cpp ./engine/support/Message.cpp ./engine/support/EventsManager.cpp ./engine/support/Event.cpp ./events/PlayerAndAtomCollided.cpp MyGame.cpp -I./gameEntities/ -I./scenes/ -I./scenes/support/ -I./UIEntities/ -I./events/ -I./engine/support/ -I./engine/ -I./data/ -I. -lSDL2main -lSDL2 -lSDL2_ttf
+g++ -o game main.cpp ./engine/Core.cpp ./engine/Game.cpp ./engine/MetricManager.cpp ./engine/Entity.cpp ./engine/GameEntity.cpp ./gameEntities/Atom.cpp ./gameEntities/Player.cpp ./gameEntities/Bullet.cpp ./UIEntities/ScoreBoard.cpp ./scenes/HuntAtoms.cpp ./scenes/support/AtomGenerator.cpp ./data/AtomDAO.cpp ./data/MoleculeDAO.cpp ./data/LevelDAO.cpp ./engine/support/EntityRepository.cpp ./engine/support/CollisionDetector.cpp ./engine/support/ScreenWriter.cpp ./engine/support/Message.cpp ./engine/support/EventsManager.cpp ./engine/support/Event.cpp ./events/PlayerAndAtomCollided.cpp MyGame.cpp -I./gameEntities/ -I./scenes/ -I./scenes/support/ -I./UIEntities/ -I./events/ -I./engine/support/ -I./engine/ -I./data/ -I. -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image
 
 COMPILE AND LINKER COMMAND (STATICALLY INCLUDE DEPENDENCIES, PRODUCTION)
 Windows
